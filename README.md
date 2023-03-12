@@ -1,6 +1,13 @@
 # Almazen
 Sistema de inventarios fácil de usar
 
-Fase de desarrollo
+Instituto Politécnico Nacional
+CECyT 14 "Luis Enrique Erro"
 
-Diseño A (Iniciar sesión)
+Proyecto en equipo desarrollado por:
+  AVENDAÑO CASTILLO NELLY
+  BENITEZ GONZALEZ ADRIANA
+  GARCIA ALVAREZ GABRIEL
+  GARCIA HERNANDEZ CYNTHIA
+  HERNANDEZ CRUZ GIOVANNI
+  
