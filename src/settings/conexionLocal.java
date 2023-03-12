@@ -15,7 +15,7 @@ public class conexionLocal {
             String url="jdbc:mysql://localhost:3306/almazen";
             conectar=DriverManager.getConnection(url,user,password);
         }catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "No existe la base de datos.");
+            JOptionPane.showMessageDialog(null, "La base de datos no está disponible.");
         }
     }
 }
