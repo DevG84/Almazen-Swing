@@ -8,16 +8,23 @@ import javax.swing.JLabel;
 import settings.conexionLocal;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.sql.PreparedStatement;
+import javax.swing.JOptionPane;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Ingresar extends javax.swing.JFrame {
-
-    conexionLocal conectar=null;
+    
+    //Para acciones en la base de datos
+    conexionLocal conexion=null;
+    PreparedStatement cmd;
+    ResultSet result;
 
     public Ingresar() {
         initComponents();
         setIconImage(getIconImage());
         this.setLocationRelativeTo(this);
-        conectar=new conexionLocal();
+        conexion=new conexionLocal();
         setImageIn(lblLogo,"src/sources/logo.png");
         setImageIn(nyan,"src/sources/inventory.gif");
     }
@@ -39,6 +46,7 @@ public class Ingresar extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Iniciar sesión");
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -47,6 +55,11 @@ public class Ingresar extends javax.swing.JFrame {
         btnSalir.setForeground(new java.awt.Color(0, 0, 0));
         btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/exit_32px.png"))); // NOI18N
         btnSalir.setText("  Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
 
         btnIngresar.setBackground(new java.awt.Color(255, 255, 255));
         btnIngresar.setFont(new java.awt.Font("Microsoft YaHei", 0, 14)); // NOI18N
@@ -82,6 +95,11 @@ public class Ingresar extends javax.swing.JFrame {
         jLabel3.setBackground(new java.awt.Color(102, 102, 102));
         jLabel3.setForeground(new java.awt.Color(0, 51, 153));
         jLabel3.setText("¿No tienes usuario? Click aquí.");
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -177,8 +195,54 @@ public class Ingresar extends javax.swing.JFrame {
     }//GEN-LAST:event_lblLogoMouseClicked
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-        // TODO add your handling code here:
+        //Ingresar al sistema
+        if(txtUsuario.getText().isEmpty() | txtPassword.getText().isEmpty()){
+            JOptionPane.showMessageDialog(rootPane, "Llene todos lo campos para continuar.");
+        }else{
+            try{
+                String consulta="SELECT contraseña FROM usuarios WHERE nickname LIKE ?";
+                cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                cmd.setString(1, txtUsuario.getText());
+                result=cmd.executeQuery();
+                
+                if(result.next()){
+                    //Crifrar contraseña
+                    
+                    
+                    
+                    //Comparación con la base de datos
+                    if(result.getString(1).matches(txtPassword.getText())){
+                        Inicio i=new Inicio();
+                        i.setVisible(true);
+                        this.dispose();
+                        }else{
+                            JOptionPane.showMessageDialog(rootPane, "Verifica la contraseña.");
+                        }
+                }else{
+                    JOptionPane.showMessageDialog(rootPane, "El usuario no existe.");
+                }
+                
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(rootPane, "Error en consulta.");
+            }
+        }
+        
     }//GEN-LAST:event_btnIngresarActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+       Object[] opciones={"Si","No"};
+       ImageIcon Icono=new ImageIcon("src/sources/icons/questionCube.png");
+       int respuesta=JOptionPane.showOptionDialog(rootPane, "¿Quiere cerrar el programa?","Finalizar",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,Icono,opciones,opciones[0]);
+       if(respuesta==0){
+        System.exit(0);
+       }
+    }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        this.dispose();
+        registrarUsuario u=new registrarUsuario();
+        u.setVisible(true);
+    }//GEN-LAST:event_jLabel3MouseClicked
 
     private void setImageIn(JLabel a,String route){
         ImageIcon img; Icon icono;
