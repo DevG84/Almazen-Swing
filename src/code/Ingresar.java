@@ -44,9 +44,14 @@ public class Ingresar extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         nyan = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Iniciar sesión");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -244,6 +249,15 @@ public class Ingresar extends javax.swing.JFrame {
         u.setVisible(true);
     }//GEN-LAST:event_jLabel3MouseClicked
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+       Object[] opciones={"Si","No"};
+       ImageIcon Icono=new ImageIcon("src/sources/icons/questionCube.png");
+       int respuesta=JOptionPane.showOptionDialog(rootPane, "¿Quiere cerrar el programa?","Finalizar",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,Icono,opciones,opciones[0]);
+       if(respuesta==0){
+        System.exit(0);
+       }
+    }//GEN-LAST:event_formWindowClosing
+
     private void setImageIn(JLabel a,String route){
         ImageIcon img; Icon icono;
         img=new ImageIcon(route);
@@ -251,7 +265,6 @@ public class Ingresar extends javax.swing.JFrame {
         a.setIcon(icono);
         this.repaint();
     }
-    
     
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
