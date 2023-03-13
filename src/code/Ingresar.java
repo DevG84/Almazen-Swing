@@ -187,7 +187,7 @@ public class Ingresar extends javax.swing.JFrame {
             java.awt.Desktop desktop= java.awt.Desktop.getDesktop();
             if(desktop.isSupported(java.awt.Desktop.Action.BROWSE)){
                 try{
-                    java.net.URI url= new java.net.URI("https://github.com/GioOnTheEdge/");
+                    java.net.URI url= new java.net.URI("https://github.com/GioOnTheEdge/Almazen");
                     desktop.browse(url);
                 }catch(URISyntaxException | IOException ex){}
             }
