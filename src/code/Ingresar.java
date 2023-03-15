@@ -1,8 +1,10 @@
 package code;
 
 import static java.awt.Color.*;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.font.TextAttribute;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -13,7 +15,9 @@ import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 import javax.swing.JPanel;
+import settings.Key;
 
 public class Ingresar extends javax.swing.JFrame {
     
@@ -31,6 +35,12 @@ public class Ingresar extends javax.swing.JFrame {
         setImageIn(lblLogo,"src/sources/logo.png");
         setImageIn(nyan,"src/sources/inventory.gif");
         getRootPane().putClientProperty("defeatSystemEventQueueCheck", Boolean.TRUE);
+        
+        
+        Font font = lblRegistro.getFont();
+        Map attributes = font.getAttributes();
+        attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+        lblRegistro.setFont(font.deriveFont(attributes));
     }
 
     //Logo del JFrame
@@ -51,7 +61,7 @@ public class Ingresar extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         txtUsuario = new javax.swing.JTextField();
         lblLogo = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        lblRegistro = new javax.swing.JLabel();
         nyan = new javax.swing.JLabel();
         btnIniciar = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
@@ -88,6 +98,11 @@ public class Ingresar extends javax.swing.JFrame {
                 txtPasswordMousePressed(evt);
             }
         });
+        txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPasswordKeyPressed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Microsoft YaHei", 0, 14)); // NOI18N
         jLabel2.setText("Contraseña");
@@ -109,6 +124,11 @@ public class Ingresar extends javax.swing.JFrame {
                 txtUsuarioActionPerformed(evt);
             }
         });
+        txtUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtUsuarioKeyPressed(evt);
+            }
+        });
 
         lblLogo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -116,17 +136,18 @@ public class Ingresar extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setBackground(new java.awt.Color(102, 102, 102));
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 51, 153));
-        jLabel3.setText("¿No tienes usuario? Click aquí.");
-        jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblRegistro.setBackground(new java.awt.Color(102, 102, 102));
+        lblRegistro.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblRegistro.setForeground(new java.awt.Color(0, 51, 153));
+        lblRegistro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/shit.png"))); // NOI18N
+        lblRegistro.setText("¿No tienes usuario? Click aquí.");
+        lblRegistro.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblRegistro.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel3MouseClicked(evt);
+                lblRegistroMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jLabel3MouseEntered(evt);
+                lblRegistroMouseEntered(evt);
             }
         });
 
@@ -138,6 +159,11 @@ public class Ingresar extends javax.swing.JFrame {
         btnIniciar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnIniciarActionPerformed(evt);
+            }
+        });
+        btnIniciar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnIniciarKeyPressed(evt);
             }
         });
 
@@ -172,7 +198,7 @@ public class Ingresar extends javax.swing.JFrame {
                                 .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(20, 20, 20)
                         .addComponent(nyan, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel3)))
+                    .addComponent(lblRegistro)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -200,8 +226,8 @@ public class Ingresar extends javax.swing.JFrame {
                             .addComponent(btnIniciar)
                             .addComponent(btnSalir)))
                     .addComponent(nyan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
-                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
+                .addComponent(lblRegistro)
                 .addContainerGap())
         );
 
@@ -221,8 +247,7 @@ public class Ingresar extends javax.swing.JFrame {
 
     private void txtUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsuarioActionPerformed
         if(txtUsuario.isFocusOwner()){
-            txtUsuario.setText("");
-            txtUsuario.setForeground(black);
+            
         }else{
             
         }
@@ -250,11 +275,11 @@ public class Ingresar extends javax.swing.JFrame {
        }
     }//GEN-LAST:event_btnSalirActionPerformed
 
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+    private void lblRegistroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRegistroMouseClicked
         this.dispose();
         registrarUsuario u=new registrarUsuario();
         u.setVisible(true);
-    }//GEN-LAST:event_jLabel3MouseClicked
+    }//GEN-LAST:event_lblRegistroMouseClicked
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
        /*
@@ -281,16 +306,16 @@ public class Ingresar extends javax.swing.JFrame {
                 if(result.next()){
                     //Crifrar contraseña
                     
-                    
+                    Key k=new Key();
                     
                     //Comparación con la base de datos
-                    if(result.getString(1).matches(txtPassword.getText())){
+                    if(result.getString(1).matches(k.getPassword(txtPassword.getText()))){
                         Inicio i=new Inicio();
                         i.setVisible(true);
                         this.dispose();
-                        }else{
-                            JOptionPane.showMessageDialog(rootPane, "Verifica la contraseña.");
-                        }
+                    }else{
+                        JOptionPane.showMessageDialog(rootPane, "Verifica la contraseña.");
+                    }
                 }else{
                     JOptionPane.showMessageDialog(rootPane, "El usuario no existe.");
                 }
@@ -302,9 +327,9 @@ public class Ingresar extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnIniciarActionPerformed
 
-    private void jLabel3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseEntered
+    private void lblRegistroMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRegistroMouseEntered
         // TODO add your handling code here:
-    }//GEN-LAST:event_jLabel3MouseEntered
+    }//GEN-LAST:event_lblRegistroMouseEntered
 
     private void txtUsuarioMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtUsuarioMousePressed
         if(txtUsuario.getText().equals("Ingrese su nombre de usuario")){
@@ -329,6 +354,33 @@ public class Ingresar extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_txtPasswordMousePressed
+
+    private void txtUsuarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsuarioKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode() == 10){
+            txtPassword.grabFocus();
+            if(String.valueOf(txtPassword.getPassword()).equals("**********")){
+                txtPassword.setText("");
+                txtPassword.setForeground(black);
+            }
+            if(txtUsuario.getText().isEmpty()){
+                txtUsuario.setText("Ingrese su nombre de usuario");
+                txtUsuario.setForeground(gray);
+            }
+        }
+    }//GEN-LAST:event_txtUsuarioKeyPressed
+
+    private void txtPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode() == 10){
+            btnIniciar.grabFocus();
+            btnIniciar.doClick();
+        }
+    }//GEN-LAST:event_txtPasswordKeyPressed
+
+    private void btnIniciarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnIniciarKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnIniciarKeyPressed
 
     public void setImageIn(JLabel a,String route){
         ImageIcon img; Icon icono;
@@ -381,11 +433,11 @@ public class Ingresar extends javax.swing.JFrame {
     private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel lblLogo;
+    private javax.swing.JLabel lblRegistro;
     private javax.swing.JLabel nyan;
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtUsuario;
