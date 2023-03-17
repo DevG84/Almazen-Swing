@@ -53,9 +53,9 @@ public class registrarUsuario extends javax.swing.JFrame {
 
         bg = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
+        btnClose = new javax.swing.JButton();
         btnNuevo = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
-        btnClose = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         txtNick = new javax.swing.JTextField();
@@ -88,7 +88,6 @@ public class registrarUsuario extends javax.swing.JFrame {
         });
 
         bg.setBackground(new java.awt.Color(255, 255, 255));
-        bg.setForeground(new java.awt.Color(0, 0, 0));
 
         jToolBar1.setBackground(new java.awt.Color(51, 51, 51));
         jToolBar1.setFloatable(false);
@@ -96,9 +95,18 @@ public class registrarUsuario extends javax.swing.JFrame {
         jToolBar1.setRollover(true);
         jToolBar1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
+        btnClose.setBackground(new java.awt.Color(51, 51, 51));
+        btnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/home32_px.png"))); // NOI18N
+        btnClose.setBorder(null);
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnClose);
+
         btnNuevo.setBackground(new java.awt.Color(51, 51, 51));
-        btnNuevo.setForeground(new java.awt.Color(0, 0, 0));
-        btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/newFile_32px.png"))); // NOI18N
+        btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/newUser_32px.png"))); // NOI18N
         btnNuevo.setFocusable(false);
         btnNuevo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnNuevo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -110,8 +118,7 @@ public class registrarUsuario extends javax.swing.JFrame {
         jToolBar1.add(btnNuevo);
 
         btnGuardar.setBackground(new java.awt.Color(51, 51, 51));
-        btnGuardar.setForeground(new java.awt.Color(0, 0, 0));
-        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/save_32px.png"))); // NOI18N
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/cloud_32px.png"))); // NOI18N
         btnGuardar.setFocusable(false);
         btnGuardar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnGuardar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -122,23 +129,10 @@ public class registrarUsuario extends javax.swing.JFrame {
         });
         jToolBar1.add(btnGuardar);
 
-        btnClose.setBackground(new java.awt.Color(51, 51, 51));
-        btnClose.setForeground(new java.awt.Color(0, 0, 0));
-        btnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/close_322px.png"))); // NOI18N
-        btnClose.setBorder(null);
-        btnClose.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCloseActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(btnClose);
-
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos de registro", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Microsoft YaHei", 1, 12), new java.awt.Color(0, 0, 0))); // NOI18N
-        jPanel3.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos de registro", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Microsoft YaHei", 1, 12))); // NOI18N
 
         jLabel5.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Nickname");
 
         txtNick.addActionListener(new java.awt.event.ActionListener() {
@@ -146,17 +140,30 @@ public class registrarUsuario extends javax.swing.JFrame {
                 txtNickActionPerformed(evt);
             }
         });
+        txtNick.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNickKeyPressed(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Contraseña");
 
+        txtPass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPassActionPerformed(evt);
+            }
+        });
+        txtPass.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPassKeyPressed(evt);
+            }
+        });
+
         jLabel1.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Confirmar contraseña");
 
         jLabel8.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setText("Cargo");
 
         cmbCargo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Invitado", "Servicio Social", "Encargado de almacén" }));
@@ -209,11 +216,9 @@ public class registrarUsuario extends javax.swing.JFrame {
         );
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos personales", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Microsoft YaHei", 1, 12), new java.awt.Color(0, 0, 0))); // NOI18N
-        jPanel4.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos personales", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Microsoft YaHei", 1, 12))); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Nombre");
 
         txtNombre.addActionListener(new java.awt.event.ActionListener() {
@@ -221,18 +226,38 @@ public class registrarUsuario extends javax.swing.JFrame {
                 txtNombreActionPerformed(evt);
             }
         });
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNombreKeyPressed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Apellido Paterno");
 
+        txtPaterno.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPaternoKeyPressed(evt);
+            }
+        });
+
         jLabel4.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Apellido Materno");
 
+        txtMaterno.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtMaternoKeyPressed(evt);
+            }
+        });
+
         jLabel6.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Numero de trabajador o boleta");
+
+        txtBoleta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtBoletaKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -277,7 +302,6 @@ public class registrarUsuario extends javax.swing.JFrame {
         );
 
         lblBarraMov.setFont(new java.awt.Font("Microsoft YaHei", 0, 14)); // NOI18N
-        lblBarraMov.setForeground(new java.awt.Color(0, 0, 0));
         lblBarraMov.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblBarraMov.setText("Registrar usuario");
         lblBarraMov.setPreferredSize(new java.awt.Dimension(135, 30));
@@ -381,57 +405,106 @@ public class registrarUsuario extends javax.swing.JFrame {
         txtNick.getText().isEmpty() || txtPass.getText().isEmpty() || txtConfirmar.getText().isEmpty()){
             JOptionPane.showMessageDialog(rootPane, "Llene todos lo campos para continuar.");
         }else{
-            if(!(txtPass.getText().matches(txtConfirmar.getText()))){
-                JOptionPane.showMessageDialog(rootPane, "La contraseña no coincide.");
-            }else{
-                try{
-                    String insertar=("INSERT INTO usuarios(nickname,nombre,paterno,materno,cargo,boleta,password,"
-                            + "modBuscar,modInOut,modConsulta,modPerCod,modCreditos) JOIN privilegios VALUES(?,?,?,?,?,?,?,?,?,?,?,?)");
-                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(insertar);
-                    //Remplazando ?
-                    cmd.setString(1, txtNick.getText());
-                    cmd.setString(2, txtNombre.getText());
-                    cmd.setString(3, txtPaterno.getText());
-                    cmd.setString(4, txtMaterno.getText());
-                    String combo=cmbCargo.getSelectedItem().toString();
-                    cmd.setString(5, combo);
-                    cmd.setString(6, txtBoleta.getText());
+            if(txtPass.getPassword().length>3){
+                if(!(txtPass.getText().matches(txtConfirmar.getText()))){
+                    JOptionPane.showMessageDialog(rootPane, "La contraseña no coincide.");
+                }else{
+                    try{
+                        String insertar=("INSERT INTO usuarios(nickname,nombre,paterno,materno,cargo,boleta,password) VALUES(?,?,?,?,?,?,?)");
+                        cmd=(PreparedStatement)conexion.conectar.prepareStatement(insertar);
+                        //Remplazando ?
+                        cmd.setString(1, txtNick.getText());
+                        cmd.setString(2, txtNombre.getText());
+                        cmd.setString(3, txtPaterno.getText());
+                        cmd.setString(4, txtMaterno.getText());
+                        String combo=cmbCargo.getSelectedItem().toString();
+                        cmd.setString(5, combo);
+                        cmd.setString(6, txtBoleta.getText());
 
-                    Key k=new Key();
-                    cmd.setString(7, k.getPassword(txtPass.getText()));
+                        Key k=new Key();
+                        cmd.setString(7, k.getPassword(txtPass.getText()));
 
-                    //Privilegios join
-                    switch(combo){
-                        case "Invitado": 
-                            cmd.setString(8, "S"); cmd.setString(9, "N"); cmd.setString(10, "S"); 
-                            cmd.setString(11, "N"); cmd.setString(12, "S");
-                        case "Servicio Social":
-                            cmd.setString(8, "S"); cmd.setString(9, "S"); cmd.setString(10, "S"); 
-                            cmd.setString(11, "N"); cmd.setString(12, "S");
-                        case "Encargado de almacén":
-                            cmd.setString(8, "S"); cmd.setString(9, "S"); cmd.setString(10, "S"); 
-                            cmd.setString(11, "S"); cmd.setString(12, "S");
+
+                        /*
+                        //Privilegios join
+                        switch(combo){
+                            case "Invitado": 
+                                cmd.setString(8, "S"); cmd.setString(9, "N"); cmd.setString(10, "S"); 
+                                cmd.setString(11, "N"); cmd.setString(12, "S");
+                            case "Servicio Social":
+                                cmd.setString(8, "S"); cmd.setString(9, "S"); cmd.setString(10, "S"); 
+                                cmd.setString(11, "N"); cmd.setString(12, "S");
+                            case "Encargado de almacén":
+                                cmd.setString(8, "S"); cmd.setString(9, "S"); cmd.setString(10, "S"); 
+                                cmd.setString(11, "S"); cmd.setString(12, "S");
+                        }
+
+                        */
+
+                        //
+                        cmd.executeUpdate();
+                        JOptionPane.showMessageDialog(rootPane, "Usuario registrado.");
+                        limpiarComponentes();
+                        desactivarComponentes();
+                        btnNuevo.setEnabled(true);
+
+
+                    }catch(SQLException e){
+                        JOptionPane.showMessageDialog(rootPane, "Error al guardar.");
                     }
-
-
-                    //
-                    cmd.executeUpdate();
-                    JOptionPane.showMessageDialog(rootPane, "Eeeeee bienvenido :>");
-                    limpiarComponentes();
-                    desactivarComponentes();
-                    btnNuevo.setEnabled(true);
-
-
-                }catch(SQLException e){
-                    JOptionPane.showMessageDialog(rootPane, "Error al guardar.");
                 }
-            
-            }
+            }else{JOptionPane.showMessageDialog(rootPane, "La contraseña debe tener al menos 4 caracteres.");}
         }
         
         
         
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void txtPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPassActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPassActionPerformed
+
+    private void txtNombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode() == 10){
+            txtPaterno.grabFocus();
+        }
+    }//GEN-LAST:event_txtNombreKeyPressed
+
+    private void txtPaternoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPaternoKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode() == 10){
+            txtMaterno.grabFocus();
+        }
+    }//GEN-LAST:event_txtPaternoKeyPressed
+
+    private void txtMaternoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaternoKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode() == 10){
+            txtBoleta.grabFocus();
+        }
+    }//GEN-LAST:event_txtMaternoKeyPressed
+
+    private void txtBoletaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBoletaKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode() == 10){
+            txtNick.grabFocus();
+        }
+    }//GEN-LAST:event_txtBoletaKeyPressed
+
+    private void txtNickKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNickKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode() == 10){
+            txtPass.grabFocus();
+        }
+    }//GEN-LAST:event_txtNickKeyPressed
+
+    private void txtPassKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPassKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode() == 10){
+            txtConfirmar.grabFocus();
+        }
+    }//GEN-LAST:event_txtPassKeyPressed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

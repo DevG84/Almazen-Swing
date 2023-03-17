@@ -114,7 +114,7 @@ public class Ingresar extends javax.swing.JFrame {
         jLabel2.setText("Contraseña");
 
         jLabel1.setFont(new java.awt.Font("Microsoft YaHei", 1, 14)); // NOI18N
-        jLabel1.setText("Usuario");
+        jLabel1.setText("Nickname");
 
         txtUsuario.setFont(new java.awt.Font("Microsoft YaHei", 0, 14)); // NOI18N
         txtUsuario.setForeground(java.awt.Color.gray);
@@ -181,7 +181,6 @@ public class Ingresar extends javax.swing.JFrame {
         jSeparator2.setForeground(new java.awt.Color(0, 0, 0));
 
         lblBarraMov.setFont(new java.awt.Font("Microsoft YaHei", 0, 14)); // NOI18N
-        lblBarraMov.setForeground(new java.awt.Color(0, 0, 0));
         lblBarraMov.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblBarraMov.setText("Iniciar sesión");
         lblBarraMov.setPreferredSize(new java.awt.Dimension(135, 30));
@@ -208,21 +207,21 @@ public class Ingresar extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgLayout.createSequentialGroup()
-                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(bgLayout.createSequentialGroup()
                                 .addGap(80, 80, 80)
                                 .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2)
-                            .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSeparator1)
+                            .addComponent(txtUsuario)
+                            .addComponent(txtPassword)
+                            .addComponent(jSeparator2)
                             .addGroup(bgLayout.createSequentialGroup()
                                 .addGap(126, 126, 126)
                                 .addComponent(btnIniciar)
                                 .addGap(16, 16, 16)
-                                .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(20, 20, 20)
                         .addComponent(nyan, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
@@ -323,31 +322,59 @@ public class Ingresar extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Llene todos lo campos para continuar.");
         }else{
             try{
-                String consulta="SELECT password FROM usuarios WHERE nickname LIKE ?";
+                String consulta="SELECT password,status FROM usuarios JOIN privilegios WHERE nickname LIKE ?";
                 cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
                 cmd.setString(1, txtUsuario.getText());
                 result=cmd.executeQuery();
+                /*
                 
-                if(result.next()){
-                    //Crifrar contraseña
-                    
-                    Key k=new Key();
-                    
-                    //Comparación con la base de datos
-                    if(result.getString(1).matches(k.getPassword(txtPassword.getText()))){
-                        Inicio i=new Inicio();
-                        i.setVisible(true);
-                        this.dispose();
-                    }else{
-                        JOptionPane.showMessageDialog(rootPane, "Verifica la contraseña.");
+                    if (estado.next()) {
+                        // Si se encontró el usuario en la base de datos, obtener su estado
+                        
+                        
+                        
+                        
+                        if (estado.equals("S")) {
+                            // Si el estado del usuario es "S" (activo), dejarlo ingresar
+                            // ...
+                        } else if (estado.equals("N")) {
+                            // Si el estado del usuario es "N" (inactivo), mostrar un JOptionPane de error
+                            JOptionPane.showMessageDialog(null, "El usuario no existe o ha sido dado de baja", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
                     }
-                }else{
-                    JOptionPane.showMessageDialog(rootPane, "El usuario no existe.");
-                }
                 
-            }catch(SQLException e){
-                JOptionPane.showMessageDialog(rootPane, "Error en consulta.");
-            }
+                */
+                    if(result.next()){
+                        String status = result.getString("status");
+                        
+
+                        if (status.equals("S")) {
+                            // Si el estado del usuario es "S" (activo), dejarlo ingresar
+                            
+                            
+                            //Crifrar contraseña
+                            Key k=new Key();
+                            //Comparación con la base de datos
+                            if(result.getString(1).matches(k.getPassword(txtPassword.getText()))){
+                                //Si la contraseña coincide
+                                Inicio i=new Inicio();
+                                i.setVisible(true);
+                                this.dispose();
+                            }else{
+                                JOptionPane.showMessageDialog(rootPane, "Verifica la contraseña.");
+                            }
+                            }else{
+                                JOptionPane.showMessageDialog(rootPane, "El usuario no existe.");
+                            }
+                        } else{
+                            // Si el estado del usuario es "N" (inactivo), mostrar un JOptionPane de error
+                            JOptionPane.showMessageDialog(null, "El usuario no existe o ha sido dado de baja", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                        
+
+                }catch(SQLException e){
+                    JOptionPane.showMessageDialog(rootPane, "Error en consulta.");
+                }
         }
         
     }//GEN-LAST:event_btnIniciarActionPerformed
