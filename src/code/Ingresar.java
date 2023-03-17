@@ -31,8 +31,8 @@ public class Ingresar extends javax.swing.JFrame {
 
     public Ingresar() {
         initComponents();
-        txtUsuario.setText(""); txtUsuario.setForeground(black);
-        txtUsuario.grabFocus();
+        txtNick.setText(""); txtNick.setForeground(black);
+        txtNick.grabFocus();
         setIconImage(getIconImage());
         this.setLocationRelativeTo(this);
         conexion=new conexionBD();
@@ -63,7 +63,7 @@ public class Ingresar extends javax.swing.JFrame {
         txtPassword = new javax.swing.JPasswordField();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        txtUsuario = new javax.swing.JTextField();
+        txtNick = new javax.swing.JTextField();
         lblLogo = new javax.swing.JLabel();
         lblRegistro = new javax.swing.JLabel();
         nyan = new javax.swing.JLabel();
@@ -83,6 +83,7 @@ public class Ingresar extends javax.swing.JFrame {
         });
 
         bg.setBackground(new java.awt.Color(255, 255, 255));
+        bg.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         btnSalir.setBackground(new java.awt.Color(255, 255, 255));
         btnSalir.setFont(new java.awt.Font("Microsoft YaHei", 0, 14)); // NOI18N
@@ -116,23 +117,23 @@ public class Ingresar extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Microsoft YaHei", 1, 14)); // NOI18N
         jLabel1.setText("Nickname");
 
-        txtUsuario.setFont(new java.awt.Font("Microsoft YaHei", 0, 14)); // NOI18N
-        txtUsuario.setForeground(java.awt.Color.gray);
-        txtUsuario.setText("Ingrese su nombre de usuario");
-        txtUsuario.setBorder(null);
-        txtUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
+        txtNick.setFont(new java.awt.Font("Microsoft YaHei", 0, 14)); // NOI18N
+        txtNick.setForeground(java.awt.Color.gray);
+        txtNick.setText("Ingrese su nombre de usuario");
+        txtNick.setBorder(null);
+        txtNick.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                txtUsuarioMousePressed(evt);
+                txtNickMousePressed(evt);
             }
         });
-        txtUsuario.addActionListener(new java.awt.event.ActionListener() {
+        txtNick.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtUsuarioActionPerformed(evt);
+                txtNickActionPerformed(evt);
             }
         });
-        txtUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtNick.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtUsuarioKeyPressed(evt);
+                txtNickKeyPressed(evt);
             }
         });
 
@@ -212,7 +213,7 @@ public class Ingresar extends javax.swing.JFrame {
                                 .addGap(80, 80, 80)
                                 .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jSeparator1)
-                            .addComponent(txtUsuario)
+                            .addComponent(txtNick)
                             .addComponent(txtPassword)
                             .addComponent(jSeparator2)
                             .addGroup(bgLayout.createSequentialGroup()
@@ -242,7 +243,7 @@ public class Ingresar extends javax.swing.JFrame {
                             .addGroup(bgLayout.createSequentialGroup()
                                 .addGap(29, 29, 29)
                                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtNick, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(17, 17, 17)
                         .addComponent(jLabel2)
                         .addGap(11, 11, 11)
@@ -256,7 +257,7 @@ public class Ingresar extends javax.swing.JFrame {
                     .addComponent(nyan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addComponent(lblRegistro)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -273,9 +274,9 @@ public class Ingresar extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsuarioActionPerformed
+    private void txtNickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNickActionPerformed
         
-    }//GEN-LAST:event_txtUsuarioActionPerformed
+    }//GEN-LAST:event_txtNickActionPerformed
 
     private void lblLogoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLogoMouseClicked
         // Redirecciona a una pagina de GitHub
@@ -318,40 +319,45 @@ public class Ingresar extends javax.swing.JFrame {
 
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
         //Ingresar al sistema
-        if("Ingrese su nombre de usuario".equals(txtUsuario.getText()) | "**********".equals(txtPassword.getText())){
+        if("Ingrese su nombre de usuario".equals(txtNick.getText()) | "**********".equals(txtPassword.getText())){
             JOptionPane.showMessageDialog(rootPane, "Llene todos lo campos para continuar.");
         }else{
             try{
-                String consulta="SELECT password,status FROM usuarios JOIN privilegios WHERE nickname LIKE ?";
+                String nickname=txtNick.getText();
+                String consulta="SELECT COUNT(*) AS count FROM usuarios WHERE nickname LIKE " + "'" + nickname + "'";
                 cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
-                cmd.setString(1, txtUsuario.getText());
-                result=cmd.executeQuery();
+                result.next();
+                
+                
+                
                 /*
-                
-                    if (estado.next()) {
-                        // Si se encontró el usuario en la base de datos, obtener su estado
-                        
-                        
-                        
-                        
-                        if (estado.equals("S")) {
-                            // Si el estado del usuario es "S" (activo), dejarlo ingresar
-                            // ...
-                        } else if (estado.equals("N")) {
-                            // Si el estado del usuario es "N" (inactivo), mostrar un JOptionPane de error
-                            JOptionPane.showMessageDialog(null, "El usuario no existe o ha sido dado de baja", "Error", JOptionPane.ERROR_MESSAGE);
-                        }
+                if(){
+                    // Si se encontró el usuario en la base de datos, obtener su estado
+                    
+
+                    if () {
+                        // El usuario existe en la base de datos
+                        System.out.println("El usuario " + nickname + " existe en la base de datos.");
+                    } else {
+                        // El usuario no existe en la base de datos
+                        System.out.println("El usuario " + nickname + " no existe en la base de datos.");
                     }
-                
+                    
+                }
                 */
+              
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(rootPane, "Error en consulta.");
+            }
+        }
+        /*
                     if(result.next()){
                         String status = result.getString("status");
                         
 
                         if (status.equals("S")) {
                             // Si el estado del usuario es "S" (activo), dejarlo ingresar
-                            
-                            
+
                             //Crifrar contraseña
                             Key k=new Key();
                             //Comparación con la base de datos
@@ -371,43 +377,38 @@ public class Ingresar extends javax.swing.JFrame {
                             JOptionPane.showMessageDialog(null, "El usuario no existe o ha sido dado de baja", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                         
-
-                }catch(SQLException e){
-                    JOptionPane.showMessageDialog(rootPane, "Error en consulta.");
-                }
-        }
-        
+                    */
     }//GEN-LAST:event_btnIniciarActionPerformed
 
     private void lblRegistroMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRegistroMouseEntered
         // TODO add your handling code here:
     }//GEN-LAST:event_lblRegistroMouseEntered
 
-    private void txtUsuarioMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtUsuarioMousePressed
-        if(txtUsuario.getText().equals("Ingrese su nombre de usuario")){
-            txtUsuario.setText("");
-            txtUsuario.setForeground(black);
+    private void txtNickMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtNickMousePressed
+        if(txtNick.getText().equals("Ingrese su nombre de usuario")){
+            txtNick.setText("");
+            txtNick.setForeground(black);
         }
         if(String.valueOf(txtPassword.getPassword()).isEmpty()){
             txtPassword.setText("**********");
             txtPassword.setForeground(gray);
 
         }
-    }//GEN-LAST:event_txtUsuarioMousePressed
+    }//GEN-LAST:event_txtNickMousePressed
 
     private void txtPasswordMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtPasswordMousePressed
         if(String.valueOf(txtPassword.getPassword()).equals("**********")){
             txtPassword.setText("");
             txtPassword.setForeground(black);
         }
-        if(txtUsuario.getText().isEmpty()){
-            txtUsuario.setText("Ingrese su nombre de usuario");
-            txtUsuario.setForeground(gray);
+        if(txtNick.getText().isEmpty()){
+            txtNick.setText("Ingrese su nombre de usuario");
+            txtNick.setForeground(gray);
 
         }
     }//GEN-LAST:event_txtPasswordMousePressed
 
-    private void txtUsuarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsuarioKeyPressed
+    private void txtNickKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNickKeyPressed
         // TODO add your handling code here:
         if(evt.getKeyCode() == 10){
             txtPassword.grabFocus();
@@ -415,12 +416,12 @@ public class Ingresar extends javax.swing.JFrame {
                 txtPassword.setText("");
                 txtPassword.setForeground(black);
             }
-            if(txtUsuario.getText().isEmpty()){
-                txtUsuario.setText("Ingrese su nombre de usuario");
-                txtUsuario.setForeground(gray);
+            if(txtNick.getText().isEmpty()){
+                txtNick.setText("Ingrese su nombre de usuario");
+                txtNick.setForeground(gray);
             }
         }
-    }//GEN-LAST:event_txtUsuarioKeyPressed
+    }//GEN-LAST:event_txtNickKeyPressed
 
     private void txtPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyPressed
         // TODO add your handling code here:
@@ -505,8 +506,8 @@ public class Ingresar extends javax.swing.JFrame {
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblRegistro;
     private javax.swing.JLabel nyan;
+    private javax.swing.JTextField txtNick;
     private javax.swing.JPasswordField txtPassword;
-    private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 
 

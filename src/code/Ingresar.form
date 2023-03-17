@@ -44,6 +44,11 @@
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+            <LineBorder/>
+          </Border>
+        </Property>
       </Properties>
 
       <Layout>
@@ -64,7 +69,7 @@
                                   <Component id="lblLogo" min="-2" pref="301" max="-2" attributes="0"/>
                               </Group>
                               <Component id="jSeparator1" max="32767" attributes="0"/>
-                              <Component id="txtUsuario" max="32767" attributes="0"/>
+                              <Component id="txtNick" max="32767" attributes="0"/>
                               <Component id="txtPassword" max="32767" attributes="0"/>
                               <Component id="jSeparator2" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
@@ -101,7 +106,7 @@
                                   <EmptySpace min="29" pref="29" max="-2" attributes="0"/>
                                   <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="txtUsuario" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="txtNick" min="-2" pref="30" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="17" pref="17" max="-2" attributes="0"/>
                           <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
@@ -119,7 +124,7 @@
                   </Group>
                   <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                   <Component id="lblRegistro" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="17" max="32767" attributes="0"/>
+                  <EmptySpace pref="15" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -179,7 +184,7 @@
             <Property name="text" type="java.lang.String" value="Nickname"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtUsuario">
+        <Component class="javax.swing.JTextField" name="txtNick">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Microsoft YaHei" size="14" style="0"/>
@@ -193,9 +198,9 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txtUsuarioMousePressed"/>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtUsuarioActionPerformed"/>
-            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtUsuarioKeyPressed"/>
+            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txtNickMousePressed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtNickActionPerformed"/>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtNickKeyPressed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lblLogo">

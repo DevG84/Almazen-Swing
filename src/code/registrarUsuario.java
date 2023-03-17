@@ -88,6 +88,7 @@ public class registrarUsuario extends javax.swing.JFrame {
         });
 
         bg.setBackground(new java.awt.Color(255, 255, 255));
+        bg.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jToolBar1.setBackground(new java.awt.Color(51, 51, 51));
         jToolBar1.setFloatable(false);
@@ -184,7 +185,7 @@ public class registrarUsuario extends javax.swing.JFrame {
                                     .addComponent(jLabel7)
                                     .addComponent(jLabel1)
                                     .addComponent(txtNick, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 103, Short.MAX_VALUE))
+                                .addGap(0, 101, Short.MAX_VALUE))
                             .addComponent(txtPass))
                         .addGap(38, 38, 38))
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -339,7 +340,7 @@ public class registrarUsuario extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgLayout.createSequentialGroup()
                 .addComponent(lblBarraMov, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblLogo, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
+                .addComponent(lblLogo, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
