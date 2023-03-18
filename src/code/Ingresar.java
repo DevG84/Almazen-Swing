@@ -323,42 +323,15 @@ public class Ingresar extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Llene todos lo campos para continuar.");
         }else{
             try{
-                String nickname=txtNick.getText();
-                String consulta="SELECT COUNT(*) AS count FROM usuarios WHERE nickname LIKE " + "'" + nickname + "'";
-                cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
-                result.next();
-                
-                
-                
-                /*
-                if(){
-                    // Si se encontró el usuario en la base de datos, obtener su estado
+                String consulta="SELECT password,status FROM usuarios NATURAL JOIN privilegios WHERE nickname LIKE ? ";
+                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                    cmd.setString(1, txtNick.getText());
+                    result=cmd.executeQuery();
                     
-
-                    if () {
-                        // El usuario existe en la base de datos
-                        System.out.println("El usuario " + nickname + " existe en la base de datos.");
-                    } else {
-                        // El usuario no existe en la base de datos
-                        System.out.println("El usuario " + nickname + " no existe en la base de datos.");
-                    }
-                    
-                }
-                */
-              
-            }catch(SQLException e){
-                JOptionPane.showMessageDialog(rootPane, "Error en consulta.");
-            }
-        }
-        /*
                     if(result.next()){
                         String status = result.getString("status");
-                        
-
-                        if (status.equals("S")) {
-                            // Si el estado del usuario es "S" (activo), dejarlo ingresar
-
-                            //Crifrar contraseña
+                        if(status.equals("S")){
+                            //Crifrado
                             Key k=new Key();
                             //Comparación con la base de datos
                             if(result.getString(1).matches(k.getPassword(txtPassword.getText()))){
@@ -369,15 +342,18 @@ public class Ingresar extends javax.swing.JFrame {
                             }else{
                                 JOptionPane.showMessageDialog(rootPane, "Verifica la contraseña.");
                             }
-                            }else{
-                                JOptionPane.showMessageDialog(rootPane, "El usuario no existe.");
-                            }
-                        } else{
-                            // Si el estado del usuario es "N" (inactivo), mostrar un JOptionPane de error
-                            JOptionPane.showMessageDialog(null, "El usuario no existe o ha sido dado de baja", "Error", JOptionPane.ERROR_MESSAGE);
+                        }else{
+                            JOptionPane.showMessageDialog(rootPane, "El usuario no está activo en el sistema.");
                         }
-                        
-                    */
+                    }else{
+                        JOptionPane.showMessageDialog(rootPane, "El usuario o la contraseña son incorrectos.");
+                    }
+                
+              
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(rootPane, "Error en consulta.");
+            }
+        }
     }//GEN-LAST:event_btnIniciarActionPerformed
 
     private void lblRegistroMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRegistroMouseEntered
