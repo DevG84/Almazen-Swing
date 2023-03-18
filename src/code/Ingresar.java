@@ -87,6 +87,7 @@ public class Ingresar extends javax.swing.JFrame {
 
         btnSalir.setBackground(new java.awt.Color(255, 255, 255));
         btnSalir.setFont(new java.awt.Font("Microsoft YaHei", 0, 14)); // NOI18N
+        btnSalir.setForeground(new java.awt.Color(0, 0, 0));
         btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/exit_32px.png"))); // NOI18N
         btnSalir.setText(" Salir");
         btnSalir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -161,6 +162,7 @@ public class Ingresar extends javax.swing.JFrame {
 
         btnIniciar.setBackground(new java.awt.Color(255, 255, 255));
         btnIniciar.setFont(new java.awt.Font("Microsoft YaHei", 0, 14)); // NOI18N
+        btnIniciar.setForeground(new java.awt.Color(0, 0, 0));
         btnIniciar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/logIn_32px.png"))); // NOI18N
         btnIniciar.setText("Iniciar sesión");
         btnIniciar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -324,32 +326,30 @@ public class Ingresar extends javax.swing.JFrame {
         }else{
             try{
                 String consulta="SELECT password,status FROM usuarios NATURAL JOIN privilegios WHERE nickname LIKE ? ";
-                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
-                    cmd.setString(1, txtNick.getText());
-                    result=cmd.executeQuery();
-                    
-                    if(result.next()){
-                        String status = result.getString("status");
-                        if(status.equals("S")){
-                            //Crifrado
-                            Key k=new Key();
-                            //Comparación con la base de datos
-                            if(result.getString(1).matches(k.getPassword(txtPassword.getText()))){
-                                //Si la contraseña coincide
-                                Inicio i=new Inicio();
-                                i.setVisible(true);
-                                this.dispose();
-                            }else{
-                                JOptionPane.showMessageDialog(rootPane, "Verifica la contraseña.");
-                            }
+                cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                cmd.setString(1, txtNick.getText());
+                result=cmd.executeQuery();
+
+                if(result.next()){
+                    if(result.getString(2).equals("S")){
+                        //Crifrado
+                        Key k=new Key();
+                        //Comparación con la base de datos
+                        if(result.getString(1).matches(k.getPassword(txtPassword.getText()))){
+                            //Si la contraseña coincide
+
+                            Inicio i=new Inicio();
+                            i.setVisible(true);
+                            this.dispose();
                         }else{
-                            JOptionPane.showMessageDialog(rootPane, "El usuario no está activo en el sistema.");
+                            JOptionPane.showMessageDialog(rootPane, "El usuario o la contraseña son incorrectos.");
                         }
                     }else{
-                        JOptionPane.showMessageDialog(rootPane, "El usuario o la contraseña son incorrectos.");
+                        JOptionPane.showMessageDialog(rootPane, "El usuario no está activo en el sistema.");
                     }
-                
-              
+                }else{
+                    JOptionPane.showMessageDialog(rootPane, "El usuario o la contraseña son incorrectos.");
+                }
             }catch(SQLException e){
                 JOptionPane.showMessageDialog(rootPane, "Error en consulta.");
             }

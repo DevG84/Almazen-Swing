@@ -2,6 +2,7 @@ package code;
 
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
 import settings.Key;
@@ -16,6 +17,9 @@ public class registrarUsuario extends javax.swing.JFrame {
     //Incersiones
     conexionBD conexion=null;
     PreparedStatement cmd;
+    
+    //Validar caracteres
+    boolean validarCaracter=false;
 
     public registrarUsuario() {
         initComponents();
@@ -159,10 +163,22 @@ public class registrarUsuario extends javax.swing.JFrame {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtPassKeyPressed(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPassKeyTyped(evt);
+            }
         });
 
         jLabel1.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
         jLabel1.setText("Confirmar contraseña");
+
+        txtConfirmar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtConfirmarKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtConfirmarKeyTyped(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
         jLabel8.setText("Cargo");
@@ -185,7 +201,7 @@ public class registrarUsuario extends javax.swing.JFrame {
                                     .addComponent(jLabel7)
                                     .addComponent(jLabel1)
                                     .addComponent(txtNick, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 101, Short.MAX_VALUE))
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(txtPass))
                         .addGap(38, 38, 38))
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -321,32 +337,35 @@ public class registrarUsuario extends javax.swing.JFrame {
         bg.setLayout(bgLayout);
         bgLayout.setHorizontalGroup(
             bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblBarraMov, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(bgLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(7, 7, 7)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(bgLayout.createSequentialGroup()
                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(bgLayout.createSequentialGroup()
-                        .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(1, 1, 1)
+                        .addComponent(lblBarraMov, javax.swing.GroupLayout.PREFERRED_SIZE, 864, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(bgLayout.createSequentialGroup()
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(6, 6, 6))
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(7, 7, 7)
+                        .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         bgLayout.setVerticalGroup(
             bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgLayout.createSequentialGroup()
+            .addGroup(bgLayout.createSequentialGroup()
                 .addComponent(lblBarraMov, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblLogo, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(6, 6, 6)
+                .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6)
                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9)
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -407,53 +426,59 @@ public class registrarUsuario extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Llene todos lo campos para continuar.");
         }else{
             if(txtPass.getPassword().length>3){
-                if(!(txtPass.getText().matches(txtConfirmar.getText()))){
-                    JOptionPane.showMessageDialog(rootPane, "La contraseña no coincide.");
-                }else{
-                    try{
-                        String insertar=("INSERT INTO usuarios(nickname,nombre,paterno,materno,cargo,boleta,password) VALUES(?,?,?,?,?,?,?)");
-                        cmd=(PreparedStatement)conexion.conectar.prepareStatement(insertar);
-                        //Remplazando ?
-                        cmd.setString(1, txtNick.getText());
-                        cmd.setString(2, txtNombre.getText());
-                        cmd.setString(3, txtPaterno.getText());
-                        cmd.setString(4, txtMaterno.getText());
-                        String combo=cmbCargo.getSelectedItem().toString();
-                        cmd.setString(5, combo);
-                        cmd.setString(6, txtBoleta.getText());
+                //Permitir solo caracteres deseados, no usar espacios, no usar "Ingrese su nombre de usuario" como usuario ni "**********" como contraseña
+                
+                
+                
+                
+                    if(!(txtPass.getText().matches(txtConfirmar.getText()))){
+                        JOptionPane.showMessageDialog(rootPane, "La contraseña no coincide.");
+                    }else{
+                        try{
+                            //Asignar privilegios según el tipo de usuario
+                            String insertar=("INSERT INTO usuarios(nickname,nombre,paterno,materno,cargo,boleta,password) VALUES(?,?,?,?,?,?,?)");
+                            cmd=(PreparedStatement)conexion.conectar.prepareStatement(insertar);
+                            //Remplazando ?
+                            cmd.setString(1, txtNick.getText());
+                            cmd.setString(2, txtNombre.getText());
+                            cmd.setString(3, txtPaterno.getText());
+                            cmd.setString(4, txtMaterno.getText());
+                            String combo=cmbCargo.getSelectedItem().toString();
+                            cmd.setString(5, combo);
+                            cmd.setString(6, txtBoleta.getText());
 
-                        Key k=new Key();
-                        cmd.setString(7, k.getPassword(txtPass.getText()));
+                            Key k=new Key();
+                            cmd.setString(7, k.getPassword(txtPass.getText()));
 
 
-                        /*
-                        //Privilegios join
-                        switch(combo){
-                            case "Invitado": 
-                                cmd.setString(8, "S"); cmd.setString(9, "N"); cmd.setString(10, "S"); 
-                                cmd.setString(11, "N"); cmd.setString(12, "S");
-                            case "Servicio Social":
-                                cmd.setString(8, "S"); cmd.setString(9, "S"); cmd.setString(10, "S"); 
-                                cmd.setString(11, "N"); cmd.setString(12, "S");
-                            case "Encargado de almacén":
-                                cmd.setString(8, "S"); cmd.setString(9, "S"); cmd.setString(10, "S"); 
-                                cmd.setString(11, "S"); cmd.setString(12, "S");
+                            /*
+                            //Privilegios join
+                            switch(combo){
+                                case "Invitado": 
+                                    cmd.setString(8, "S"); cmd.setString(9, "N"); cmd.setString(10, "S"); 
+                                    cmd.setString(11, "N"); cmd.setString(12, "S");
+                                case "Servicio Social":
+                                    cmd.setString(8, "S"); cmd.setString(9, "S"); cmd.setString(10, "S"); 
+                                    cmd.setString(11, "N"); cmd.setString(12, "S");
+                                case "Encargado de almacén":
+                                    cmd.setString(8, "S"); cmd.setString(9, "S"); cmd.setString(10, "S"); 
+                                    cmd.setString(11, "S"); cmd.setString(12, "S");
+                            }
+
+                            */
+
+                            //
+                            cmd.executeUpdate();
+                            JOptionPane.showMessageDialog(rootPane, "Usuario registrado.");
+                            limpiarComponentes();
+                            desactivarComponentes();
+                            btnNuevo.setEnabled(true);
+
+
+                        }catch(SQLException e){
+                            JOptionPane.showMessageDialog(rootPane, "Error al guardar.");
                         }
-
-                        */
-
-                        //
-                        cmd.executeUpdate();
-                        JOptionPane.showMessageDialog(rootPane, "Usuario registrado.");
-                        limpiarComponentes();
-                        desactivarComponentes();
-                        btnNuevo.setEnabled(true);
-
-
-                    }catch(SQLException e){
-                        JOptionPane.showMessageDialog(rootPane, "Error al guardar.");
                     }
-                }
             }else{JOptionPane.showMessageDialog(rootPane, "La contraseña debe tener al menos 4 caracteres.");}
         }
         
@@ -462,7 +487,7 @@ public class registrarUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void txtPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPassActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_txtPassActionPerformed
 
     private void txtNombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyPressed
@@ -501,11 +526,57 @@ public class registrarUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNickKeyPressed
 
     private void txtPassKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPassKeyPressed
-        // TODO add your handling code here:
-        if(evt.getKeyCode() == 10){
+        if(evt.getKeyCode()==10){
+            validarCaracter=true;
             txtConfirmar.grabFocus();
         }
+        if(evt.getKeyCode()==8 || evt.getKeyCode()==127){
+            validarCaracter=true;
+        }
     }//GEN-LAST:event_txtPassKeyPressed
+
+    private void txtConfirmarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtConfirmarKeyPressed
+        if(evt.getKeyCode()==10){
+            validarCaracter=true;
+        }
+        if(evt.getKeyCode()==8 || evt.getKeyCode()==127){
+            validarCaracter=true;
+        }
+    }//GEN-LAST:event_txtConfirmarKeyPressed
+
+    private void txtPassKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPassKeyTyped
+        //Limita el uso de caracteres para escribir la contraseña y en caso de no estar permitido borra el ultimo escrito
+        StringBuilder cadena=new StringBuilder(txtPass.getText());
+        if(validarCaracter==false)
+            if( (evt.isShiftDown()==true || evt.isShiftDown()==false) && (evt.getKeyChar()<'A' || evt.getKeyChar()>'Z') && 
+                (evt.getKeyChar()<'a' || evt.getKeyChar()>'z') && (evt.getKeyChar()<'0' || evt.getKeyChar()>'9') &&
+                (evt.getKeyChar()!='$' && evt.getKeyChar()!='%' && evt.getKeyChar()!='#' && evt.getKeyChar()!='*' && evt.getKeyChar()!='+'
+                && evt.getKeyChar()!='_' && evt.getKeyChar()!='-' && evt.getKeyChar()!='.' && evt.getKeyChar()!='ñ' && evt.getKeyChar()!='Ñ')
+            ){
+                JOptionPane.showMessageDialog(rootPane, "No puedes usar ' " + evt.getKeyChar() + " '.");
+                cadena.deleteCharAt(cadena.length()-1);
+                txtPass.setText(cadena.toString());
+                cadena=null;
+            }
+        validarCaracter=false;
+    }//GEN-LAST:event_txtPassKeyTyped
+
+    private void txtConfirmarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtConfirmarKeyTyped
+        //Limita el uso de caracteres para escribir la contraseña y en caso de no estar permitido borra el ultimo escrito
+        StringBuilder cadena=new StringBuilder(txtPass.getText());
+        if(validarCaracter==false)
+            if( (evt.isShiftDown()==true || evt.isShiftDown()==false) && (evt.getKeyChar()<'A' || evt.getKeyChar()>'Z') && 
+                (evt.getKeyChar()<'a' || evt.getKeyChar()>'z') && (evt.getKeyChar()<'0' || evt.getKeyChar()>'9') &&
+                (evt.getKeyChar()!='$' && evt.getKeyChar()!='%' && evt.getKeyChar()!='#' && evt.getKeyChar()!='*' && evt.getKeyChar()!='+'
+                && evt.getKeyChar()!='_' && evt.getKeyChar()!='-' && evt.getKeyChar()!='.' && evt.getKeyChar()!='ñ' && evt.getKeyChar()!='Ñ')
+            ){
+                JOptionPane.showMessageDialog(rootPane, "No puedes usar ' " + evt.getKeyChar() + " '.");
+                cadena.deleteCharAt(cadena.length()-1);
+                txtPass.setText(cadena.toString());
+                cadena=null;
+            }
+        validarCaracter=false;
+    }//GEN-LAST:event_txtConfirmarKeyTyped
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
