@@ -9,7 +9,6 @@ public class conexionBD {
     boolean modo=false;
     public Connection conectar=null;
     
-    
     public conexionBD(){
         if(modo==false){
             try{

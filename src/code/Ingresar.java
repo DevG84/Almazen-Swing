@@ -16,7 +16,6 @@ import javax.swing.JOptionPane;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
-import javax.swing.JPanel;
 import settings.Key;
 
 public class Ingresar extends javax.swing.JFrame {
