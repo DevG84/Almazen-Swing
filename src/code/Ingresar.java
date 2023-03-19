@@ -1,4 +1,4 @@
-package code;
+package code;//GEN-LINE:variables
 
 import static java.awt.Color.*;
 import java.awt.Font;
@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
+import javax.swing.JPanel;
 import settings.Key;
 
 public class Ingresar extends javax.swing.JFrame {
@@ -54,7 +55,7 @@ public class Ingresar extends javax.swing.JFrame {
     }
     
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         bg = new javax.swing.JPanel();
@@ -273,13 +274,13 @@ public class Ingresar extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>                        
 
-    private void txtNickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNickActionPerformed
+    private void txtNickActionPerformed(java.awt.event.ActionEvent evt) {                                        
         
-    }//GEN-LAST:event_txtNickActionPerformed
+    }                                       
 
-    private void lblLogoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLogoMouseClicked
+    private void lblLogoMouseClicked(java.awt.event.MouseEvent evt) {                                     
         // Redirecciona a una pagina de GitHub
         if(java.awt.Desktop.isDesktopSupported()){
             java.awt.Desktop desktop= java.awt.Desktop.getDesktop();
@@ -290,24 +291,24 @@ public class Ingresar extends javax.swing.JFrame {
                 }catch(URISyntaxException | IOException ex){}
             }
         }
-    }//GEN-LAST:event_lblLogoMouseClicked
+    }                                    
 
-    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {                                         
        Object[] opciones={"Si","No"};
        ImageIcon Icono=new ImageIcon("src/sources/icons/questionCube.png");
        int respuesta=JOptionPane.showOptionDialog(rootPane, "¿Quiere cerrar el programa?","Finalizar",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,Icono,opciones,opciones[0]);
        if(respuesta==0){
         System.exit(0);
        }
-    }//GEN-LAST:event_btnSalirActionPerformed
+    }                                        
 
-    private void lblRegistroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRegistroMouseClicked
+    private void lblRegistroMouseClicked(java.awt.event.MouseEvent evt) {                                         
         this.dispose();
         registrarUsuario u=new registrarUsuario();
         u.setVisible(true);
-    }//GEN-LAST:event_lblRegistroMouseClicked
+    }                                        
 
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {                                   
        /*
         Object[] opciones={"Si","No"};
        ImageIcon Icono=new ImageIcon("src/sources/icons/questionCube.png");
@@ -316,9 +317,9 @@ public class Ingresar extends javax.swing.JFrame {
         System.exit(0);
        }
        */
-    }//GEN-LAST:event_formWindowClosing
+    }                                  
 
-    private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
+    private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {                                           
         //Ingresar al sistema
         if("Ingrese su nombre de usuario".equals(txtNick.getText()) | "**********".equals(txtPassword.getText())){
             JOptionPane.showMessageDialog(rootPane, "Llene todos lo campos para continuar.");
@@ -341,25 +342,25 @@ public class Ingresar extends javax.swing.JFrame {
                             i.setVisible(true);
                             this.dispose();
                         }else{
-                            JOptionPane.showMessageDialog(rootPane, "El nickname o la contraseña son incorrectos.");
+                            JOptionPane.showMessageDialog(rootPane, "El usuario o la contraseña son incorrectos.");
                         }
                     }else{
                         JOptionPane.showMessageDialog(rootPane, "El usuario no está activo en el sistema.");
                     }
                 }else{
-                    JOptionPane.showMessageDialog(rootPane, "El nickname o la contraseña son incorrectos.");
+                    JOptionPane.showMessageDialog(rootPane, "El usuario o la contraseña son incorrectos.");
                 }
             }catch(SQLException e){
                 JOptionPane.showMessageDialog(rootPane, "Error en consulta.");
             }
         }
-    }//GEN-LAST:event_btnIniciarActionPerformed
+    }                                          
 
-    private void lblRegistroMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRegistroMouseEntered
+    private void lblRegistroMouseEntered(java.awt.event.MouseEvent evt) {                                         
         // TODO add your handling code here:
-    }//GEN-LAST:event_lblRegistroMouseEntered
+    }                                        
 
-    private void txtNickMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtNickMousePressed
+    private void txtNickMousePressed(java.awt.event.MouseEvent evt) {                                     
         if(txtNick.getText().equals("Ingrese su nombre de usuario")){
             txtNick.setText("");
             txtNick.setForeground(black);
@@ -369,9 +370,9 @@ public class Ingresar extends javax.swing.JFrame {
             txtPassword.setForeground(gray);
 
         }
-    }//GEN-LAST:event_txtNickMousePressed
+    }                                    
 
-    private void txtPasswordMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtPasswordMousePressed
+    private void txtPasswordMousePressed(java.awt.event.MouseEvent evt) {                                         
         if(String.valueOf(txtPassword.getPassword()).equals("**********")){
             txtPassword.setText("");
             txtPassword.setForeground(black);
@@ -381,9 +382,9 @@ public class Ingresar extends javax.swing.JFrame {
             txtNick.setForeground(gray);
 
         }
-    }//GEN-LAST:event_txtPasswordMousePressed
+    }                                        
 
-    private void txtNickKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNickKeyPressed
+    private void txtNickKeyPressed(java.awt.event.KeyEvent evt) {                                   
         // TODO add your handling code here:
         if(evt.getKeyCode() == 10){
             txtPassword.grabFocus();
@@ -396,32 +397,32 @@ public class Ingresar extends javax.swing.JFrame {
                 txtNick.setForeground(gray);
             }
         }
-    }//GEN-LAST:event_txtNickKeyPressed
+    }                                  
 
-    private void txtPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyPressed
+    private void txtPasswordKeyPressed(java.awt.event.KeyEvent evt) {                                       
         // TODO add your handling code here:
         if(evt.getKeyCode() == 10){
             btnIniciar.grabFocus();
             btnIniciar.doClick();
         }
-    }//GEN-LAST:event_txtPasswordKeyPressed
+    }                                      
 
-    private void btnIniciarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnIniciarKeyPressed
+    private void btnIniciarKeyPressed(java.awt.event.KeyEvent evt) {                                      
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnIniciarKeyPressed
+    }                                     
 
-    private void lblBarraMovMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBarraMovMousePressed
+    private void lblBarraMovMousePressed(java.awt.event.MouseEvent evt) {                                         
         xMouse=evt.getX();
         yMouse=evt.getY();
-    }//GEN-LAST:event_lblBarraMovMousePressed
+    }                                        
 
-    private void lblBarraMovMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBarraMovMouseDragged
+    private void lblBarraMovMouseDragged(java.awt.event.MouseEvent evt) {                                         
         int x=evt.getXOnScreen();
         int y=evt.getYOnScreen();
         
         this.setLocation(x - xMouse, y - yMouse);
         
-    }//GEN-LAST:event_lblBarraMovMouseDragged
+    }                                        
 
     public void setImageIn(JLabel a,String route){
         ImageIcon img; Icon icono;
@@ -469,7 +470,7 @@ public class Ingresar extends javax.swing.JFrame {
 
     
     
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // Variables declaration - do not modify                     
     private javax.swing.JPanel bg;
     private javax.swing.JButton btnIniciar;
     private javax.swing.JButton btnSalir;
@@ -483,7 +484,7 @@ public class Ingresar extends javax.swing.JFrame {
     private javax.swing.JLabel nyan;
     private javax.swing.JTextField txtNick;
     private javax.swing.JPasswordField txtPassword;
-    // End of variables declaration//GEN-END:variables
+    // End of variables declaration                   
 
 
 }
