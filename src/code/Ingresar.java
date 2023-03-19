@@ -342,13 +342,13 @@ public class Ingresar extends javax.swing.JFrame {
                             i.setVisible(true);
                             this.dispose();
                         }else{
-                            JOptionPane.showMessageDialog(rootPane, "El usuario o la contraseña son incorrectos.");
+                            JOptionPane.showMessageDialog(rootPane, "El nickname o la contraseña son incorrectos.");
                         }
                     }else{
                         JOptionPane.showMessageDialog(rootPane, "El usuario no está activo en el sistema.");
                     }
                 }else{
-                    JOptionPane.showMessageDialog(rootPane, "El usuario o la contraseña son incorrectos.");
+                    JOptionPane.showMessageDialog(rootPane, "El nickname o la contraseña son incorrectos.");
                 }
             }catch(SQLException e){
                 JOptionPane.showMessageDialog(rootPane, "Error en consulta.");
