@@ -47,23 +47,18 @@ public class Inicio extends javax.swing.JFrame {
             .addGap(0, 573, Short.MAX_VALUE)
         );
 
-        jMenu1.setForeground(new java.awt.Color(0, 0, 0));
         jMenu1.setText("Inicio");
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setForeground(new java.awt.Color(0, 0, 0));
         jMenu2.setText("Editar");
         jMenuBar1.add(jMenu2);
 
-        jMenu3.setForeground(new java.awt.Color(0, 0, 0));
         jMenu3.setText("Herramientas");
         jMenuBar1.add(jMenu3);
 
-        jMenu4.setForeground(new java.awt.Color(0, 0, 0));
         jMenu4.setText("Administrar");
         jMenuBar1.add(jMenu4);
 
-        menuAbout.setForeground(new java.awt.Color(0, 0, 0));
         menuAbout.setText("Acerca de");
         jMenuBar1.add(menuAbout);
 

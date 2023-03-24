@@ -141,10 +141,10 @@ public class registrarUsuario extends javax.swing.JFrame {
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos de registro", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Microsoft YaHei", 1, 12))); // NOI18N
 
-        jLabel5.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         jLabel5.setText("Nickname");
 
-        txtNick.setFont(new java.awt.Font("Microsoft YaHei", 0, 14)); // NOI18N
+        txtNick.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         txtNick.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNickActionPerformed(evt);
@@ -156,10 +156,10 @@ public class registrarUsuario extends javax.swing.JFrame {
             }
         });
 
-        jLabel7.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         jLabel7.setText("Contraseña");
 
-        txtPass.setFont(new java.awt.Font("Microsoft YaHei", 0, 14)); // NOI18N
+        txtPass.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         txtPass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPassActionPerformed(evt);
@@ -174,10 +174,10 @@ public class registrarUsuario extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         jLabel1.setText("Confirmar contraseña");
 
-        txtConfirmar.setFont(new java.awt.Font("Microsoft YaHei", 0, 14)); // NOI18N
+        txtConfirmar.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         txtConfirmar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtConfirmarKeyPressed(evt);
@@ -187,10 +187,10 @@ public class registrarUsuario extends javax.swing.JFrame {
             }
         });
 
-        jLabel8.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         jLabel8.setText("Cargo");
 
-        cmbCargo.setFont(new java.awt.Font("Microsoft YaHei", 0, 14)); // NOI18N
+        cmbCargo.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         cmbCargo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Invitado", "Servicio Social", "Encargado de almacén" }));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -243,10 +243,10 @@ public class registrarUsuario extends javax.swing.JFrame {
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos personales", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Microsoft YaHei", 1, 12))); // NOI18N
 
-        jLabel2.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         jLabel2.setText("Nombre");
 
-        txtNombre.setFont(new java.awt.Font("Microsoft YaHei", 0, 14)); // NOI18N
+        txtNombre.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         txtNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNombreActionPerformed(evt);
@@ -258,30 +258,30 @@ public class registrarUsuario extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         jLabel3.setText("Apellido Paterno");
 
-        txtPaterno.setFont(new java.awt.Font("Microsoft YaHei", 0, 14)); // NOI18N
+        txtPaterno.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         txtPaterno.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtPaternoKeyPressed(evt);
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         jLabel4.setText("Apellido Materno");
 
-        txtMaterno.setFont(new java.awt.Font("Microsoft YaHei", 0, 14)); // NOI18N
+        txtMaterno.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         txtMaterno.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtMaternoKeyPressed(evt);
             }
         });
 
-        jLabel6.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         jLabel6.setText("Numero de trabajador o boleta");
 
-        txtBoleta.setFont(new java.awt.Font("Microsoft YaHei", 0, 14)); // NOI18N
+        txtBoleta.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         txtBoleta.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtBoletaKeyPressed(evt);
@@ -355,7 +355,7 @@ public class registrarUsuario extends javax.swing.JFrame {
                 .addGap(12, 12, 12)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(bgLayout.createSequentialGroup()
                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(bgLayout.createSequentialGroup()
@@ -376,7 +376,7 @@ public class registrarUsuario extends javax.swing.JFrame {
                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(9, 9, 9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
