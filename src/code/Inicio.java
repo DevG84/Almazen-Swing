@@ -1,6 +1,8 @@
 package code;
 
+import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
+import com.formdev.flatlaf.intellijthemes.FlatDarkPurpleIJTheme;
 import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.UIManager;
@@ -82,11 +84,8 @@ public class Inicio extends javax.swing.JFrame {
     
     public static void main(String args[]) {
         /* Look and Feel */
-        try {
-            UIManager.setLookAndFeel( new FlatArcIJTheme() );
-        } catch( Exception ex ) {
-            System.err.println( "Failed to initialize LaF" );
-        }
+        FlatArcIJTheme.setup();
+        
         // create UI here...
 
         /* Create and display the form */

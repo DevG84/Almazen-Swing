@@ -1,6 +1,8 @@
 package code;
 
+import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
+import com.formdev.flatlaf.intellijthemes.FlatDarkPurpleIJTheme;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.PreparedStatement;
@@ -438,7 +440,7 @@ public class registrarUsuario extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Llene todos lo campos para continuar.");
         }else{
             if(!"Ingrese su nombre de usuario".equals(txtNick.getText()) || !"ingrese su nombre de usuario".equals(txtNick.getText())){
-                if(!"**********".equals(txtPass.getText())){
+                if(!"••••••••••".equals(txtPass.getText())){
                     if(txtPass.getPassword().length>3){
                         if(!(txtPass.getText().matches(txtConfirmar.getText()))){
                             JOptionPane.showMessageDialog(rootPane, "La contraseña no coincide.");
@@ -644,11 +646,8 @@ public class registrarUsuario extends javax.swing.JFrame {
 
     public static void main(String args[]) {
         /* Look and Feel */
-        try {
-            UIManager.setLookAndFeel( new FlatArcIJTheme() );
-        } catch( Exception ex ) {
-            System.err.println( "Failed to initialize LaF" );
-        }
+        FlatArcIJTheme.setup();
+        
         // create UI here...
 
         /* Create and display the form */

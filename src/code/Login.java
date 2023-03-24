@@ -1,6 +1,8 @@
 package code;
 
+import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
+import com.formdev.flatlaf.intellijthemes.FlatDarkPurpleIJTheme;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import static java.awt.Color.black;
 import static java.awt.Color.gray;
@@ -73,6 +75,7 @@ public class Login extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         lblBarraMov = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -92,7 +95,7 @@ public class Login extends javax.swing.JFrame {
 
         txtPassword.setFont(new java.awt.Font("Microsoft YaHei", 0, 14)); // NOI18N
         txtPassword.setForeground(java.awt.Color.gray);
-        txtPassword.setText("**********");
+        txtPassword.setText("••••••••••");
         txtPassword.setBorder(null);
         txtPassword.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -188,6 +191,13 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Ver");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout bgLayout = new javax.swing.GroupLayout(bg);
         bg.setLayout(bgLayout);
         bgLayout.setHorizontalGroup(
@@ -195,6 +205,8 @@ public class Login extends javax.swing.JFrame {
             .addGroup(bgLayout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addComponent(lblRegistro)
+                .addGap(249, 249, 249)
+                .addComponent(jButton1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -251,7 +263,9 @@ public class Login extends javax.swing.JFrame {
                             .addComponent(btnIniciar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(nyan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
-                .addComponent(lblRegistro)
+                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblRegistro)
+                    .addComponent(jButton1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -287,7 +301,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void txtPasswordMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtPasswordMousePressed
-        if(String.valueOf(txtPassword.getPassword()).equals("**********")){
+        if(String.valueOf(txtPassword.getPassword()).equals("••••••••••")){
             txtPassword.setText("");
             txtPassword.setForeground(black);
         }
@@ -311,7 +325,7 @@ public class Login extends javax.swing.JFrame {
             txtNick.setForeground(black);
         }
         if(String.valueOf(txtPassword.getPassword()).isEmpty()){
-            txtPassword.setText("**********");
+            txtPassword.setText("••••••••••");
             txtPassword.setForeground(gray);
 
         }
@@ -324,7 +338,7 @@ public class Login extends javax.swing.JFrame {
     private void txtNickKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNickKeyPressed
         if(evt.getKeyCode() == 10){
             txtPassword.grabFocus();
-            if(String.valueOf(txtPassword.getPassword()).equals("**********")){
+            if(String.valueOf(txtPassword.getPassword()).equals("••••••••••")){
                 txtPassword.setText("");
                 txtPassword.setForeground(black);
             }
@@ -360,8 +374,9 @@ public class Login extends javax.swing.JFrame {
 
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
         //Ingresar al sistema
-        if("Ingrese su nombre de usuario".equals(txtNick.getText()) | "**********".equals(txtPassword.getText())){
+        if("Ingrese su nombre de usuario".equals(txtNick.getText()) | "••••••••••".equals(txtPassword.getText())){
             JOptionPane.showMessageDialog(rootPane, "Llene todos lo campos para continuar.");
+            
         }else{
             try{
                 String consulta="SELECT password,status FROM usuarios NATURAL JOIN privilegios WHERE nickname LIKE ? ";
@@ -410,16 +425,35 @@ public class Login extends javax.swing.JFrame {
         yMouse=evt.getY();
     }//GEN-LAST:event_lblBarraMovMousePressed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        char echoChar = txtPassword.getEchoChar();
+        if (echoChar != 0) {
+            txtPassword.setEchoChar((char) 0);
+        } else {
+            txtPassword.setEchoChar('•');
+            
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        /*
+        Nombres>
+        
+        Light: 
+        FlatArcIJTheme
+        FlatIntelliJLaf
+        
+        Dark: 
+        FlatDarkPurpleIJTheme
+        
+        */
+        
         /* Look and Feel */
-        try {
-            UIManager.setLookAndFeel( new FlatArcIJTheme() );
-        } catch( Exception ex ) {
-            System.err.println( "Failed to initialize LaF" );
-        }
+        FlatArcIJTheme.setup();
         // create UI here...
         
         
@@ -435,6 +469,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JPanel bg;
     private javax.swing.JButton btnIniciar;
     private javax.swing.JButton btnSalir;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JSeparator jSeparator1;
