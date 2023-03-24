@@ -1,5 +1,8 @@
 package code;
 
+import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialLighterIJTheme;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import com.mysql.cj.xdevapi.Statement;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -10,6 +13,7 @@ import settings.Key;
 import settings.conexionBD;
 import java.sql.SQLException;
 import java.sql.ResultSet;
+import javax.swing.UIManager;
 
 public class registrarUsuario extends javax.swing.JFrame {
         
@@ -30,7 +34,7 @@ public class registrarUsuario extends javax.swing.JFrame {
         conexion=new conexionBD();
         setIconImage(getIconImage());
         this.setLocationRelativeTo(this);
-        Ingresar i=new Ingresar(); i.setImageIn(lblLogo, "src/sources/logo.png");
+        Login i=new Login(); i.setImageIn(lblLogo, "src/sources/logo.png");
         desactivarComponentes();
     }
     
@@ -388,7 +392,7 @@ public class registrarUsuario extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         this.dispose();
-        Ingresar f=new Ingresar();
+        Login f=new Login();
         f.setVisible(true);
     }//GEN-LAST:event_formWindowClosing
 
@@ -420,7 +424,7 @@ public class registrarUsuario extends javax.swing.JFrame {
 
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
         this.dispose();
-        Ingresar f=new Ingresar();
+        Login f=new Login();
         f.setVisible(true);
     }//GEN-LAST:event_btnCloseActionPerformed
 
@@ -632,28 +636,13 @@ public class registrarUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_txtConfirmarKeyTyped
 
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+        /* Look and Feel */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(registrarUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(registrarUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(registrarUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(registrarUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            UIManager.setLookAndFeel( new FlatMacLightLaf() );
+        } catch( Exception ex ) {
+            System.err.println( "Failed to initialize LaF" );
         }
-        //</editor-fold>
+        // create UI here...
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

@@ -1,26 +1,28 @@
-package code;//GEN-LINE:variables
+package code;
 
-import static java.awt.Color.*;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import static java.awt.Color.black;
+import static java.awt.Color.gray;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.font.TextAttribute;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import settings.conexionBD;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.PreparedStatement;
-import javax.swing.JOptionPane;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Map;
-import javax.swing.JPanel;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import settings.Key;
+import settings.conexionBD;
+import java.sql.SQLException;
 
-public class Ingresar extends javax.swing.JFrame {
-    
+public class Login extends javax.swing.JFrame {
+
     //Para acciones en la base de datos
     conexionBD conexion=null;
     PreparedStatement cmd;
@@ -28,8 +30,8 @@ public class Ingresar extends javax.swing.JFrame {
     
     //Para mover la ventana
     int xMouse,yMouse;
-
-    public Ingresar() {
+    
+    public Login() {
         initComponents();
         txtNick.setText(""); txtNick.setForeground(black);
         txtNick.grabFocus();
@@ -39,12 +41,11 @@ public class Ingresar extends javax.swing.JFrame {
         setImageIn(lblLogo,"src/sources/logo.png");
         setImageIn(nyan,"src/sources/inventory.gif");
         getRootPane().putClientProperty("defeatSystemEventQueueCheck", Boolean.TRUE);
-        
-        
         Font font = lblRegistro.getFont();
         Map attributes = font.getAttributes();
         attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
         lblRegistro.setFont(font.deriveFont(attributes));
+
     }
 
     //Logo del JFrame
@@ -55,7 +56,7 @@ public class Ingresar extends javax.swing.JFrame {
     }
     
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         bg = new javax.swing.JPanel();
@@ -73,14 +74,7 @@ public class Ingresar extends javax.swing.JFrame {
         lblBarraMov = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Iniciar sesión");
         setUndecorated(true);
-        setResizable(false);
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                formWindowClosing(evt);
-            }
-        });
 
         bg.setBackground(new java.awt.Color(255, 255, 255));
         bg.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -186,7 +180,6 @@ public class Ingresar extends javax.swing.JFrame {
         lblBarraMov.setFont(new java.awt.Font("Microsoft YaHei", 0, 14)); // NOI18N
         lblBarraMov.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblBarraMov.setText("Iniciar sesión");
-        lblBarraMov.setPreferredSize(new java.awt.Dimension(135, 30));
         lblBarraMov.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
                 lblBarraMovMouseDragged(evt);
@@ -259,7 +252,7 @@ public class Ingresar extends javax.swing.JFrame {
                     .addComponent(nyan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addComponent(lblRegistro)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -274,13 +267,75 @@ public class Ingresar extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>                        
+    }// </editor-fold>//GEN-END:initComponents
 
-    private void txtNickActionPerformed(java.awt.event.ActionEvent evt) {                                        
-        
-    }                                       
+    public void setImageIn(JLabel a,String route){
+        ImageIcon img; Icon icono;
+        img=new ImageIcon(route);
+        icono=new ImageIcon(img.getImage().getScaledInstance(a.getWidth(), a.getHeight(), Image.SCALE_DEFAULT));
+        a.setIcon(icono);
+        this.repaint();
+    }
+    
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        Object[] opciones={"Si","No"};
+       ImageIcon Icono=new ImageIcon("src/sources/icons/questionCube.png");
+       int respuesta=JOptionPane.showOptionDialog(rootPane, "¿Quiere cerrar el programa?","Finalizar",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,Icono,opciones,opciones[0]);
+       if(respuesta==0){
+        System.exit(0);
+       }
+    }//GEN-LAST:event_btnSalirActionPerformed
 
-    private void lblLogoMouseClicked(java.awt.event.MouseEvent evt) {                                     
+    private void txtPasswordMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtPasswordMousePressed
+        if(String.valueOf(txtPassword.getPassword()).equals("**********")){
+            txtPassword.setText("");
+            txtPassword.setForeground(black);
+        }
+        if(txtNick.getText().isEmpty()){
+            txtNick.setText("Ingrese su nombre de usuario");
+            txtNick.setForeground(gray);
+
+        }
+    }//GEN-LAST:event_txtPasswordMousePressed
+
+    private void txtPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyPressed
+        if(evt.getKeyCode() == 10){
+            btnIniciar.grabFocus();
+            btnIniciar.doClick();
+        }
+    }//GEN-LAST:event_txtPasswordKeyPressed
+
+    private void txtNickMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtNickMousePressed
+        if(txtNick.getText().equals("Ingrese su nombre de usuario")){
+            txtNick.setText("");
+            txtNick.setForeground(black);
+        }
+        if(String.valueOf(txtPassword.getPassword()).isEmpty()){
+            txtPassword.setText("**********");
+            txtPassword.setForeground(gray);
+
+        }
+    }//GEN-LAST:event_txtNickMousePressed
+
+    private void txtNickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNickActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNickActionPerformed
+
+    private void txtNickKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNickKeyPressed
+        if(evt.getKeyCode() == 10){
+            txtPassword.grabFocus();
+            if(String.valueOf(txtPassword.getPassword()).equals("**********")){
+                txtPassword.setText("");
+                txtPassword.setForeground(black);
+            }
+            if(txtNick.getText().isEmpty()){
+                txtNick.setText("Ingrese su nombre de usuario");
+                txtNick.setForeground(gray);
+            }
+        }
+    }//GEN-LAST:event_txtNickKeyPressed
+
+    private void lblLogoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLogoMouseClicked
         // Redirecciona a una pagina de GitHub
         if(java.awt.Desktop.isDesktopSupported()){
             java.awt.Desktop desktop= java.awt.Desktop.getDesktop();
@@ -291,35 +346,19 @@ public class Ingresar extends javax.swing.JFrame {
                 }catch(URISyntaxException | IOException ex){}
             }
         }
-    }                                    
+    }//GEN-LAST:event_lblLogoMouseClicked
 
-    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {                                         
-       Object[] opciones={"Si","No"};
-       ImageIcon Icono=new ImageIcon("src/sources/icons/questionCube.png");
-       int respuesta=JOptionPane.showOptionDialog(rootPane, "¿Quiere cerrar el programa?","Finalizar",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,Icono,opciones,opciones[0]);
-       if(respuesta==0){
-        System.exit(0);
-       }
-    }                                        
-
-    private void lblRegistroMouseClicked(java.awt.event.MouseEvent evt) {                                         
+    private void lblRegistroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRegistroMouseClicked
         this.dispose();
         registrarUsuario u=new registrarUsuario();
         u.setVisible(true);
-    }                                        
+    }//GEN-LAST:event_lblRegistroMouseClicked
 
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {                                   
-       /*
-        Object[] opciones={"Si","No"};
-       ImageIcon Icono=new ImageIcon("src/sources/icons/questionCube.png");
-       int respuesta=JOptionPane.showOptionDialog(rootPane, "¿Quiere cerrar el programa?","Finalizar",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,Icono,opciones,opciones[0]);
-       if(respuesta==0){
-        System.exit(0);
-       }
-       */
-    }                                  
+    private void lblRegistroMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRegistroMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblRegistroMouseEntered
 
-    private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {                                           
+    private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
         //Ingresar al sistema
         if("Ingrese su nombre de usuario".equals(txtNick.getText()) | "**********".equals(txtPassword.getText())){
             JOptionPane.showMessageDialog(rootPane, "Llene todos lo campos para continuar.");
@@ -354,123 +393,45 @@ public class Ingresar extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(rootPane, "Error en consulta.");
             }
         }
-    }                                          
+    }//GEN-LAST:event_btnIniciarActionPerformed
 
-    private void lblRegistroMouseEntered(java.awt.event.MouseEvent evt) {                                         
+    private void btnIniciarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnIniciarKeyPressed
         // TODO add your handling code here:
-    }                                        
+    }//GEN-LAST:event_btnIniciarKeyPressed
 
-    private void txtNickMousePressed(java.awt.event.MouseEvent evt) {                                     
-        if(txtNick.getText().equals("Ingrese su nombre de usuario")){
-            txtNick.setText("");
-            txtNick.setForeground(black);
-        }
-        if(String.valueOf(txtPassword.getPassword()).isEmpty()){
-            txtPassword.setText("**********");
-            txtPassword.setForeground(gray);
-
-        }
-    }                                    
-
-    private void txtPasswordMousePressed(java.awt.event.MouseEvent evt) {                                         
-        if(String.valueOf(txtPassword.getPassword()).equals("**********")){
-            txtPassword.setText("");
-            txtPassword.setForeground(black);
-        }
-        if(txtNick.getText().isEmpty()){
-            txtNick.setText("Ingrese su nombre de usuario");
-            txtNick.setForeground(gray);
-
-        }
-    }                                        
-
-    private void txtNickKeyPressed(java.awt.event.KeyEvent evt) {                                   
-        // TODO add your handling code here:
-        if(evt.getKeyCode() == 10){
-            txtPassword.grabFocus();
-            if(String.valueOf(txtPassword.getPassword()).equals("**********")){
-                txtPassword.setText("");
-                txtPassword.setForeground(black);
-            }
-            if(txtNick.getText().isEmpty()){
-                txtNick.setText("Ingrese su nombre de usuario");
-                txtNick.setForeground(gray);
-            }
-        }
-    }                                  
-
-    private void txtPasswordKeyPressed(java.awt.event.KeyEvent evt) {                                       
-        // TODO add your handling code here:
-        if(evt.getKeyCode() == 10){
-            btnIniciar.grabFocus();
-            btnIniciar.doClick();
-        }
-    }                                      
-
-    private void btnIniciarKeyPressed(java.awt.event.KeyEvent evt) {                                      
-        // TODO add your handling code here:
-    }                                     
-
-    private void lblBarraMovMousePressed(java.awt.event.MouseEvent evt) {                                         
-        xMouse=evt.getX();
-        yMouse=evt.getY();
-    }                                        
-
-    private void lblBarraMovMouseDragged(java.awt.event.MouseEvent evt) {                                         
+    private void lblBarraMovMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBarraMovMouseDragged
         int x=evt.getXOnScreen();
         int y=evt.getYOnScreen();
-        
         this.setLocation(x - xMouse, y - yMouse);
-        
-    }                                        
+    }//GEN-LAST:event_lblBarraMovMouseDragged
 
-    public void setImageIn(JLabel a,String route){
-        ImageIcon img; Icon icono;
-        img=new ImageIcon(route);
-        icono=new ImageIcon(img.getImage().getScaledInstance(a.getWidth(), a.getHeight(), Image.SCALE_DEFAULT));
-        a.setIcon(icono);
-        this.repaint();
-    }
-    
+    private void lblBarraMovMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBarraMovMousePressed
+        xMouse=evt.getX();
+        yMouse=evt.getY();
+    }//GEN-LAST:event_lblBarraMovMousePressed
 
-    
+    /**
+     * @param args the command line arguments
+     */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+        /* Look and Feel */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Ingresar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Ingresar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Ingresar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Ingresar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            UIManager.setLookAndFeel( new FlatMacLightLaf() );
+        } catch( Exception ex ) {
+            System.err.println( "Failed to initialize LaF" );
         }
-        //</editor-fold>
-
-
+        // create UI here...
+        
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Ingresar().setVisible(true);
-                
+                new Login().setVisible(true);
             }
         });
     }
 
-    
-    
-    // Variables declaration - do not modify                     
+    // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bg;
     private javax.swing.JButton btnIniciar;
     private javax.swing.JButton btnSalir;
@@ -484,7 +445,5 @@ public class Ingresar extends javax.swing.JFrame {
     private javax.swing.JLabel nyan;
     private javax.swing.JTextField txtNick;
     private javax.swing.JPasswordField txtPassword;
-    // End of variables declaration                   
-
-
+    // End of variables declaration//GEN-END:variables
 }
