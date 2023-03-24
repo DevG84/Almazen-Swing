@@ -245,6 +245,11 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtNick">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Microsoft YaHei" size="14" style="0"/>
+                </Property>
+              </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtNickActionPerformed"/>
                 <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtNickKeyPressed"/>
@@ -259,6 +264,11 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JPasswordField" name="txtPass">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Microsoft YaHei" size="14" style="0"/>
+                </Property>
+              </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtPassActionPerformed"/>
                 <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtPassKeyPressed"/>
@@ -274,6 +284,11 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JPasswordField" name="txtConfirmar">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Microsoft YaHei" size="14" style="0"/>
+                </Property>
+              </Properties>
               <Events>
                 <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtConfirmarKeyPressed"/>
                 <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtConfirmarKeyTyped"/>
@@ -289,6 +304,9 @@
             </Component>
             <Component class="javax.swing.JComboBox" name="cmbCargo">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Microsoft YaHei" size="14" style="0"/>
+                </Property>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="3">
                     <StringItem index="0" value="Invitado"/>
@@ -377,6 +395,11 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtNombre">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Microsoft YaHei" size="14" style="0"/>
+                </Property>
+              </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtNombreActionPerformed"/>
                 <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtNombreKeyPressed"/>
@@ -391,6 +414,11 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtPaterno">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Microsoft YaHei" size="14" style="0"/>
+                </Property>
+              </Properties>
               <Events>
                 <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtPaternoKeyPressed"/>
               </Events>
@@ -404,6 +432,11 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtMaterno">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Microsoft YaHei" size="14" style="0"/>
+                </Property>
+              </Properties>
               <Events>
                 <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtMaternoKeyPressed"/>
               </Events>
@@ -417,6 +450,11 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtBoleta">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Microsoft YaHei" size="14" style="0"/>
+                </Property>
+              </Properties>
               <Events>
                 <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtBoletaKeyPressed"/>
               </Events>

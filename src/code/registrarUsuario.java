@@ -1,12 +1,8 @@
 package code;
 
-import com.formdev.flatlaf.FlatLightLaf;
-import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialLighterIJTheme;
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
-import com.mysql.cj.xdevapi.Statement;
+import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.awt.event.KeyEvent;
 import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
 import settings.Key;
@@ -148,6 +144,7 @@ public class registrarUsuario extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
         jLabel5.setText("Nickname");
 
+        txtNick.setFont(new java.awt.Font("Microsoft YaHei", 0, 14)); // NOI18N
         txtNick.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNickActionPerformed(evt);
@@ -162,6 +159,7 @@ public class registrarUsuario extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
         jLabel7.setText("Contraseña");
 
+        txtPass.setFont(new java.awt.Font("Microsoft YaHei", 0, 14)); // NOI18N
         txtPass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPassActionPerformed(evt);
@@ -179,6 +177,7 @@ public class registrarUsuario extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
         jLabel1.setText("Confirmar contraseña");
 
+        txtConfirmar.setFont(new java.awt.Font("Microsoft YaHei", 0, 14)); // NOI18N
         txtConfirmar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtConfirmarKeyPressed(evt);
@@ -191,6 +190,7 @@ public class registrarUsuario extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
         jLabel8.setText("Cargo");
 
+        cmbCargo.setFont(new java.awt.Font("Microsoft YaHei", 0, 14)); // NOI18N
         cmbCargo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Invitado", "Servicio Social", "Encargado de almacén" }));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -246,6 +246,7 @@ public class registrarUsuario extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
         jLabel2.setText("Nombre");
 
+        txtNombre.setFont(new java.awt.Font("Microsoft YaHei", 0, 14)); // NOI18N
         txtNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNombreActionPerformed(evt);
@@ -260,6 +261,7 @@ public class registrarUsuario extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
         jLabel3.setText("Apellido Paterno");
 
+        txtPaterno.setFont(new java.awt.Font("Microsoft YaHei", 0, 14)); // NOI18N
         txtPaterno.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtPaternoKeyPressed(evt);
@@ -269,6 +271,7 @@ public class registrarUsuario extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
         jLabel4.setText("Apellido Materno");
 
+        txtMaterno.setFont(new java.awt.Font("Microsoft YaHei", 0, 14)); // NOI18N
         txtMaterno.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtMaternoKeyPressed(evt);
@@ -278,6 +281,7 @@ public class registrarUsuario extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
         jLabel6.setText("Numero de trabajador o boleta");
 
+        txtBoleta.setFont(new java.awt.Font("Microsoft YaHei", 0, 14)); // NOI18N
         txtBoleta.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtBoletaKeyPressed(evt);
@@ -458,8 +462,11 @@ public class registrarUsuario extends javax.swing.JFrame {
                                         result=cmd.executeQuery();
                                         if(result.next()){
                                             JOptionPane.showMessageDialog(rootPane, "Esta persona ya fue registrada anteriormente.");
+                                            txtNombre.setText("");
+                                            txtPaterno.setText("");
+                                            txtMaterno.setText("");
                                             txtBoleta.setText("");
-                                            txtBoleta.grabFocus();
+                                            txtNombre.grabFocus();
                                         }else{
                                             //Proceso de registro de usuarios
                                             try{
@@ -638,7 +645,7 @@ public class registrarUsuario extends javax.swing.JFrame {
     public static void main(String args[]) {
         /* Look and Feel */
         try {
-            UIManager.setLookAndFeel( new FlatMacLightLaf() );
+            UIManager.setLookAndFeel( new FlatArcIJTheme() );
         } catch( Exception ex ) {
             System.err.println( "Failed to initialize LaF" );
         }

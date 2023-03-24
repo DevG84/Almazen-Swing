@@ -1,5 +1,6 @@
 package code;
 
+import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import static java.awt.Color.black;
 import static java.awt.Color.gray;
@@ -79,10 +80,9 @@ public class Login extends javax.swing.JFrame {
         bg.setBackground(new java.awt.Color(255, 255, 255));
         bg.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        btnSalir.setBackground(new java.awt.Color(255, 255, 255));
         btnSalir.setFont(new java.awt.Font("Microsoft YaHei", 0, 14)); // NOI18N
         btnSalir.setForeground(new java.awt.Color(0, 0, 0));
-        btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/exit_32px.png"))); // NOI18N
+        btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/close_322px.png"))); // NOI18N
         btnSalir.setText(" Salir");
         btnSalir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -154,7 +154,6 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        btnIniciar.setBackground(new java.awt.Color(255, 255, 255));
         btnIniciar.setFont(new java.awt.Font("Microsoft YaHei", 0, 14)); // NOI18N
         btnIniciar.setForeground(new java.awt.Color(0, 0, 0));
         btnIniciar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/logIn_32px.png"))); // NOI18N
@@ -223,12 +222,15 @@ public class Login extends javax.swing.JFrame {
                         .addContainerGap())
                     .addComponent(lblBarraMov, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 872, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
+
+        bgLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnIniciar, btnSalir});
+
         bgLayout.setVerticalGroup(
             bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(bgLayout.createSequentialGroup()
                 .addComponent(lblBarraMov, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(bgLayout.createSequentialGroup()
                         .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31)
@@ -247,8 +249,8 @@ public class Login extends javax.swing.JFrame {
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(42, 42, 42)
                         .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnIniciar)
-                            .addComponent(btnSalir)))
+                            .addComponent(btnSalir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnIniciar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(nyan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addComponent(lblRegistro)
@@ -416,7 +418,7 @@ public class Login extends javax.swing.JFrame {
     public static void main(String args[]) {
         /* Look and Feel */
         try {
-            UIManager.setLookAndFeel( new FlatMacLightLaf() );
+            UIManager.setLookAndFeel( new FlatArcIJTheme() );
         } catch( Exception ex ) {
             System.err.println( "Failed to initialize LaF" );
         }

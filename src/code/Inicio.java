@@ -1,7 +1,9 @@
 package code;
 
+import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
 import java.awt.Image;
 import java.awt.Toolkit;
+import javax.swing.UIManager;
 
 public class Inicio extends javax.swing.JFrame {
 
@@ -32,7 +34,7 @@ public class Inicio extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(51, 51, 51));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -45,18 +47,23 @@ public class Inicio extends javax.swing.JFrame {
             .addGap(0, 573, Short.MAX_VALUE)
         );
 
+        jMenu1.setForeground(new java.awt.Color(0, 0, 0));
         jMenu1.setText("Inicio");
         jMenuBar1.add(jMenu1);
 
+        jMenu2.setForeground(new java.awt.Color(0, 0, 0));
         jMenu2.setText("Editar");
         jMenuBar1.add(jMenu2);
 
+        jMenu3.setForeground(new java.awt.Color(0, 0, 0));
         jMenu3.setText("Herramientas");
         jMenuBar1.add(jMenu3);
 
+        jMenu4.setForeground(new java.awt.Color(0, 0, 0));
         jMenu4.setText("Administrar");
         jMenuBar1.add(jMenu4);
 
+        menuAbout.setForeground(new java.awt.Color(0, 0, 0));
         menuAbout.setText("Acerca de");
         jMenuBar1.add(menuAbout);
 
@@ -79,28 +86,13 @@ public class Inicio extends javax.swing.JFrame {
     
     
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+        /* Look and Feel */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            UIManager.setLookAndFeel( new FlatArcIJTheme() );
+        } catch( Exception ex ) {
+            System.err.println( "Failed to initialize LaF" );
         }
-        //</editor-fold>
+        // create UI here...
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
