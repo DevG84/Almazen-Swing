@@ -439,111 +439,111 @@ public class registrarUsuario extends javax.swing.JFrame {
         txtNick.getText().isEmpty() || txtPass.getText().isEmpty() || txtConfirmar.getText().isEmpty()){
             JOptionPane.showMessageDialog(rootPane, "Llene todos lo campos para continuar.");
         }else{
-            if(!"Ingrese su nombre de usuario".equals(txtNick.getText()) || !"ingrese su nombre de usuario".equals(txtNick.getText())){
-                if(!"••••••••••".equals(txtPass.getText())){
-                    if(txtPass.getPassword().length>3){
-                        if(!(txtPass.getText().matches(txtConfirmar.getText()))){
-                            JOptionPane.showMessageDialog(rootPane, "La contraseña no coincide.");
-                        }else{
-                            try{
-                                //Verifica si el nickname ya esta en uso
-                                String consulta="SELECT nickname FROM usuarios WHERE nickname LIKE ? ";
-                                cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
-                                cmd.setString(1, txtNick.getText());
-                                result=cmd.executeQuery();
-                                if(result.next()){
-                                    JOptionPane.showMessageDialog(rootPane, "El nickname ya está en uso.");
-                                    txtNick.setText("");
-                                    txtNick.grabFocus();
-                                }else{
-                                    try{
-                                        //Verifica si la boleta se registro anteriormente
-                                        String consulta2="SELECT boleta FROM usuarios WHERE boleta LIKE ? ";
-                                        cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta2);
-                                        cmd.setString(1, txtBoleta.getText());
-                                        result=cmd.executeQuery();
-                                        if(result.next()){
-                                            JOptionPane.showMessageDialog(rootPane, "Esta persona ya fue registrada anteriormente.");
-                                            txtNombre.setText("");
-                                            txtPaterno.setText("");
-                                            txtMaterno.setText("");
-                                            txtBoleta.setText("");
-                                            txtNombre.grabFocus();
-                                        }else{
-                                            //Proceso de registro de usuarios
+            if(!"Escriba su nickname.".equalsIgnoreCase(txtNick.getText())){
+            if(!"••••••••••".equals(txtPass.getText())){
+                if(txtPass.getPassword().length>3){
+                    if(!(txtPass.getText().matches(txtConfirmar.getText()))){
+                        JOptionPane.showMessageDialog(rootPane, "La contraseña no coincide.");
+                    }else{
+                        try{
+                            //Verifica si el nickname ya esta en uso
+                            String consulta="SELECT nickname FROM usuarios WHERE nickname LIKE ? ";
+                            cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                            cmd.setString(1, txtNick.getText());
+                            result=cmd.executeQuery();
+                            if(result.next()){
+                                JOptionPane.showMessageDialog(rootPane, "El nickname ya está en uso.");
+                                txtNick.setText("");
+                                txtNick.grabFocus();
+                            }else{
+                                try{
+                                    //Verifica si la boleta se registro anteriormente
+                                    String consulta2="SELECT boleta FROM usuarios WHERE boleta LIKE ? ";
+                                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta2);
+                                    cmd.setString(1, txtBoleta.getText());
+                                    result=cmd.executeQuery();
+                                    if(result.next()){
+                                        JOptionPane.showMessageDialog(rootPane, "Esta persona ya fue registrada anteriormente.");
+                                        txtNombre.setText("");
+                                        txtPaterno.setText("");
+                                        txtMaterno.setText("");
+                                        txtBoleta.setText("");
+                                        txtNombre.grabFocus();
+                                    }else{
+                                        //Proceso de registro de usuarios
+                                        try{
+                                            //Asignar privilegios según el tipo de usuario
+                                            String insertarUsuario=("INSERT INTO usuarios(nickname,nombre,paterno,materno,cargo,boleta,password) VALUES(?,?,?,?,?,?,?)");
+                                            cmd=(PreparedStatement)conexion.conectar.prepareStatement(insertarUsuario);
+                                            cmd.setString(1, txtNick.getText());
+                                            cmd.setString(2, txtNombre.getText());
+                                            cmd.setString(3, txtPaterno.getText());
+                                            cmd.setString(4, txtMaterno.getText());
+                                            String combo=cmbCargo.getSelectedItem().toString();
+                                            cmd.setString(5, combo);
+                                            cmd.setString(6, txtBoleta.getText());
+                                            Key k=new Key();
+                                            cmd.setString(7, k.getPassword(txtPass.getText()));
+                                            cmd.executeUpdate();
+                                            //Consultar id de usuarios
                                             try{
-                                                //Asignar privilegios según el tipo de usuario
-                                                String insertarUsuario=("INSERT INTO usuarios(nickname,nombre,paterno,materno,cargo,boleta,password) VALUES(?,?,?,?,?,?,?)");
-                                                cmd=(PreparedStatement)conexion.conectar.prepareStatement(insertarUsuario);
+                                                String IDconsulta="SELECT IDusuario FROM usuarios WHERE nickname = ? ";
+                                                cmd=(PreparedStatement)conexion.conectar.prepareStatement(IDconsulta);
                                                 cmd.setString(1, txtNick.getText());
-                                                cmd.setString(2, txtNombre.getText());
-                                                cmd.setString(3, txtPaterno.getText());
-                                                cmd.setString(4, txtMaterno.getText());
-                                                String combo=cmbCargo.getSelectedItem().toString();
-                                                cmd.setString(5, combo);
-                                                cmd.setString(6, txtBoleta.getText());
-                                                Key k=new Key();
-                                                cmd.setString(7, k.getPassword(txtPass.getText()));
-                                                cmd.executeUpdate();
-                                                //Consultar id de usuarios
-                                                try{
-                                                    String IDconsulta="SELECT IDusuario FROM usuarios WHERE nickname = ? ";
-                                                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(IDconsulta);
-                                                    cmd.setString(1, txtNick.getText());
-                                                    ResultSet idresult=cmd.executeQuery();
-                                                    if (idresult.next()) {
-                                                        idUsuario = idresult.getString(1);
+                                                ResultSet idresult=cmd.executeQuery();
+                                                if (idresult.next()) {
+                                                    idUsuario = idresult.getString(1);
+                                                }else{
+                                                    JOptionPane.showMessageDialog(rootPane, "Falló la consulta.");
+                                                }
+                                                //Insertar privilegios al id recien generado // Según el tipo de usuario
+                                                String insertarPrivilegios=("INSERT INTO privilegios (IDusuario,status,modBuscar,modInOut,modConsulta,modPerCod,modAlterUsuarios) VALUES (?,?,?,?,?,?,?)");
+                                                cmd=(PreparedStatement)conexion.conectar.prepareStatement(insertarPrivilegios);
+                                                cmd.setString(1, idUsuario);
+                                                if("Invitado".matches(cmbCargo.getSelectedItem().toString())){
+                                                    cmd.setString(2, "S"); cmd.setString(3, "S"); cmd.setString(4, "N");
+                                                    cmd.setString(5, "N"); cmd.setString(6, "N"); cmd.setString(7, "N");
+                                                }else{
+                                                    if("Servicio Social".matches(cmbCargo.getSelectedItem().toString())){
+                                                        cmd.setString(2, "S"); cmd.setString(3, "S"); cmd.setString(4, "S");
+                                                        cmd.setString(5, "S"); cmd.setString(6, "N"); cmd.setString(7, "N");
                                                     }else{
-                                                        JOptionPane.showMessageDialog(rootPane, "Falló la consulta.");
-                                                    }
-                                                    //Insertar privilegios al id recien generado // Según el tipo de usuario
-                                                    String insertarPrivilegios=("INSERT INTO privilegios (IDusuario,status,modBuscar,modInOut,modConsulta,modPerCod,modAlterUsuarios) VALUES (?,?,?,?,?,?,?)");
-                                                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(insertarPrivilegios);
-                                                    cmd.setString(1, idUsuario);
-                                                    if("Invitado".matches(cmbCargo.getSelectedItem().toString())){
-                                                        cmd.setString(2, "S"); cmd.setString(3, "S"); cmd.setString(4, "N");
-                                                        cmd.setString(5, "N"); cmd.setString(6, "N"); cmd.setString(7, "N");
-                                                    }else{
-                                                        if("Servicio Social".matches(cmbCargo.getSelectedItem().toString())){
+                                                        if("Encargado de almacén".matches(cmbCargo.getSelectedItem().toString())){
                                                             cmd.setString(2, "S"); cmd.setString(3, "S"); cmd.setString(4, "S");
-                                                            cmd.setString(5, "S"); cmd.setString(6, "N"); cmd.setString(7, "N");
-                                                        }else{
-                                                            if("Encargado de almacén".matches(cmbCargo.getSelectedItem().toString())){
-                                                                cmd.setString(2, "S"); cmd.setString(3, "S"); cmd.setString(4, "S");
-                                                                cmd.setString(5, "S"); cmd.setString(6, "S"); cmd.setString(7, "N");
-                                                            }
+                                                            cmd.setString(5, "S"); cmd.setString(6, "S"); cmd.setString(7, "N");
                                                         }
                                                     }
-                                                    cmd.executeUpdate();
-                                                    JOptionPane.showMessageDialog(rootPane, "Usuario registrado.");
-                                                    limpiarComponentes();
-                                                    desactivarComponentes();
-                                                    btnNuevo.setEnabled(true);
-                                                }catch(SQLException e){
-                                                    JOptionPane.showMessageDialog(rootPane, "Usuario generado con éxito.\nError: No se pudieron asignar privilegios.");
                                                 }
+                                                cmd.executeUpdate();
+                                                JOptionPane.showMessageDialog(rootPane, "Usuario registrado.");
+                                                limpiarComponentes();
+                                                desactivarComponentes();
+                                                btnNuevo.setEnabled(true);
                                             }catch(SQLException e){
-                                                JOptionPane.showMessageDialog(rootPane, "Error al guardar.");
+                                                JOptionPane.showMessageDialog(rootPane, "Usuario generado con éxito.\nError: No se pudieron asignar privilegios.");
                                             }
-                                            
+                                        }catch(SQLException e){
+                                            JOptionPane.showMessageDialog(rootPane, "Error al guardar.");
                                         }
-                                    }catch(SQLException e){
-                                        JOptionPane.showMessageDialog(rootPane, "Error al consultar.");
+
                                     }
+                                }catch(SQLException e){
+                                    JOptionPane.showMessageDialog(rootPane, "Error al consultar.");
                                 }
-                            }catch(SQLException e){
-                                JOptionPane.showMessageDialog(rootPane, "Error al consultar.");
                             }
+                        }catch(SQLException e){
+                            JOptionPane.showMessageDialog(rootPane, "Error al consultar.");
                         }
-                    }else{
-                        JOptionPane.showMessageDialog(rootPane, "La contraseña debe tener al menos 4 caracteres.");
                     }
                 }else{
-                    JOptionPane.showMessageDialog(rootPane, "No puedes usar esta contraseña.");
-                    txtPass.setText("");
-                    txtConfirmar.setText("");
-                    txtPass.grabFocus();
+                    JOptionPane.showMessageDialog(rootPane, "La contraseña debe tener al menos 4 caracteres.");
                 }
+            }else{
+                JOptionPane.showMessageDialog(rootPane, "No puedes usar esta contraseña.");
+                txtPass.setText("");
+                txtConfirmar.setText("");
+                txtPass.grabFocus();
+            }
             }else{
                 JOptionPane.showMessageDialog(rootPane, "No puedes usar este nickname.");
                 txtNick.setText("");

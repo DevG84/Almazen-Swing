@@ -34,6 +34,9 @@ public class Login extends javax.swing.JFrame {
     //Para mover la ventana
     int xMouse,yMouse;
     
+    //Acciones necesarias
+    
+    
     public Login() {
         initComponents();
         txtNick.setText(""); txtNick.setForeground(black);
@@ -75,7 +78,7 @@ public class Login extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         lblBarraMov = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnOcultar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -116,7 +119,7 @@ public class Login extends javax.swing.JFrame {
 
         txtNick.setFont(new java.awt.Font("Microsoft YaHei", 0, 14)); // NOI18N
         txtNick.setForeground(java.awt.Color.gray);
-        txtNick.setText("Ingrese su nombre de usuario");
+        txtNick.setText("Escriba su nickname.");
         txtNick.setBorder(null);
         txtNick.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -191,10 +194,11 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Ver");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnOcultar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/see_24px.png"))); // NOI18N
+        btnOcultar.setBorder(null);
+        btnOcultar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnOcultarActionPerformed(evt);
             }
         });
 
@@ -205,8 +209,6 @@ public class Login extends javax.swing.JFrame {
             .addGroup(bgLayout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addComponent(lblRegistro)
-                .addGap(249, 249, 249)
-                .addComponent(jButton1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -214,20 +216,30 @@ public class Login extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgLayout.createSequentialGroup()
                         .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(bgLayout.createSequentialGroup()
-                                .addGap(80, 80, 80)
-                                .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jSeparator1)
-                            .addComponent(txtNick)
-                            .addComponent(txtPassword)
-                            .addComponent(jSeparator2)
+                                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(bgLayout.createSequentialGroup()
+                                        .addGap(80, 80, 80)
+                                        .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(bgLayout.createSequentialGroup()
+                                        .addGap(126, 126, 126)
+                                        .addComponent(btnIniciar)
+                                        .addGap(16, 16, 16)
+                                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtNick, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addGap(20, 20, 20))
                             .addGroup(bgLayout.createSequentialGroup()
-                                .addGap(126, 126, 126)
-                                .addComponent(btnIniciar)
-                                .addGap(16, 16, 16)
-                                .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(20, 20, 20)
+                                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgLayout.createSequentialGroup()
+                                        .addComponent(txtPassword)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnOcultar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(bgLayout.createSequentialGroup()
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addGap(18, 18, 18)))
                         .addComponent(nyan, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addComponent(lblBarraMov, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 872, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -243,31 +255,36 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(bgLayout.createSequentialGroup()
                         .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31)
+                        .addGap(30, 30, 30)
                         .addComponent(jLabel1)
-                        .addGap(5, 5, 5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(bgLayout.createSequentialGroup()
                                 .addGap(29, 29, 29)
                                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(txtNick, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(17, 17, 17)
+                        .addGap(22, 22, 22)
                         .addComponent(jLabel2)
-                        .addGap(11, 11, 11)
-                        .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(42, 42, 42)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnSalir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnIniciar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(bgLayout.createSequentialGroup()
+                                .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, 0)
+                                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(42, 42, 42)
+                                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnSalir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnIniciar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(bgLayout.createSequentialGroup()
+                                .addComponent(btnOcultar)
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addComponent(nyan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
-                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblRegistro)
-                    .addComponent(jButton1))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(lblRegistro)
+                .addContainerGap(7, Short.MAX_VALUE))
         );
+
+        bgLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnOcultar, txtPassword});
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -292,7 +309,7 @@ public class Login extends javax.swing.JFrame {
     }
     
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        Object[] opciones={"Si","No"};
+       Object[] opciones={"Si","No"};
        ImageIcon Icono=new ImageIcon("src/sources/icons/questionCube.png");
        int respuesta=JOptionPane.showOptionDialog(rootPane, "¿Quiere cerrar el programa?","Finalizar",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,Icono,opciones,opciones[0]);
        if(respuesta==0){
@@ -306,7 +323,7 @@ public class Login extends javax.swing.JFrame {
             txtPassword.setForeground(black);
         }
         if(txtNick.getText().isEmpty()){
-            txtNick.setText("Ingrese su nombre de usuario");
+            txtNick.setText("Escriba su nickname.");
             txtNick.setForeground(gray);
 
         }
@@ -320,7 +337,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPasswordKeyPressed
 
     private void txtNickMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtNickMousePressed
-        if(txtNick.getText().equals("Ingrese su nombre de usuario")){
+        if(txtNick.getText().equals("Escriba su nickname.")){
             txtNick.setText("");
             txtNick.setForeground(black);
         }
@@ -343,7 +360,7 @@ public class Login extends javax.swing.JFrame {
                 txtPassword.setForeground(black);
             }
             if(txtNick.getText().isEmpty()){
-                txtNick.setText("Ingrese su nombre de usuario");
+                txtNick.setText("Escriba su nickname.");
                 txtNick.setForeground(gray);
             }
         }
@@ -374,7 +391,7 @@ public class Login extends javax.swing.JFrame {
 
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
         //Ingresar al sistema
-        if("Ingrese su nombre de usuario".equals(txtNick.getText()) | "••••••••••".equals(txtPassword.getText())){
+        if("Escriba su nickname.".equals(txtNick.getText()) | "••••••••••".equals(txtPassword.getText())){
             JOptionPane.showMessageDialog(rootPane, "Llene todos lo campos para continuar.");
             
         }else{
@@ -397,12 +414,30 @@ public class Login extends javax.swing.JFrame {
                             this.dispose();
                         }else{
                             JOptionPane.showMessageDialog(rootPane, "El usuario o la contraseña son incorrectos.");
+                            txtNick.setText("");
+                            txtPassword.setText("••••••••••"); txtPassword.setForeground(gray);
+                            char echoChar = txtPassword.getEchoChar();
+                            if (echoChar != 0) {}else{
+                                txtPassword.setEchoChar('•');
+                                ImageIcon mostrar=new ImageIcon("src/sources/icons/see_24px.png");
+                                btnOcultar.setIcon(mostrar);
+                            }
+                            txtNick.grabFocus();
                         }
                     }else{
                         JOptionPane.showMessageDialog(rootPane, "El usuario no está activo en el sistema.");
                     }
                 }else{
                     JOptionPane.showMessageDialog(rootPane, "El usuario o la contraseña son incorrectos.");
+                    txtNick.setText("");
+                    txtPassword.setText("••••••••••"); txtPassword.setForeground(gray);
+                    char echoChar = txtPassword.getEchoChar();
+                    if (echoChar != 0) {}else{
+                        txtPassword.setEchoChar('•');
+                        ImageIcon mostrar=new ImageIcon("src/sources/icons/see_24px.png");
+                        btnOcultar.setIcon(mostrar);
+                    }
+                    txtNick.grabFocus();
                 }
             }catch(SQLException e){
                 JOptionPane.showMessageDialog(rootPane, "Error en consulta.");
@@ -425,16 +460,20 @@ public class Login extends javax.swing.JFrame {
         yMouse=evt.getY();
     }//GEN-LAST:event_lblBarraMovMousePressed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnOcultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOcultarActionPerformed
         // TODO add your handling code here:
         char echoChar = txtPassword.getEchoChar();
         if (echoChar != 0) {
             txtPassword.setEchoChar((char) 0);
+            ImageIcon ocultar=new ImageIcon("src/sources/icons/noSee_24px.png");
+            btnOcultar.setIcon(ocultar);
+            
         } else {
             txtPassword.setEchoChar('•');
-            
+            ImageIcon mostrar=new ImageIcon("src/sources/icons/see_24px.png");
+            btnOcultar.setIcon(mostrar);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnOcultarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -468,8 +507,8 @@ public class Login extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bg;
     private javax.swing.JButton btnIniciar;
+    private javax.swing.JButton btnOcultar;
     private javax.swing.JButton btnSalir;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JSeparator jSeparator1;
