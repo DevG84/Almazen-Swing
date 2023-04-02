@@ -1,32 +1,22 @@
 package code;
 
-import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
-import com.formdev.flatlaf.intellijthemes.FlatDarkPurpleIJTheme;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Rectangle;
 import java.awt.Toolkit;
-import javax.swing.BorderFactory;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.plaf.basic.BasicTabbedPaneUI;
-import javax.swing.plaf.metal.MetalLookAndFeel;
-import javax.swing.plaf.metal.MetalTabbedPaneUI;
+
 
 public class Inicio extends javax.swing.JFrame {
     
     //Modulos
     public boolean m1=false,m2=false,m3=false,m4=false,m5=false;
+    private final Color unused;
+    private final Color used;
 
     public Inicio() {
+        unused=new Color(255, 255, 255);
+        used=new Color(160,64,0);
         initComponents();
         setIconImage(getIconImage());
         iniciarInterfaz();
@@ -37,16 +27,32 @@ public class Inicio extends javax.swing.JFrame {
     public void iniciarInterfaz(){
         Login l=new Login();
         l.setImageIn(logo, "src/sources/logo.png");
-        
-        
+        //
         Pestañas.setEnabledAt(0, false);
         Pestañas.setEnabledAt(1, false);
         Pestañas.setEnabledAt(2, false);
         Pestañas.setEnabledAt(3, false);
         Pestañas.setEnabledAt(4, false);
-        //
         Pestañas.setSelectedIndex(0);
+        //
+        changeButtonColor();
         
+    }
+    
+    private void resetButtonColor(){
+        btnDisplayInicio.setBackground(unused);
+        btnDisplayBuscar.setBackground(unused);
+        btnDisplayMov.setBackground(unused);
+        btnDisplayConsulta.setBackground(unused);
+        btnDisplayCodes.setBackground(unused);
+    }
+    
+    private void changeButtonColor(){
+        if(Pestañas.getSelectedIndex()==0){resetButtonColor(); btnDisplayInicio.setBackground(used);}
+        if(Pestañas.getSelectedIndex()==1){resetButtonColor(); btnDisplayBuscar.setBackground(used);}
+        if(Pestañas.getSelectedIndex()==2){resetButtonColor(); btnDisplayMov.setBackground(used);}
+        if(Pestañas.getSelectedIndex()==3){resetButtonColor(); btnDisplayConsulta.setBackground(used);}
+        if(Pestañas.getSelectedIndex()==4){resetButtonColor(); btnDisplayCodes.setBackground(used);}
     }
     
     public void habilitarModulos(){
@@ -56,6 +62,7 @@ public class Inicio extends javax.swing.JFrame {
         btnDisplayConsulta.setEnabled(m3);
         btnDisplayCodes.setEnabled(m4);
         btnDisplayAdmin.setEnabled(m5);
+        btnDisplayAdmin.setVisible(m5);
     }
     
     
@@ -101,14 +108,13 @@ public class Inicio extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jPanel2.setBackground(new java.awt.Color(23, 32, 42));
+        jPanel2.setBackground(new java.awt.Color(51, 51, 51));
 
         logo.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 
         btnDisplayMov.setBackground(new java.awt.Color(160, 64, 0));
-        btnDisplayMov.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        btnDisplayMov.setForeground(new java.awt.Color(255, 255, 255));
-        btnDisplayMov.setText("Movimientos");
+        btnDisplayMov.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        btnDisplayMov.setText("Realizar movimientos");
         btnDisplayMov.setBorder(null);
         btnDisplayMov.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -117,9 +123,8 @@ public class Inicio extends javax.swing.JFrame {
         });
 
         btnDisplayBuscar.setBackground(new java.awt.Color(160, 64, 0));
-        btnDisplayBuscar.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        btnDisplayBuscar.setForeground(new java.awt.Color(255, 255, 255));
-        btnDisplayBuscar.setText("Buscar");
+        btnDisplayBuscar.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        btnDisplayBuscar.setText("Buscar material");
         btnDisplayBuscar.setBorder(null);
         btnDisplayBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -128,8 +133,7 @@ public class Inicio extends javax.swing.JFrame {
         });
 
         btnDisplayConsulta.setBackground(new java.awt.Color(160, 64, 0));
-        btnDisplayConsulta.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        btnDisplayConsulta.setForeground(new java.awt.Color(255, 255, 255));
+        btnDisplayConsulta.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         btnDisplayConsulta.setText("Consultar movimientos");
         btnDisplayConsulta.setBorder(null);
         btnDisplayConsulta.addActionListener(new java.awt.event.ActionListener() {
@@ -139,8 +143,7 @@ public class Inicio extends javax.swing.JFrame {
         });
 
         btnDisplayCodes.setBackground(new java.awt.Color(160, 64, 0));
-        btnDisplayCodes.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        btnDisplayCodes.setForeground(new java.awt.Color(255, 255, 255));
+        btnDisplayCodes.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         btnDisplayCodes.setText("Códigos perzonalizados");
         btnDisplayCodes.setBorder(null);
         btnDisplayCodes.addActionListener(new java.awt.event.ActionListener() {
@@ -150,7 +153,7 @@ public class Inicio extends javax.swing.JFrame {
         });
 
         btnDisplayAdmin.setBackground(new java.awt.Color(255, 255, 255));
-        btnDisplayAdmin.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        btnDisplayAdmin.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         btnDisplayAdmin.setForeground(new java.awt.Color(0, 0, 0));
         btnDisplayAdmin.setText("Ajustes del Administrador");
         btnDisplayAdmin.setBorder(null);
@@ -161,8 +164,7 @@ public class Inicio extends javax.swing.JFrame {
         });
 
         btnDisplayInicio.setBackground(new java.awt.Color(160, 64, 0));
-        btnDisplayInicio.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        btnDisplayInicio.setForeground(new java.awt.Color(255, 255, 255));
+        btnDisplayInicio.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         btnDisplayInicio.setText("Inicio");
         btnDisplayInicio.setBorder(null);
         btnDisplayInicio.addActionListener(new java.awt.event.ActionListener() {
@@ -172,7 +174,7 @@ public class Inicio extends javax.swing.JFrame {
         });
 
         btnDisplayRegNew.setBackground(new java.awt.Color(160, 64, 0));
-        btnDisplayRegNew.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        btnDisplayRegNew.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         btnDisplayRegNew.setForeground(new java.awt.Color(255, 255, 255));
         btnDisplayRegNew.setText("Registrar nuevo material");
         btnDisplayRegNew.setBorder(null);
@@ -183,7 +185,7 @@ public class Inicio extends javax.swing.JFrame {
         });
 
         btnDisplaySettings.setBackground(new java.awt.Color(255, 255, 255));
-        btnDisplaySettings.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        btnDisplaySettings.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         btnDisplaySettings.setForeground(new java.awt.Color(0, 0, 0));
         btnDisplaySettings.setText("Ajustes");
         btnDisplaySettings.setBorder(null);
@@ -197,50 +199,43 @@ public class Inicio extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnDisplayBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnDisplayInicio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnDisplayMov, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnDisplayConsulta, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnDisplayCodes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnDisplayRegNew, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDisplayAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDisplaySettings, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(logo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 6, Short.MAX_VALUE))
+            .addComponent(btnDisplayInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnDisplayBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnDisplayMov, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnDisplayConsulta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnDisplayCodes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnDisplayRegNew, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnDisplayAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnDisplaySettings, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnDisplayAdmin, btnDisplayRegNew, btnDisplaySettings});
-
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(6, 6, 6)
                 .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnDisplayInicio)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnDisplayBuscar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(11, 11, 11)
+                .addComponent(btnDisplayInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
+                .addComponent(btnDisplayBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
                 .addComponent(btnDisplayMov, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnDisplayConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnDisplayCodes)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnDisplayRegNew)
+                .addGap(3, 3, 3)
+                .addComponent(btnDisplayConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
+                .addComponent(btnDisplayCodes, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
+                .addComponent(btnDisplayRegNew, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnDisplayAdmin)
-                .addGap(18, 18, 18)
-                .addComponent(btnDisplaySettings)
-                .addGap(12, 12, 12))
+                .addComponent(btnDisplayAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnDisplaySettings, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnDisplayAdmin, btnDisplayBuscar, btnDisplayCodes, btnDisplayConsulta, btnDisplayInicio, btnDisplayMov, btnDisplayRegNew, btnDisplaySettings});
-
-        jPanel3.setBackground(new java.awt.Color(23, 32, 42));
+        jPanel3.setBackground(new java.awt.Color(51, 51, 51));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -250,7 +245,7 @@ public class Inicio extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+            .addGap(0, 60, Short.MAX_VALUE)
         );
 
         Pestañas.setBackground(new java.awt.Color(51, 51, 51));
@@ -266,14 +261,14 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(panelInicioLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel5)
-                .addContainerGap(1145, Short.MAX_VALUE))
+                .addContainerGap(1135, Short.MAX_VALUE))
         );
         panelInicioLayout.setVerticalGroup(
             panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelInicioLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel5)
-                .addContainerGap(597, Short.MAX_VALUE))
+                .addContainerGap(657, Short.MAX_VALUE))
         );
 
         Pestañas.addTab("Inicio", panelInicio);
@@ -289,14 +284,14 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(panelBuscarLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addContainerGap(1139, Short.MAX_VALUE))
+                .addContainerGap(1129, Short.MAX_VALUE))
         );
         panelBuscarLayout.setVerticalGroup(
             panelBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBuscarLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addContainerGap(597, Short.MAX_VALUE))
+                .addContainerGap(657, Short.MAX_VALUE))
         );
 
         Pestañas.addTab("Buscar", panelBuscar);
@@ -313,14 +308,14 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(panelMovLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addContainerGap(1104, Short.MAX_VALUE))
+                .addContainerGap(1094, Short.MAX_VALUE))
         );
         panelMovLayout.setVerticalGroup(
             panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelMovLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addContainerGap(597, Short.MAX_VALUE))
+                .addContainerGap(657, Short.MAX_VALUE))
         );
 
         Pestañas.addTab("Movimientos", panelMov);
@@ -336,14 +331,14 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(panelConsultaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3)
-                .addContainerGap(1127, Short.MAX_VALUE))
+                .addContainerGap(1117, Short.MAX_VALUE))
         );
         panelConsultaLayout.setVerticalGroup(
             panelConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelConsultaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3)
-                .addContainerGap(597, Short.MAX_VALUE))
+                .addContainerGap(657, Short.MAX_VALUE))
         );
 
         Pestañas.addTab("Consulta", panelConsulta);
@@ -359,14 +354,14 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(panelCodesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel4)
-                .addContainerGap(1130, Short.MAX_VALUE))
+                .addContainerGap(1120, Short.MAX_VALUE))
         );
         panelCodesLayout.setVerticalGroup(
             panelCodesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelCodesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel4)
-                .addContainerGap(597, Short.MAX_VALUE))
+                .addContainerGap(657, Short.MAX_VALUE))
         );
 
         Pestañas.addTab("Códigos almazen", panelCodes);
@@ -377,19 +372,22 @@ public class Inicio extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Pestañas)))
+                .addGap(0, 0, 0)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(188, 188, 188)
+                .addComponent(Pestañas))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
+                .addGap(28, 28, 28)
                 .addComponent(Pestañas))
         );
 
+        /*
         Pestañas.setTabPlacement(JTabbedPane.TOP);
         Pestañas.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
         Pestañas.setUI(new javax.swing.plaf.metal.MetalTabbedPaneUI() {
@@ -398,6 +396,7 @@ public class Inicio extends javax.swing.JFrame {
                 return 0;
             }
         });
+        */
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -415,17 +414,17 @@ public class Inicio extends javax.swing.JFrame {
 
     private void btnDisplayMovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisplayMovActionPerformed
         Pestañas.setSelectedIndex(2);
-        
+        changeButtonColor();
     }//GEN-LAST:event_btnDisplayMovActionPerformed
 
     private void btnDisplayBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisplayBuscarActionPerformed
         Pestañas.setSelectedIndex(1);
-        
+        changeButtonColor();
     }//GEN-LAST:event_btnDisplayBuscarActionPerformed
 
     private void btnDisplayConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisplayConsultaActionPerformed
         Pestañas.setSelectedIndex(3);
-        
+        changeButtonColor();
     }//GEN-LAST:event_btnDisplayConsultaActionPerformed
 
     private void btnDisplayAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisplayAdminActionPerformed
@@ -434,7 +433,7 @@ public class Inicio extends javax.swing.JFrame {
 
     private void btnDisplayInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisplayInicioActionPerformed
         Pestañas.setSelectedIndex(0);
-        
+        changeButtonColor();
     }//GEN-LAST:event_btnDisplayInicioActionPerformed
 
     private void btnDisplaySettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisplaySettingsActionPerformed
@@ -448,7 +447,7 @@ public class Inicio extends javax.swing.JFrame {
 
     private void btnDisplayCodesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisplayCodesActionPerformed
         Pestañas.setSelectedIndex(4);
-        
+        changeButtonColor();
     }//GEN-LAST:event_btnDisplayCodesActionPerformed
     
     
