@@ -42,7 +42,7 @@ public class Login extends javax.swing.JFrame {
         txtNick.setText(""); txtNick.setForeground(black);
         txtNick.grabFocus();
         setIconImage(getIconImage());
-        this.setLocationRelativeTo(this);
+        this.setLocationRelativeTo(null);
         conexion=new conexionBD();
         setImageIn(lblLogo,"src/sources/logo.png");
         setImageIn(nyan,"src/sources/inventory.gif");
@@ -396,7 +396,7 @@ public class Login extends javax.swing.JFrame {
             
         }else{
             try{
-                String consulta="SELECT password,status FROM usuarios NATURAL JOIN privilegios WHERE nickname LIKE ? ";
+                String consulta="SELECT password,status,modBuscar,modInOut,modConsulta,modPerCod,modAlterUsuarios FROM usuarios NATURAL JOIN privilegios WHERE nickname LIKE ? ";
                 cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
                 cmd.setString(1, txtNick.getText());
                 result=cmd.executeQuery();
@@ -408,10 +408,26 @@ public class Login extends javax.swing.JFrame {
                         //Comparación con la base de datos
                         if(result.getString(1).matches(k.getPassword(txtPassword.getText()))){
                             //Si la contraseña coincide
-
                             Inicio i=new Inicio();
-                            i.setVisible(true);
                             this.dispose();
+                            
+                            if(result.getString(3).matches("S"))
+                            i.m1=true;
+                            if(result.getString(4).matches("S"))
+                            i.m2=true;
+                            if(result.getString(5).matches("S"))
+                            i.m3=true;
+                            if(result.getString(6).matches("S"))
+                            i.m4=true;
+                            if(result.getString(7).matches("S"))
+                            i.m5=true;
+                            i.habilitarModulos();
+                            
+                            i.setVisible(true);
+                            
+                            
+                            
+                            
                         }else{
                             JOptionPane.showMessageDialog(rootPane, "El usuario o la contraseña son incorrectos.");
                             txtNick.setText("");
@@ -426,6 +442,15 @@ public class Login extends javax.swing.JFrame {
                         }
                     }else{
                         JOptionPane.showMessageDialog(rootPane, "El usuario no está activo en el sistema.");
+                        txtNick.setText("");
+                        txtPassword.setText("••••••••••"); txtPassword.setForeground(gray);
+                        char echoChar = txtPassword.getEchoChar();
+                        if (echoChar != 0) {}else{
+                            txtPassword.setEchoChar('•');
+                            ImageIcon mostrar=new ImageIcon("src/sources/icons/see_24px.png");
+                            btnOcultar.setIcon(mostrar);
+                        }
+                        txtNick.grabFocus();
                     }
                 }else{
                     JOptionPane.showMessageDialog(rootPane, "El usuario o la contraseña son incorrectos.");
