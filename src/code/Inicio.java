@@ -3,13 +3,23 @@ package code;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatDarkPurpleIJTheme;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JTabbedPane;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
+import javax.swing.plaf.metal.MetalLookAndFeel;
+import javax.swing.plaf.metal.MetalTabbedPaneUI;
 
 public class Inicio extends javax.swing.JFrame {
     
@@ -21,20 +31,14 @@ public class Inicio extends javax.swing.JFrame {
         setIconImage(getIconImage());
         iniciarInterfaz();
         this.setLocationRelativeTo(this);
+        
     }
 
     public void iniciarInterfaz(){
         Login l=new Login();
         l.setImageIn(logo, "src/sources/logo.png");
         
-        // Ocultar las pestañas
-        Pestañas.setUI(new BasicTabbedPaneUI() {
-            @Override
-
-            protected void paintTabArea(Graphics g, int tabPlacement, int selectedIndex) {
-                // no hacer nada para no dibujar las pestañas
-            }
-        });
+        
         Pestañas.setEnabledAt(0, false);
         Pestañas.setEnabledAt(1, false);
         Pestañas.setEnabledAt(2, false);
@@ -61,6 +65,8 @@ public class Inicio extends javax.swing.JFrame {
         Image retValue=Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("icon_32px.png"));
         return retValue;
     }
+    
+
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -95,11 +101,11 @@ public class Inicio extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jPanel2.setBackground(new java.awt.Color(128, 19, 54));
+        jPanel2.setBackground(new java.awt.Color(23, 32, 42));
 
         logo.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 
-        btnDisplayMov.setBackground(new java.awt.Color(81, 10, 50));
+        btnDisplayMov.setBackground(new java.awt.Color(160, 64, 0));
         btnDisplayMov.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         btnDisplayMov.setForeground(new java.awt.Color(255, 255, 255));
         btnDisplayMov.setText("Movimientos");
@@ -110,7 +116,7 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
 
-        btnDisplayBuscar.setBackground(new java.awt.Color(81, 10, 50));
+        btnDisplayBuscar.setBackground(new java.awt.Color(160, 64, 0));
         btnDisplayBuscar.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         btnDisplayBuscar.setForeground(new java.awt.Color(255, 255, 255));
         btnDisplayBuscar.setText("Buscar");
@@ -121,7 +127,7 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
 
-        btnDisplayConsulta.setBackground(new java.awt.Color(81, 10, 50));
+        btnDisplayConsulta.setBackground(new java.awt.Color(160, 64, 0));
         btnDisplayConsulta.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         btnDisplayConsulta.setForeground(new java.awt.Color(255, 255, 255));
         btnDisplayConsulta.setText("Consultar movimientos");
@@ -132,7 +138,7 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
 
-        btnDisplayCodes.setBackground(new java.awt.Color(81, 10, 50));
+        btnDisplayCodes.setBackground(new java.awt.Color(160, 64, 0));
         btnDisplayCodes.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         btnDisplayCodes.setForeground(new java.awt.Color(255, 255, 255));
         btnDisplayCodes.setText("Códigos perzonalizados");
@@ -154,7 +160,7 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
 
-        btnDisplayInicio.setBackground(new java.awt.Color(81, 10, 50));
+        btnDisplayInicio.setBackground(new java.awt.Color(160, 64, 0));
         btnDisplayInicio.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         btnDisplayInicio.setForeground(new java.awt.Color(255, 255, 255));
         btnDisplayInicio.setText("Inicio");
@@ -165,7 +171,7 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
 
-        btnDisplayRegNew.setBackground(new java.awt.Color(81, 10, 50));
+        btnDisplayRegNew.setBackground(new java.awt.Color(160, 64, 0));
         btnDisplayRegNew.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         btnDisplayRegNew.setForeground(new java.awt.Color(255, 255, 255));
         btnDisplayRegNew.setText("Registrar nuevo material");
@@ -213,7 +219,7 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnDisplayInicio)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnDisplayBuscar)
@@ -234,7 +240,7 @@ public class Inicio extends javax.swing.JFrame {
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnDisplayAdmin, btnDisplayBuscar, btnDisplayCodes, btnDisplayConsulta, btnDisplayInicio, btnDisplayMov, btnDisplayRegNew, btnDisplaySettings});
 
-        jPanel3.setBackground(new java.awt.Color(128, 19, 54));
+        jPanel3.setBackground(new java.awt.Color(23, 32, 42));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -244,10 +250,10 @@ public class Inicio extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 60, Short.MAX_VALUE)
+            .addGap(0, 100, Short.MAX_VALUE)
         );
 
-        Pestañas.setTabPlacement(javax.swing.JTabbedPane.BOTTOM);
+        Pestañas.setBackground(new java.awt.Color(51, 51, 51));
 
         panelInicio.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -260,14 +266,14 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(panelInicioLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel5)
-                .addContainerGap(995, Short.MAX_VALUE))
+                .addContainerGap(1145, Short.MAX_VALUE))
         );
         panelInicioLayout.setVerticalGroup(
             panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelInicioLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel5)
-                .addContainerGap(627, Short.MAX_VALUE))
+                .addContainerGap(597, Short.MAX_VALUE))
         );
 
         Pestañas.addTab("Inicio", panelInicio);
@@ -283,19 +289,20 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(panelBuscarLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addContainerGap(989, Short.MAX_VALUE))
+                .addContainerGap(1139, Short.MAX_VALUE))
         );
         panelBuscarLayout.setVerticalGroup(
             panelBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBuscarLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addContainerGap(627, Short.MAX_VALUE))
+                .addContainerGap(597, Short.MAX_VALUE))
         );
 
         Pestañas.addTab("Buscar", panelBuscar);
 
         panelMov.setBackground(new java.awt.Color(255, 255, 255));
+        panelMov.setForeground(new java.awt.Color(51, 51, 51));
 
         jLabel2.setText("Movimientos");
 
@@ -306,14 +313,14 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(panelMovLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addContainerGap(954, Short.MAX_VALUE))
+                .addContainerGap(1104, Short.MAX_VALUE))
         );
         panelMovLayout.setVerticalGroup(
             panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelMovLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addContainerGap(627, Short.MAX_VALUE))
+                .addContainerGap(597, Short.MAX_VALUE))
         );
 
         Pestañas.addTab("Movimientos", panelMov);
@@ -329,14 +336,14 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(panelConsultaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3)
-                .addContainerGap(977, Short.MAX_VALUE))
+                .addContainerGap(1127, Short.MAX_VALUE))
         );
         panelConsultaLayout.setVerticalGroup(
             panelConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelConsultaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3)
-                .addContainerGap(627, Short.MAX_VALUE))
+                .addContainerGap(597, Short.MAX_VALUE))
         );
 
         Pestañas.addTab("Consulta", panelConsulta);
@@ -352,14 +359,14 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(panelCodesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel4)
-                .addContainerGap(980, Short.MAX_VALUE))
+                .addContainerGap(1130, Short.MAX_VALUE))
         );
         panelCodesLayout.setVerticalGroup(
             panelCodesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelCodesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel4)
-                .addContainerGap(627, Short.MAX_VALUE))
+                .addContainerGap(597, Short.MAX_VALUE))
         );
 
         Pestañas.addTab("Códigos almazen", panelCodes);
@@ -369,21 +376,28 @@ public class Inicio extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(190, 190, 190)
-                .addComponent(Pestañas))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(188, 188, 188)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(Pestañas)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(60, 60, 60)
-                .addComponent(Pestañas))
-            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(Pestañas))
         );
+
+        Pestañas.setTabPlacement(JTabbedPane.TOP);
+        Pestañas.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+        Pestañas.setUI(new javax.swing.plaf.metal.MetalTabbedPaneUI() {
+            @Override
+            protected int calculateTabAreaHeight(int tabPlacement, int horizRunCount, int maxTabHeight) {
+                return 0;
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -442,7 +456,7 @@ public class Inicio extends javax.swing.JFrame {
     public static void main(String args[]) {
         /* Look and Feel */
         FlatArcIJTheme.setup();
-        
+
         // create UI here...
 
         /* Create and display the form */
@@ -455,7 +469,7 @@ public class Inicio extends javax.swing.JFrame {
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTabbedPane Pestañas;
+    public javax.swing.JTabbedPane Pestañas;
     private javax.swing.JButton btnDisplayAdmin;
     private javax.swing.JButton btnDisplayBuscar;
     private javax.swing.JButton btnDisplayCodes;
