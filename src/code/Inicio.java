@@ -4,6 +4,7 @@ import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
+
 import javax.swing.JTabbedPane;
 
 
@@ -11,22 +12,26 @@ public class Inicio extends javax.swing.JFrame {
     
     //Modulos
     public boolean m1=false,m2=false,m3=false,m4=false,m5=false;
-    private final Color unused;
-    private final Color used;
+    private final Color unused,used,selected;
+    
+    //Bienvenida
+    public String welcomeUser="";
 
     public Inicio() {
         unused=new Color(255, 255, 255);
-        used=new Color(160,64,0);
+        used=new Color(234,237,237);
+        selected=new Color(234,237,237);
         initComponents();
         setIconImage(getIconImage());
-        iniciarInterfaz();
+        //iniciarInterfaz();
         this.setLocationRelativeTo(this);
         
     }
 
-    public void iniciarInterfaz(){
+    public void iniciarInterfaz(String user){
         Login l=new Login();
         l.setImageIn(logo, "src/sources/logo.png");
+        lblBienvenida.setText("Bienvenido a Almazen " + welcomeUser +".");
         //
         Pestañas.setEnabledAt(0, false);
         Pestañas.setEnabledAt(1, false);
@@ -93,7 +98,7 @@ public class Inicio extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         Pestañas = new javax.swing.JTabbedPane();
         panelInicio = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
+        lblBienvenida = new javax.swing.JLabel();
         panelBuscar = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         panelMov = new javax.swing.JPanel();
@@ -108,87 +113,157 @@ public class Inicio extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jPanel2.setBackground(new java.awt.Color(51, 51, 51));
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
         logo.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        logo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        logo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                logoMouseClicked(evt);
+            }
+        });
 
-        btnDisplayMov.setBackground(new java.awt.Color(160, 64, 0));
-        btnDisplayMov.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        btnDisplayMov.setBackground(new java.awt.Color(234, 237, 237));
+        btnDisplayMov.setFont(new java.awt.Font("Microsoft YaHei", 1, 13)); // NOI18N
         btnDisplayMov.setText("Realizar movimientos");
         btnDisplayMov.setBorder(null);
+        btnDisplayMov.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnDisplayMov.setRolloverEnabled(false);
+        btnDisplayMov.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                btnDisplayMovMouseDragged(evt);
+            }
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                btnDisplayMovMouseMoved(evt);
+            }
+        });
+        btnDisplayMov.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnDisplayMovMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnDisplayMovMouseExited(evt);
+            }
+        });
         btnDisplayMov.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDisplayMovActionPerformed(evt);
             }
         });
 
-        btnDisplayBuscar.setBackground(new java.awt.Color(160, 64, 0));
-        btnDisplayBuscar.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        btnDisplayBuscar.setBackground(new java.awt.Color(234, 237, 237));
+        btnDisplayBuscar.setFont(new java.awt.Font("Microsoft YaHei", 1, 13)); // NOI18N
         btnDisplayBuscar.setText("Buscar material");
         btnDisplayBuscar.setBorder(null);
+        btnDisplayBuscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnDisplayBuscar.setRolloverEnabled(false);
+        btnDisplayBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnDisplayBuscarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnDisplayBuscarMouseExited(evt);
+            }
+        });
         btnDisplayBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDisplayBuscarActionPerformed(evt);
             }
         });
 
-        btnDisplayConsulta.setBackground(new java.awt.Color(160, 64, 0));
-        btnDisplayConsulta.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        btnDisplayConsulta.setBackground(new java.awt.Color(234, 237, 237));
+        btnDisplayConsulta.setFont(new java.awt.Font("Microsoft YaHei", 1, 13)); // NOI18N
         btnDisplayConsulta.setText("Consultar movimientos");
         btnDisplayConsulta.setBorder(null);
+        btnDisplayConsulta.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnDisplayConsulta.setRolloverEnabled(false);
+        btnDisplayConsulta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnDisplayConsultaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnDisplayConsultaMouseExited(evt);
+            }
+        });
         btnDisplayConsulta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDisplayConsultaActionPerformed(evt);
             }
         });
 
-        btnDisplayCodes.setBackground(new java.awt.Color(160, 64, 0));
-        btnDisplayCodes.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        btnDisplayCodes.setBackground(new java.awt.Color(234, 237, 237));
+        btnDisplayCodes.setFont(new java.awt.Font("Microsoft YaHei", 1, 13)); // NOI18N
         btnDisplayCodes.setText("Códigos perzonalizados");
         btnDisplayCodes.setBorder(null);
+        btnDisplayCodes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnDisplayCodes.setRolloverEnabled(false);
+        btnDisplayCodes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnDisplayCodesMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnDisplayCodesMouseExited(evt);
+            }
+        });
         btnDisplayCodes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDisplayCodesActionPerformed(evt);
             }
         });
 
-        btnDisplayAdmin.setBackground(new java.awt.Color(255, 255, 255));
-        btnDisplayAdmin.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
-        btnDisplayAdmin.setForeground(new java.awt.Color(0, 0, 0));
+        btnDisplayAdmin.setBackground(new java.awt.Color(119, 156, 214));
+        btnDisplayAdmin.setFont(new java.awt.Font("Microsoft YaHei", 1, 13)); // NOI18N
+        btnDisplayAdmin.setForeground(new java.awt.Color(255, 255, 255));
         btnDisplayAdmin.setText("Ajustes del Administrador");
         btnDisplayAdmin.setBorder(null);
+        btnDisplayAdmin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnDisplayAdmin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDisplayAdminActionPerformed(evt);
             }
         });
 
-        btnDisplayInicio.setBackground(new java.awt.Color(160, 64, 0));
-        btnDisplayInicio.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        btnDisplayInicio.setBackground(new java.awt.Color(234, 237, 237));
+        btnDisplayInicio.setFont(new java.awt.Font("Microsoft YaHei", 1, 13)); // NOI18N
         btnDisplayInicio.setText("Inicio");
         btnDisplayInicio.setBorder(null);
+        btnDisplayInicio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnDisplayInicio.setRolloverEnabled(false);
+        btnDisplayInicio.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                btnDisplayInicioMouseMoved(evt);
+            }
+        });
+        btnDisplayInicio.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnDisplayInicioMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnDisplayInicioMouseExited(evt);
+            }
+        });
         btnDisplayInicio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDisplayInicioActionPerformed(evt);
             }
         });
 
-        btnDisplayRegNew.setBackground(new java.awt.Color(160, 64, 0));
-        btnDisplayRegNew.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
-        btnDisplayRegNew.setForeground(new java.awt.Color(255, 255, 255));
+        btnDisplayRegNew.setBackground(new java.awt.Color(255, 234, 200));
+        btnDisplayRegNew.setFont(new java.awt.Font("Microsoft YaHei", 1, 13)); // NOI18N
         btnDisplayRegNew.setText("Registrar nuevo material");
         btnDisplayRegNew.setBorder(null);
+        btnDisplayRegNew.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnDisplayRegNew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDisplayRegNewActionPerformed(evt);
             }
         });
 
-        btnDisplaySettings.setBackground(new java.awt.Color(255, 255, 255));
-        btnDisplaySettings.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
-        btnDisplaySettings.setForeground(new java.awt.Color(0, 0, 0));
+        btnDisplaySettings.setBackground(new java.awt.Color(255, 234, 200));
+        btnDisplaySettings.setFont(new java.awt.Font("Microsoft YaHei", 1, 13)); // NOI18N
         btnDisplaySettings.setText("Ajustes");
         btnDisplaySettings.setBorder(null);
+        btnDisplaySettings.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnDisplaySettings.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDisplaySettingsActionPerformed(evt);
@@ -199,25 +274,25 @@ public class Inicio extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
             .addComponent(btnDisplayInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnDisplayBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnDisplayMov, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnDisplayConsulta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnDisplayCodes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnDisplayRegNew, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnDisplayAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnDisplayAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
             .addComponent(btnDisplaySettings, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(11, 11, 11)
+                .addContainerGap()
+                .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
                 .addComponent(btnDisplayInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(3, 3, 3)
                 .addComponent(btnDisplayBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -235,7 +310,7 @@ public class Inicio extends javax.swing.JFrame {
                 .addComponent(btnDisplaySettings, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel3.setBackground(new java.awt.Color(51, 51, 51));
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -252,7 +327,8 @@ public class Inicio extends javax.swing.JFrame {
 
         panelInicio.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel5.setText("Inicio");
+        lblBienvenida.setFont(new java.awt.Font("Microsoft YaHei", 0, 36)); // NOI18N
+        lblBienvenida.setText("Bienvenido a Almazen");
 
         javax.swing.GroupLayout panelInicioLayout = new javax.swing.GroupLayout(panelInicio);
         panelInicio.setLayout(panelInicioLayout);
@@ -260,15 +336,15 @@ public class Inicio extends javax.swing.JFrame {
             panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelInicioLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel5)
-                .addContainerGap(1135, Short.MAX_VALUE))
+                .addComponent(lblBienvenida)
+                .addContainerGap(778, Short.MAX_VALUE))
         );
         panelInicioLayout.setVerticalGroup(
             panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelInicioLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel5)
-                .addContainerGap(657, Short.MAX_VALUE))
+                .addComponent(lblBienvenida)
+                .addContainerGap(622, Short.MAX_VALUE))
         );
 
         Pestañas.addTab("Inicio", panelInicio);
@@ -449,6 +525,67 @@ public class Inicio extends javax.swing.JFrame {
         Pestañas.setSelectedIndex(4);
         changeButtonColor();
     }//GEN-LAST:event_btnDisplayCodesActionPerformed
+
+    private void btnDisplayInicioMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDisplayInicioMouseMoved
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDisplayInicioMouseMoved
+
+    private void btnDisplayMovMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDisplayMovMouseDragged
+        
+    }//GEN-LAST:event_btnDisplayMovMouseDragged
+
+    private void btnDisplayMovMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDisplayMovMouseMoved
+        
+        
+        
+        
+        
+    }//GEN-LAST:event_btnDisplayMovMouseMoved
+
+    private void btnDisplayMovMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDisplayMovMouseEntered
+        btnDisplayMov.setBackground(selected);
+    }//GEN-LAST:event_btnDisplayMovMouseEntered
+
+    private void btnDisplayMovMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDisplayMovMouseExited
+        changeButtonColor();
+    }//GEN-LAST:event_btnDisplayMovMouseExited
+
+    private void btnDisplayInicioMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDisplayInicioMouseEntered
+        btnDisplayInicio.setBackground(selected);
+    }//GEN-LAST:event_btnDisplayInicioMouseEntered
+
+    private void btnDisplayBuscarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDisplayBuscarMouseEntered
+        btnDisplayBuscar.setBackground(selected);
+    }//GEN-LAST:event_btnDisplayBuscarMouseEntered
+
+    private void btnDisplayConsultaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDisplayConsultaMouseEntered
+        btnDisplayConsulta.setBackground(selected);
+    }//GEN-LAST:event_btnDisplayConsultaMouseEntered
+
+    private void btnDisplayCodesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDisplayCodesMouseEntered
+        btnDisplayCodes.setBackground(selected);
+    }//GEN-LAST:event_btnDisplayCodesMouseEntered
+
+    private void btnDisplayInicioMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDisplayInicioMouseExited
+        changeButtonColor();
+    }//GEN-LAST:event_btnDisplayInicioMouseExited
+
+    private void btnDisplayBuscarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDisplayBuscarMouseExited
+        changeButtonColor();
+    }//GEN-LAST:event_btnDisplayBuscarMouseExited
+
+    private void btnDisplayConsultaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDisplayConsultaMouseExited
+        changeButtonColor();
+    }//GEN-LAST:event_btnDisplayConsultaMouseExited
+
+    private void btnDisplayCodesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDisplayCodesMouseExited
+        changeButtonColor();
+    }//GEN-LAST:event_btnDisplayCodesMouseExited
+
+    private void logoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoMouseClicked
+        Pestañas.setSelectedIndex(0);
+        changeButtonColor();
+    }//GEN-LAST:event_logoMouseClicked
     
     
     
@@ -481,10 +618,10 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel lblBienvenida;
     private javax.swing.JLabel logo;
     private javax.swing.JPanel panelBuscar;
     private javax.swing.JPanel panelCodes;

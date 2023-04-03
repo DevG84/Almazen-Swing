@@ -37,6 +37,8 @@ public class Login extends javax.swing.JFrame {
     //Acciones necesarias
     
     
+    
+    
     public Login() {
         initComponents();
         txtNick.setText(""); txtNick.setForeground(black);
@@ -396,13 +398,13 @@ public class Login extends javax.swing.JFrame {
             
         }else{
             try{
-                String consulta="SELECT password,status,modBuscar,modInOut,modConsulta,modPerCod,modAlterUsuarios FROM usuarios NATURAL JOIN privilegios WHERE nickname LIKE ? ";
+                String consulta="SELECT password,nombre,status,modBuscar,modInOut,modConsulta,modPerCod,modAlterUsuarios FROM usuarios NATURAL JOIN privilegios WHERE nickname LIKE ? ";
                 cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
                 cmd.setString(1, txtNick.getText());
                 result=cmd.executeQuery();
 
                 if(result.next()){
-                    if(result.getString(2).equals("S")){
+                    if(result.getString(3).equals("S")){
                         //Crifrado
                         Key k=new Key();
                         //Comparación con la base de datos
@@ -411,23 +413,25 @@ public class Login extends javax.swing.JFrame {
                             Inicio i=new Inicio();
                             this.dispose();
                             
-                            if(result.getString(3).matches("S"))
-                            i.m1=true;
                             if(result.getString(4).matches("S"))
-                            i.m2=true;
+                            i.m1=true;
                             if(result.getString(5).matches("S"))
-                            i.m3=true;
+                            i.m2=true;
                             if(result.getString(6).matches("S"))
-                            i.m4=true;
+                            i.m3=true;
                             if(result.getString(7).matches("S"))
+                            i.m4=true;
+                            if(result.getString(8).matches("S"))
                             i.m5=true;
                             i.habilitarModulos();
                             
+                            
+                            
+                            i.welcomeUser=result.getString(2);
+                            System.out.println(i.welcomeUser);
+                            
                             i.setVisible(true);
-                            
-                            
-                            
-                            
+                            i.iniciarInterfaz(result.getString(2));
                         }else{
                             JOptionPane.showMessageDialog(rootPane, "El usuario o la contraseña son incorrectos.");
                             txtNick.setText("");
