@@ -4,11 +4,23 @@ import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
-
-import javax.swing.JTabbedPane;
-
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import settings.conexionBD;
 
 public class Inicio extends javax.swing.JFrame {
+    
+    //Para acciones en la base de datos
+    conexionBD conexion=null;
+    PreparedStatement cmd;
+    ResultSet result, resultData;
     
     //Modulos
     public boolean m1=false,m2=false,m3=false,m4=false,m5=false;
@@ -16,22 +28,33 @@ public class Inicio extends javax.swing.JFrame {
     
     //Bienvenida
     public String welcomeUser="";
+    
+    //Datos del usuario
+    private String user;
+    private String id="",nickname="",nombre="",paterno="",materno="",cargo="",boleta="";
 
-    public Inicio() {
+    public Inicio(){
         unused=new Color(255, 255, 255);
         used=new Color(234,237,237);
         selected=new Color(234,237,237);
+        conexion=new conexionBD();
         initComponents();
+        iniciarInterfaz();
         setIconImage(getIconImage());
         //iniciarInterfaz();
-        this.setLocationRelativeTo(this);
+        this.setLocationRelativeTo(null);
         
+        //
+        
+        /*
+        
+        */
+        System.out.println(id + " " + nickname + " " + nombre + " " + paterno + " " + materno + " " + cargo + " " + boleta);
+        //
     }
 
-    public void iniciarInterfaz(String user){
-        Login l=new Login();
-        l.setImageIn(logo, "src/sources/logo.png");
-        lblBienvenida.setText("Bienvenido a Almazen " + welcomeUser +".");
+    public void iniciarInterfaz(){
+        setImageIn(logo, "src/sources/logo.png");
         //
         Pestañas.setEnabledAt(0, false);
         Pestañas.setEnabledAt(1, false);
@@ -39,9 +62,32 @@ public class Inicio extends javax.swing.JFrame {
         Pestañas.setEnabledAt(3, false);
         Pestañas.setEnabledAt(4, false);
         Pestañas.setSelectedIndex(0);
-        //
         changeButtonColor();
-        
+        //
+
+    }
+    
+    public void setUsuario(String usuario) {
+        this.user = usuario;
+        try{
+            String obtener="SELECT IDusuario,nickname,nombre,paterno,materno,cargo,boleta FROM usuarios WHERE nickname LIKE ? ";
+            cmd=(PreparedStatement)conexion.conectar.prepareStatement(obtener);
+            cmd.setString(1, user);
+            resultData=cmd.executeQuery();
+            while (resultData.next()) {
+                //Procesa los datos de la consulta
+                id=resultData.getString(1);
+                nickname=resultData.getString(2);
+                nombre=resultData.getString(3);
+                paterno=resultData.getString(4);
+                materno=resultData.getString(5);
+                cargo=resultData.getString(6);
+                boleta=resultData.getString(7);
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(rootPane, "Error: 002");
+        }
+        lblBienvenida.setText("Hola " + nombre + ", bienvenido.");
     }
     
     private void resetButtonColor(){
@@ -95,6 +141,7 @@ public class Inicio extends javax.swing.JFrame {
         btnDisplayInicio = new javax.swing.JButton();
         btnDisplayRegNew = new javax.swing.JButton();
         btnDisplaySettings = new javax.swing.JButton();
+        btnLogout = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         Pestañas = new javax.swing.JTabbedPane();
         panelInicio = new javax.swing.JPanel();
@@ -270,10 +317,25 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
 
+        btnLogout.setBackground(new java.awt.Color(255, 90, 78));
+        btnLogout.setFont(new java.awt.Font("Microsoft YaHei", 1, 13)); // NOI18N
+        btnLogout.setForeground(new java.awt.Color(255, 255, 255));
+        btnLogout.setText("Cerrar sesión");
+        btnLogout.setBorder(null);
+        btnLogout.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogoutActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(btnDisplayInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnDisplayBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnDisplayMov, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -282,15 +344,12 @@ public class Inicio extends javax.swing.JFrame {
             .addComponent(btnDisplayRegNew, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnDisplayAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
             .addComponent(btnDisplaySettings, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(btnLogout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(6, 6, 6)
                 .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addComponent(btnDisplayInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -306,8 +365,10 @@ public class Inicio extends javax.swing.JFrame {
                 .addComponent(btnDisplayRegNew, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnDisplayAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
+                .addComponent(btnDisplaySettings, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnDisplaySettings, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -344,7 +405,7 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(panelInicioLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblBienvenida)
-                .addContainerGap(622, Short.MAX_VALUE))
+                .addContainerGap(626, Short.MAX_VALUE))
         );
 
         Pestañas.addTab("Inicio", panelInicio);
@@ -367,7 +428,7 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(panelBuscarLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addContainerGap(657, Short.MAX_VALUE))
+                .addContainerGap(659, Short.MAX_VALUE))
         );
 
         Pestañas.addTab("Buscar", panelBuscar);
@@ -391,7 +452,7 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(panelMovLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addContainerGap(657, Short.MAX_VALUE))
+                .addContainerGap(659, Short.MAX_VALUE))
         );
 
         Pestañas.addTab("Movimientos", panelMov);
@@ -414,7 +475,7 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(panelConsultaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3)
-                .addContainerGap(657, Short.MAX_VALUE))
+                .addContainerGap(659, Short.MAX_VALUE))
         );
 
         Pestañas.addTab("Consulta", panelConsulta);
@@ -437,7 +498,7 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(panelCodesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel4)
-                .addContainerGap(657, Short.MAX_VALUE))
+                .addContainerGap(659, Short.MAX_VALUE))
         );
 
         Pestañas.addTab("Códigos almazen", panelCodes);
@@ -586,8 +647,18 @@ public class Inicio extends javax.swing.JFrame {
         Pestañas.setSelectedIndex(0);
         changeButtonColor();
     }//GEN-LAST:event_logoMouseClicked
+
+    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
+        
+    }//GEN-LAST:event_btnLogoutActionPerformed
     
-    
+    public void setImageIn(JLabel a,String route){
+        ImageIcon img; Icon icono;
+        img=new ImageIcon(route);
+        icono=new ImageIcon(img.getImage().getScaledInstance(a.getWidth(), a.getHeight(), Image.SCALE_DEFAULT));
+        a.setIcon(icono);
+        this.repaint();
+    }
     
     public static void main(String args[]) {
         /* Look and Feel */
@@ -614,6 +685,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JButton btnDisplayMov;
     private javax.swing.JButton btnDisplayRegNew;
     private javax.swing.JButton btnDisplaySettings;
+    private javax.swing.JButton btnLogout;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -621,7 +693,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JLabel lblBienvenida;
+    public javax.swing.JLabel lblBienvenida;
     private javax.swing.JLabel logo;
     private javax.swing.JPanel panelBuscar;
     private javax.swing.JPanel panelCodes;

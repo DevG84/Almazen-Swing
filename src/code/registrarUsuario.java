@@ -5,12 +5,16 @@ import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatDarkPurpleIJTheme;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
 import settings.Key;
 import settings.conexionBD;
 import java.sql.SQLException;
 import java.sql.ResultSet;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 
 public class registrarUsuario extends javax.swing.JFrame {
@@ -21,11 +25,12 @@ public class registrarUsuario extends javax.swing.JFrame {
     //Incersiones
     conexionBD conexion=null;
     PreparedStatement cmd;
-    ResultSet result;
+    ResultSet result,confirma;
     String idUsuario = "";
     
     //Validar caracteres
     boolean validarCaracter=false;
+    boolean autorizar=false;
 
     public registrarUsuario() {
         initComponents();
@@ -33,7 +38,7 @@ public class registrarUsuario extends javax.swing.JFrame {
         setIconImage(getIconImage());
         this.setLocationRelativeTo(null);
         Login i=new Login(); i.setImageIn(lblLogo, "src/sources/logo.png");
-        desactivarComponentes();
+        btnNuevo.setEnabled(false);
     }
     
         //Logo del JFrame
@@ -180,6 +185,11 @@ public class registrarUsuario extends javax.swing.JFrame {
         jLabel1.setText("Confirmar contraseña");
 
         txtConfirmar.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        txtConfirmar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtConfirmarActionPerformed(evt);
+            }
+        });
         txtConfirmar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtConfirmarKeyPressed(evt);
@@ -194,6 +204,11 @@ public class registrarUsuario extends javax.swing.JFrame {
 
         cmbCargo.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         cmbCargo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Invitado", "Servicio Social", "Encargado de almacén" }));
+        cmbCargo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cmbCargoKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -238,7 +253,7 @@ public class registrarUsuario extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(94, Short.MAX_VALUE))
         );
 
@@ -441,7 +456,7 @@ public class registrarUsuario extends javax.swing.JFrame {
         }else{
             if(!"Escriba su nickname.".equalsIgnoreCase(txtNick.getText())){
             if(!"••••••••••".equals(txtPass.getText())){
-                if(txtPass.getPassword().length>3){
+                if(txtPass.getPassword().length>3 && txtPass.getPassword().length<26){
                     if(!(txtPass.getText().matches(txtConfirmar.getText()))){
                         JOptionPane.showMessageDialog(rootPane, "La contraseña no coincide.");
                     }else{
@@ -470,62 +485,66 @@ public class registrarUsuario extends javax.swing.JFrame {
                                         txtBoleta.setText("");
                                         txtNombre.grabFocus();
                                     }else{
-                                        //Proceso de registro de usuarios
-                                        try{
-                                            //Asignar privilegios según el tipo de usuario
-                                            String insertarUsuario=("INSERT INTO usuarios(nickname,nombre,paterno,materno,cargo,boleta,password) VALUES(?,?,?,?,?,?,?)");
-                                            cmd=(PreparedStatement)conexion.conectar.prepareStatement(insertarUsuario);
-                                            cmd.setString(1, txtNick.getText());
-                                            cmd.setString(2, txtNombre.getText());
-                                            cmd.setString(3, txtPaterno.getText());
-                                            cmd.setString(4, txtMaterno.getText());
-                                            String combo=cmbCargo.getSelectedItem().toString();
-                                            cmd.setString(5, combo);
-                                            cmd.setString(6, txtBoleta.getText());
-                                            Key k=new Key();
-                                            cmd.setString(7, k.getPassword(txtPass.getText()));
-                                            cmd.executeUpdate();
-                                            //Consultar id de usuarios
+                                        autorizar();
+                                        if(autorizar==true){
+                                            //Proceso de registro de usuarios
                                             try{
-                                                String IDconsulta="SELECT IDusuario FROM usuarios WHERE nickname = ? ";
-                                                cmd=(PreparedStatement)conexion.conectar.prepareStatement(IDconsulta);
+                                                //Asignar privilegios según el tipo de usuario
+                                                String insertarUsuario=("INSERT INTO usuarios(nickname,nombre,paterno,materno,cargo,boleta,password) VALUES(?,?,?,?,?,?,?)");
+                                                cmd=(PreparedStatement)conexion.conectar.prepareStatement(insertarUsuario);
                                                 cmd.setString(1, txtNick.getText());
-                                                ResultSet idresult=cmd.executeQuery();
-                                                if (idresult.next()) {
-                                                    idUsuario = idresult.getString(1);
-                                                }else{
-                                                    JOptionPane.showMessageDialog(rootPane, "Falló la consulta.");
-                                                }
-                                                //Insertar privilegios al id recien generado // Según el tipo de usuario
-                                                String insertarPrivilegios=("INSERT INTO privilegios (IDusuario,status,modBuscar,modInOut,modConsulta,modPerCod,modAlterUsuarios) VALUES (?,?,?,?,?,?,?)");
-                                                cmd=(PreparedStatement)conexion.conectar.prepareStatement(insertarPrivilegios);
-                                                cmd.setString(1, idUsuario);
-                                                if("Invitado".matches(cmbCargo.getSelectedItem().toString())){
-                                                    cmd.setString(2, "S"); cmd.setString(3, "S"); cmd.setString(4, "N");
-                                                    cmd.setString(5, "N"); cmd.setString(6, "N"); cmd.setString(7, "N");
-                                                }else{
-                                                    if("Servicio Social".matches(cmbCargo.getSelectedItem().toString())){
-                                                        cmd.setString(2, "S"); cmd.setString(3, "S"); cmd.setString(4, "S");
-                                                        cmd.setString(5, "S"); cmd.setString(6, "N"); cmd.setString(7, "N");
+                                                cmd.setString(2, txtNombre.getText());
+                                                cmd.setString(3, txtPaterno.getText());
+                                                cmd.setString(4, txtMaterno.getText());
+                                                String combo=cmbCargo.getSelectedItem().toString();
+                                                cmd.setString(5, combo);
+                                                cmd.setString(6, txtBoleta.getText());
+                                                Key k=new Key();
+                                                cmd.setString(7, k.getPassword(txtPass.getText()));
+                                                cmd.executeUpdate();
+                                                //Consultar id de usuarios
+                                                try{
+                                                    String IDconsulta="SELECT IDusuario FROM usuarios WHERE nickname = ? ";
+                                                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(IDconsulta);
+                                                    cmd.setString(1, txtNick.getText());
+                                                    ResultSet idresult=cmd.executeQuery();
+                                                    if (idresult.next()) {
+                                                        idUsuario = idresult.getString(1);
                                                     }else{
-                                                        if("Encargado de almacén".matches(cmbCargo.getSelectedItem().toString())){
+                                                        JOptionPane.showMessageDialog(rootPane, "Falló la consulta.");
+                                                    }
+                                                    //Insertar privilegios al id recien generado // Según el tipo de usuario
+                                                    String insertarPrivilegios=("INSERT INTO privilegios (IDusuario,status,modBuscar,modInOut,modConsulta,modPerCod,modAlterUsuarios) VALUES (?,?,?,?,?,?,?)");
+                                                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(insertarPrivilegios);
+                                                    cmd.setString(1, idUsuario);
+                                                    if("Invitado".matches(cmbCargo.getSelectedItem().toString())){
+                                                        cmd.setString(2, "S"); cmd.setString(3, "S"); cmd.setString(4, "N");
+                                                        cmd.setString(5, "N"); cmd.setString(6, "N"); cmd.setString(7, "N");
+                                                    }else{
+                                                        if("Servicio Social".matches(cmbCargo.getSelectedItem().toString())){
                                                             cmd.setString(2, "S"); cmd.setString(3, "S"); cmd.setString(4, "S");
-                                                            cmd.setString(5, "S"); cmd.setString(6, "S"); cmd.setString(7, "N");
+                                                            cmd.setString(5, "S"); cmd.setString(6, "N"); cmd.setString(7, "N");
+                                                        }else{
+                                                            if("Encargado de almacén".matches(cmbCargo.getSelectedItem().toString())){
+                                                                cmd.setString(2, "S"); cmd.setString(3, "S"); cmd.setString(4, "S");
+                                                                cmd.setString(5, "S"); cmd.setString(6, "S"); cmd.setString(7, "N");
+                                                            }
                                                         }
                                                     }
+                                                    cmd.executeUpdate();
+                                                    JOptionPane.showMessageDialog(rootPane, "Usuario registrado.");
+                                                    limpiarComponentes();
+                                                    desactivarComponentes();
+                                                    btnNuevo.setEnabled(true);
+                                                }catch(SQLException e){
+                                                    JOptionPane.showMessageDialog(rootPane, "Usuario generado con éxito.\nError: No se pudieron asignar privilegios.");
                                                 }
-                                                cmd.executeUpdate();
-                                                JOptionPane.showMessageDialog(rootPane, "Usuario registrado.");
-                                                limpiarComponentes();
-                                                desactivarComponentes();
-                                                btnNuevo.setEnabled(true);
                                             }catch(SQLException e){
-                                                JOptionPane.showMessageDialog(rootPane, "Usuario generado con éxito.\nError: No se pudieron asignar privilegios.");
+                                                JOptionPane.showMessageDialog(rootPane, "Error al guardar.");
                                             }
-                                        }catch(SQLException e){
-                                            JOptionPane.showMessageDialog(rootPane, "Error al guardar.");
+                                        }else{
+                                            JOptionPane.showMessageDialog(rootPane, "No se autorizó tu registro, ponte en contacto con el Administrador.");
                                         }
-
                                     }
                                 }catch(SQLException e){
                                     JOptionPane.showMessageDialog(rootPane, "Error al consultar.");
@@ -536,7 +555,7 @@ public class registrarUsuario extends javax.swing.JFrame {
                         }
                     }
                 }else{
-                    JOptionPane.showMessageDialog(rootPane, "La contraseña debe tener al menos 4 caracteres.");
+                    JOptionPane.showMessageDialog(rootPane, "La contraseña debe tener 4 a 25 caracteres.");
                 }
             }else{
                 JOptionPane.showMessageDialog(rootPane, "No puedes usar esta contraseña.");
@@ -552,6 +571,55 @@ public class registrarUsuario extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
+    private void autorizar(){
+        //El administrador debe identificarse para autorizar un nuevo registro
+        JTextField usernameField = new JTextField(20);
+        JTextField passwordField = new JPasswordField(20);
+        Object[] message = {"Nickname:", usernameField, "Password:", passwordField};
+        int option = JOptionPane.showConfirmDialog(null, message, "Autorizar", JOptionPane.OK_CANCEL_OPTION);
+
+        if (option == JOptionPane.OK_OPTION) {
+            String user = usernameField.getText();
+            String pass = passwordField.getText();
+            // Aquí puedes hacer lo que necesites con los datos ingresados
+            if(!usernameField.getText().isEmpty() || !passwordField.getText().isEmpty()){
+                try{
+                    String consulta="SELECT cargo,password,status FROM usuarios NATURAL JOIN privilegios WHERE nickname LIKE ? ";
+                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                    cmd.setString(1, user);
+                    confirma=cmd.executeQuery();
+                    if(confirma.next()){
+                        if(confirma.getString(1).equals("Administrador")){
+                            if(confirma.getString(3).equals("S")){
+                                Key k=new Key();
+                                if(confirma.getString(2).matches(k.getPassword(pass))){
+                                    registrarUsuario r=new registrarUsuario();
+                                    autorizar=true;
+                                    this.dispose();
+                                }else{
+                                    JOptionPane.showMessageDialog(rootPane, "El usuario o la contraseña son incorrectos.");
+                                    autorizar=false;
+                                }
+                            }else{
+                                JOptionPane.showMessageDialog(rootPane, "El usuario no está activo en el sistema.");
+                                autorizar=false;
+                            }
+                        }else{
+                            JOptionPane.showMessageDialog(rootPane, "El usuario ingresado no es un administrador.");
+                            autorizar=false;
+                        }
+                    }else{
+                        JOptionPane.showMessageDialog(rootPane, "El usuario o la contraseña son incorrectos.");
+                        autorizar=false;
+                    }
+                }catch(SQLException e){
+                    JOptionPane.showMessageDialog(rootPane, "Error: 001.");
+                    autorizar=false;
+                }
+            }
+        }
+    }
+    
     private void txtPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPassActionPerformed
         
     }//GEN-LAST:event_txtPassActionPerformed
@@ -587,7 +655,7 @@ public class registrarUsuario extends javax.swing.JFrame {
     private void txtNickKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNickKeyPressed
         // TODO add your handling code here:
         if(evt.getKeyCode() == 10){
-            txtPass.grabFocus();
+            cmbCargo.grabFocus();
         }
     }//GEN-LAST:event_txtNickKeyPressed
 
@@ -604,6 +672,8 @@ public class registrarUsuario extends javax.swing.JFrame {
     private void txtConfirmarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtConfirmarKeyPressed
         if(evt.getKeyCode()==10){
             validarCaracter=true;
+            btnGuardar.grabFocus();
+            btnGuardar.doClick();
         }
         if(evt.getKeyCode()==8 || evt.getKeyCode()==127){
             validarCaracter=true;
@@ -643,6 +713,16 @@ public class registrarUsuario extends javax.swing.JFrame {
             }
         validarCaracter=false;
     }//GEN-LAST:event_txtConfirmarKeyTyped
+
+    private void txtConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtConfirmarActionPerformed
+        
+    }//GEN-LAST:event_txtConfirmarActionPerformed
+
+    private void cmbCargoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmbCargoKeyPressed
+        if(evt.getKeyCode() == 10){
+            txtPass.grabFocus();
+        }
+    }//GEN-LAST:event_cmbCargoKeyPressed
 
     public static void main(String args[]) {
         /* Look and Feel */

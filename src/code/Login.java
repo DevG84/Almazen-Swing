@@ -19,7 +19,6 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
 import settings.Key;
 import settings.conexionBD;
 import java.sql.SQLException;
@@ -35,9 +34,8 @@ public class Login extends javax.swing.JFrame {
     int xMouse,yMouse;
     
     //Acciones necesarias
-    
-    
-    
+    public String unuser="";
+    private Inicio i;
     
     public Login() {
         initComponents();
@@ -53,7 +51,8 @@ public class Login extends javax.swing.JFrame {
         Map attributes = font.getAttributes();
         attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
         lblRegistro.setFont(font.deriveFont(attributes));
-
+        i=new Inicio();
+        
     }
 
     //Logo del JFrame
@@ -393,6 +392,9 @@ public class Login extends javax.swing.JFrame {
 
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
         //Ingresar al sistema
+        unuser=(txtNick.getText());
+        i.setUsuario(unuser);
+        System.out.println(unuser + " Login");
         if("Escriba su nickname.".equals(txtNick.getText()) | "••••••••••".equals(txtPassword.getText())){
             JOptionPane.showMessageDialog(rootPane, "Llene todos lo campos para continuar.");
             
@@ -402,16 +404,13 @@ public class Login extends javax.swing.JFrame {
                 cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
                 cmd.setString(1, txtNick.getText());
                 result=cmd.executeQuery();
-
+                //Comparación con la base de datos
                 if(result.next()){
                     if(result.getString(3).equals("S")){
                         //Crifrado
                         Key k=new Key();
-                        //Comparación con la base de datos
+                        //Si la contraseña coincide
                         if(result.getString(1).matches(k.getPassword(txtPassword.getText()))){
-                            //Si la contraseña coincide
-                            Inicio i=new Inicio();
-                            this.dispose();
                             
                             if(result.getString(4).matches("S"))
                             i.m1=true;
@@ -425,13 +424,9 @@ public class Login extends javax.swing.JFrame {
                             i.m5=true;
                             i.habilitarModulos();
                             
-                            
-                            
-                            i.welcomeUser=result.getString(2);
-                            System.out.println(i.welcomeUser);
-                            
+                            this.dispose();
                             i.setVisible(true);
-                            i.iniciarInterfaz(result.getString(2));
+                            cmd.close();
                         }else{
                             JOptionPane.showMessageDialog(rootPane, "El usuario o la contraseña son incorrectos.");
                             txtNick.setText("");
@@ -469,11 +464,12 @@ public class Login extends javax.swing.JFrame {
                     txtNick.grabFocus();
                 }
             }catch(SQLException e){
-                JOptionPane.showMessageDialog(rootPane, "Error en consulta.");
+                JOptionPane.showMessageDialog(rootPane, "Error: 001");
             }
         }
+        
     }//GEN-LAST:event_btnIniciarActionPerformed
-
+        
     private void btnIniciarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnIniciarKeyPressed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnIniciarKeyPressed
@@ -504,6 +500,7 @@ public class Login extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnOcultarActionPerformed
 
+    
     /**
      * @param args the command line arguments
      */
