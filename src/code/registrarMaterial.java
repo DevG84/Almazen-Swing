@@ -2,24 +2,21 @@ package code;
 
 import java.awt.Image;
 import java.awt.Toolkit;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 
-public class About extends javax.swing.JFrame {
+public class registrarMaterial extends javax.swing.JFrame {
 
     //Para mover la ventana
     int xMouse,yMouse;
     
     
     
-    public About() {
+    public registrarMaterial() {
         initComponents();
-        setImageIn(lblgato, "src/sources/gato.jfif");
         setIconImage(getIconImage());
         this.setLocationRelativeTo(null);
         
         setAlwaysOnTop(true);
+        
         
     }
 
@@ -35,11 +32,10 @@ public class About extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        lblgato = new javax.swing.JLabel();
         lblBarraMov = new javax.swing.JLabel();
         btnAboutUs = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -47,7 +43,7 @@ public class About extends javax.swing.JFrame {
 
         lblBarraMov.setFont(new java.awt.Font("Microsoft YaHei", 0, 14)); // NOI18N
         lblBarraMov.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblBarraMov.setText("Acerca de");
+        lblBarraMov.setText("Registrar Material");
         lblBarraMov.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
                 lblBarraMovMouseDragged(evt);
@@ -73,21 +69,15 @@ public class About extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(lblBarraMov, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(781, Short.MAX_VALUE)
                 .addComponent(btnAboutUs)
                 .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblgato, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(lblBarraMov)
-                .addGap(18, 18, 18)
-                .addComponent(lblgato, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 524, Short.MAX_VALUE)
                 .addComponent(btnAboutUs)
                 .addContainerGap())
         );
@@ -121,7 +111,11 @@ public class About extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnAboutUsActionPerformed
 
+
     
+    /**
+     * @param args the command line arguments
+     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -136,35 +130,27 @@ public class About extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(About.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(registrarMaterial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(About.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(registrarMaterial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(About.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(registrarMaterial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(About.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(registrarMaterial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new About().setVisible(true);
+                new registrarMaterial().setVisible(true);
             }
         });
-    }
-     public void setImageIn(JLabel a,String route){
-        ImageIcon img; Icon icono;
-        img=new ImageIcon(route);
-        icono=new ImageIcon(img.getImage().getScaledInstance(a.getWidth(), a.getHeight(), Image.SCALE_DEFAULT));
-        a.setIcon(icono);
-        this.repaint();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAboutUs;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblBarraMov;
-    private javax.swing.JLabel lblgato;
     // End of variables declaration//GEN-END:variables
 }

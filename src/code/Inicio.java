@@ -7,8 +7,6 @@ import java.awt.Toolkit;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -41,16 +39,10 @@ public class Inicio extends javax.swing.JFrame {
         initComponents();
         iniciarInterfaz();
         setIconImage(getIconImage());
-        //iniciarInterfaz();
         this.setLocationRelativeTo(null);
         
-        //
         
-        /*
         
-        */
-        System.out.println(id + " " + nickname + " " + nombre + " " + paterno + " " + materno + " " + cargo + " " + boleta);
-        //
     }
 
     public void iniciarInterfaz(){
@@ -146,6 +138,7 @@ public class Inicio extends javax.swing.JFrame {
         Pestañas = new javax.swing.JTabbedPane();
         panelInicio = new javax.swing.JPanel();
         lblBienvenida = new javax.swing.JLabel();
+        btnAboutUs = new javax.swing.JButton();
         panelBuscar = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         panelMov = new javax.swing.JPanel();
@@ -388,8 +381,16 @@ public class Inicio extends javax.swing.JFrame {
 
         panelInicio.setBackground(new java.awt.Color(255, 255, 255));
 
-        lblBienvenida.setFont(new java.awt.Font("Microsoft YaHei", 0, 36)); // NOI18N
+        lblBienvenida.setFont(new java.awt.Font("Microsoft YaHei", 0, 24)); // NOI18N
         lblBienvenida.setText("Bienvenido a Almazen");
+
+        btnAboutUs.setFont(new java.awt.Font("Microsoft YaHei", 0, 14)); // NOI18N
+        btnAboutUs.setText("Acerca de Almazen");
+        btnAboutUs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAboutUsActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelInicioLayout = new javax.swing.GroupLayout(panelInicio);
         panelInicio.setLayout(panelInicioLayout);
@@ -398,14 +399,20 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(panelInicioLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblBienvenida)
-                .addContainerGap(778, Short.MAX_VALUE))
+                .addContainerGap(910, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelInicioLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAboutUs)
+                .addContainerGap())
         );
         panelInicioLayout.setVerticalGroup(
             panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelInicioLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblBienvenida)
-                .addContainerGap(626, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 610, Short.MAX_VALUE)
+                .addComponent(btnAboutUs)
+                .addContainerGap())
         );
 
         Pestañas.addTab("Inicio", panelInicio);
@@ -578,8 +585,8 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDisplaySettingsActionPerformed
 
     private void btnDisplayRegNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisplayRegNewActionPerformed
-        
-        
+        registrarMaterial m=new registrarMaterial();
+        m.setVisible(true);
     }//GEN-LAST:event_btnDisplayRegNewActionPerformed
 
     private void btnDisplayCodesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisplayCodesActionPerformed
@@ -596,10 +603,6 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDisplayMovMouseDragged
 
     private void btnDisplayMovMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDisplayMovMouseMoved
-        
-        
-        
-        
         
     }//GEN-LAST:event_btnDisplayMovMouseMoved
 
@@ -651,6 +654,11 @@ public class Inicio extends javax.swing.JFrame {
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         
     }//GEN-LAST:event_btnLogoutActionPerformed
+
+    private void btnAboutUsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAboutUsActionPerformed
+        About a=new About();
+        a.setVisible(true);
+    }//GEN-LAST:event_btnAboutUsActionPerformed
     
     public void setImageIn(JLabel a,String route){
         ImageIcon img; Icon icono;
@@ -677,6 +685,7 @@ public class Inicio extends javax.swing.JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JTabbedPane Pestañas;
+    private javax.swing.JButton btnAboutUs;
     private javax.swing.JButton btnDisplayAdmin;
     private javax.swing.JButton btnDisplayBuscar;
     private javax.swing.JButton btnDisplayCodes;

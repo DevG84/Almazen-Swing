@@ -5,8 +5,6 @@ import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatDarkPurpleIJTheme;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
 import settings.Key;
@@ -15,7 +13,6 @@ import java.sql.SQLException;
 import java.sql.ResultSet;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
 
 public class registrarUsuario extends javax.swing.JFrame {
         
@@ -543,7 +540,7 @@ public class registrarUsuario extends javax.swing.JFrame {
                                                 JOptionPane.showMessageDialog(rootPane, "Error al guardar.");
                                             }
                                         }else{
-                                            JOptionPane.showMessageDialog(rootPane, "No se autorizó tu registro, ponte en contacto con el Administrador.");
+                                            JOptionPane.showMessageDialog(rootPane, "No se autorizó tu registro, ponte en contacto con un administrador.");
                                         }
                                     }
                                 }catch(SQLException e){
