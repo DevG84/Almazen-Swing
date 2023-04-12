@@ -573,10 +573,10 @@ public class registrarUsuario extends javax.swing.JFrame {
 
     private void autorizar(){
         //El administrador debe identificarse para autorizar un nuevo registro
-        JTextField usernameField = new JTextField(20);
-        JTextField passwordField = new JPasswordField(20);
-        Object[] message = {"Nickname:", usernameField, "Password:", passwordField};
-        int option = JOptionPane.showConfirmDialog(null, message, "Autorizar", JOptionPane.OK_CANCEL_OPTION);
+        JTextField usernameField = new JTextField();
+        JPasswordField passwordField = new JPasswordField();
+        Object[] fields = {"Nickname:", usernameField, "Password:", passwordField};
+        int option = JOptionPane.showConfirmDialog(null, fields, "Autorizar", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
         if (option == JOptionPane.OK_OPTION) {
             String user = usernameField.getText();
@@ -593,9 +593,7 @@ public class registrarUsuario extends javax.swing.JFrame {
                             if(confirma.getString(3).equals("S")){
                                 Key k=new Key();
                                 if(confirma.getString(2).matches(k.getPassword(pass))){
-                                    registrarUsuario r=new registrarUsuario();
                                     autorizar=true;
-                                    this.dispose();
                                 }else{
                                     JOptionPane.showMessageDialog(rootPane, "El usuario o la contraseña son incorrectos.");
                                     autorizar=false;
