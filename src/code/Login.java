@@ -394,7 +394,6 @@ public class Login extends javax.swing.JFrame {
         //Ingresar al sistema
         unuser=(txtNick.getText());
         i.setUsuario(unuser);
-        System.out.println(unuser + " Login");
         if("Escriba su nickname.".equals(txtNick.getText()) | "••••••••••".equals(txtPassword.getText())){
             JOptionPane.showMessageDialog(rootPane, "Llene todos lo campos para continuar.");
             

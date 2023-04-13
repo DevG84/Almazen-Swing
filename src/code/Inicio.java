@@ -572,7 +572,8 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDisplayConsultaActionPerformed
 
     private void btnDisplayAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisplayAdminActionPerformed
-        // TODO add your handling code here:
+        ajustesAdmin admin=new ajustesAdmin();
+        admin.setVisible(true);
     }//GEN-LAST:event_btnDisplayAdminActionPerformed
 
     private void btnDisplayInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisplayInicioActionPerformed
@@ -581,7 +582,8 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDisplayInicioActionPerformed
 
     private void btnDisplaySettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisplaySettingsActionPerformed
-        // TODO add your handling code here:
+        ajustesUsuario userSettings=new ajustesUsuario();
+        userSettings.setVisible(true);
     }//GEN-LAST:event_btnDisplaySettingsActionPerformed
 
     private void btnDisplayRegNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisplayRegNewActionPerformed
@@ -652,7 +654,14 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_logoMouseClicked
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
-        
+        Object[] opciones={"Si","No"};
+        ImageIcon Icono=new ImageIcon("src/sources/icons/questionCube.png");
+        int respuesta=JOptionPane.showOptionDialog(rootPane, "¿Quiere cerrar sesión?","Cerrar sesión",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,Icono,opciones,opciones[0]);
+        if(respuesta==0){
+            Login l=new Login();
+            this.dispose();
+            l.setVisible(true);
+        }
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void btnAboutUsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAboutUsActionPerformed
