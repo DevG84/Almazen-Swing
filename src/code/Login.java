@@ -51,7 +51,7 @@ public class Login extends javax.swing.JFrame {
         Map attributes = font.getAttributes();
         attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
         lblRegistro.setFont(font.deriveFont(attributes));
-        i=new Inicio();
+        
         
     }
 
@@ -393,7 +393,8 @@ public class Login extends javax.swing.JFrame {
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
         //Ingresar al sistema
         unuser=(txtNick.getText());
-        i.setUsuario(unuser);
+        i=new Inicio(unuser);
+        i.user=unuser;
         if("Escriba su nickname.".equals(txtNick.getText()) | "••••••••••".equals(txtPassword.getText())){
             JOptionPane.showMessageDialog(rootPane, "Llene todos lo campos para continuar.");
             

@@ -5,14 +5,24 @@ import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatDarkPurpleIJTheme;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
 import settings.Key;
 import settings.conexionBD;
 import java.sql.SQLException;
 import java.sql.ResultSet;
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 
 public class registrarUsuario extends javax.swing.JFrame {
         
@@ -572,9 +582,33 @@ public class registrarUsuario extends javax.swing.JFrame {
         //El administrador debe identificarse para autorizar un nuevo registro
         JTextField usernameField = new JTextField();
         JPasswordField passwordField = new JPasswordField();
+        // Establecer el campo de texto del nombre de usuario como el primer campo en enfocarse
         Object[] fields = {"Nickname:", usernameField, "Password:", passwordField};
-        int option = JOptionPane.showConfirmDialog(null, fields, "Autorizar", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        JOptionPane pane = new JOptionPane(fields, JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
+        JDialog dialog = pane.createDialog(null, "Autorizar");
+        dialog.setModal(true);
 
+        // Establecer el campo de texto del nombre de usuario como el primer campo en enfocarse
+        dialog.addWindowListener(new WindowAdapter() {
+            public void windowOpened(WindowEvent e) {
+                usernameField.requestFocusInWindow();
+            }
+        });
+        
+        // Agregar una acción personalizada al evento VK_ENTER del campo de texto del nombre de usuario
+        InputMap inputMap = usernameField.getInputMap(JComponent.WHEN_FOCUSED);
+        ActionMap actionMap = usernameField.getActionMap();
+
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "moveToPasswordField");
+        actionMap.put("moveToPasswordField", new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                passwordField.requestFocusInWindow();
+            }
+        });
+
+        dialog.setVisible(true);
+        int option = (Integer) pane.getValue();
+        
         if (option == JOptionPane.OK_OPTION) {
             String user = usernameField.getText();
             String pass = passwordField.getText();

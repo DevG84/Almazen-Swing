@@ -28,15 +28,17 @@ public class Inicio extends javax.swing.JFrame {
     public String welcomeUser="";
     
     //Datos del usuario
-    private String user;
-    private String id="",nickname="",nombre="",paterno="",materno="",cargo="",boleta="";
+    public String user="";
+    public String id="",nickname="",nombre="",paterno="",materno="",cargo="",boleta="";
 
-    public Inicio(){
+    public Inicio(String usuario){
+        this.user = usuario;
         unused=new Color(255, 255, 255);
         used=new Color(234,237,237);
         selected=new Color(234,237,237);
         conexion=new conexionBD();
         initComponents();
+        setUsuario(user);
         iniciarInterfaz();
         setIconImage(getIconImage());
         this.setLocationRelativeTo(null);
@@ -56,7 +58,7 @@ public class Inicio extends javax.swing.JFrame {
         Pestañas.setSelectedIndex(0);
         changeButtonColor();
         //
-
+        lblBienvenida.setText("Hola " + nombre + ", bienvenido.");
     }
     
     public void setUsuario(String usuario) {
@@ -76,10 +78,10 @@ public class Inicio extends javax.swing.JFrame {
                 cargo=resultData.getString(6);
                 boleta=resultData.getString(7);
             }
+            cmd.close();
         }catch(SQLException e){
             JOptionPane.showMessageDialog(rootPane, "Error: 002");
         }
-        lblBienvenida.setText("Hola " + nombre + ", bienvenido.");
     }
     
     private void resetButtonColor(){
@@ -139,6 +141,7 @@ public class Inicio extends javax.swing.JFrame {
         panelInicio = new javax.swing.JPanel();
         lblBienvenida = new javax.swing.JLabel();
         btnAboutUs = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
         panelBuscar = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         panelMov = new javax.swing.JPanel();
@@ -392,17 +395,25 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
 
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/progress.gif"))); // NOI18N
+
         javax.swing.GroupLayout panelInicioLayout = new javax.swing.GroupLayout(panelInicio);
         panelInicio.setLayout(panelInicioLayout);
         panelInicioLayout.setHorizontalGroup(
             panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelInicioLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblBienvenida)
-                .addContainerGap(910, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelInicioLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnAboutUs)
+                .addGroup(panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelInicioLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnAboutUs))
+                    .addGroup(panelInicioLayout.createSequentialGroup()
+                        .addGroup(panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelInicioLayout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jLabel5))
+                            .addComponent(lblBienvenida))
+                        .addGap(0, 904, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panelInicioLayout.setVerticalGroup(
@@ -410,7 +421,9 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(panelInicioLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblBienvenida)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 610, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 464, Short.MAX_VALUE)
                 .addComponent(btnAboutUs)
                 .addContainerGap())
         );
@@ -587,7 +600,7 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDisplaySettingsActionPerformed
 
     private void btnDisplayRegNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisplayRegNewActionPerformed
-        registrarMaterial m=new registrarMaterial();
+        registrarMaterial m=new registrarMaterial(this);
         m.setVisible(true);
     }//GEN-LAST:event_btnDisplayRegNewActionPerformed
 
@@ -678,6 +691,7 @@ public class Inicio extends javax.swing.JFrame {
     }
     
     public static void main(String args[]) {
+        String usuario="";
         /* Look and Feel */
         FlatArcIJTheme.setup();
 
@@ -686,7 +700,8 @@ public class Inicio extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Inicio().setVisible(true);
+                
+                new Inicio(usuario).setVisible(true);
             }
         });
     }
@@ -708,6 +723,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
