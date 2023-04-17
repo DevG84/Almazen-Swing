@@ -51,7 +51,7 @@
               </Group>
               <Group type="102" attributes="0">
                   <EmptySpace min="-2" pref="188" max="-2" attributes="0"/>
-                  <Component id="Pestañas" max="32767" attributes="0"/>
+                  <Component id="Pestañas" pref="1063" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -403,7 +403,7 @@
                                       </Group>
                                       <Component id="lblBienvenida" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="0" pref="904" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="784" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -476,7 +476,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="1129" max="32767" attributes="0"/>
+                          <EmptySpace pref="1016" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -521,7 +521,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="1094" max="32767" attributes="0"/>
+                          <EmptySpace pref="989" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -563,7 +563,7 @@
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="1117" max="32767" attributes="0"/>
+                          <EmptySpace pref="1006" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -605,7 +605,7 @@
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="1120" max="32767" attributes="0"/>
+                          <EmptySpace pref="1010" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>

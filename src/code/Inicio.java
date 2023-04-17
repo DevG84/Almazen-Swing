@@ -413,7 +413,7 @@ public class Inicio extends javax.swing.JFrame {
                                 .addGap(6, 6, 6)
                                 .addComponent(jLabel5))
                             .addComponent(lblBienvenida))
-                        .addGap(0, 904, Short.MAX_VALUE)))
+                        .addGap(0, 784, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panelInicioLayout.setVerticalGroup(
@@ -441,7 +441,7 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(panelBuscarLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addContainerGap(1129, Short.MAX_VALUE))
+                .addContainerGap(1016, Short.MAX_VALUE))
         );
         panelBuscarLayout.setVerticalGroup(
             panelBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -465,7 +465,7 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(panelMovLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addContainerGap(1094, Short.MAX_VALUE))
+                .addContainerGap(989, Short.MAX_VALUE))
         );
         panelMovLayout.setVerticalGroup(
             panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -488,7 +488,7 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(panelConsultaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3)
-                .addContainerGap(1117, Short.MAX_VALUE))
+                .addContainerGap(1006, Short.MAX_VALUE))
         );
         panelConsultaLayout.setVerticalGroup(
             panelConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -511,7 +511,7 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(panelCodesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel4)
-                .addContainerGap(1120, Short.MAX_VALUE))
+                .addContainerGap(1010, Short.MAX_VALUE))
         );
         panelCodesLayout.setVerticalGroup(
             panelCodesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -533,7 +533,7 @@ public class Inicio extends javax.swing.JFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(188, 188, 188)
-                .addComponent(Pestañas))
+                .addComponent(Pestañas, javax.swing.GroupLayout.DEFAULT_SIZE, 1063, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

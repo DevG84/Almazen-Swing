@@ -93,7 +93,7 @@ public class registrarMaterial extends javax.swing.JFrame {
         cual2 = new javax.swing.JLabel();
         txtMarca = new javax.swing.JTextField();
         txtPresent = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btnRegistrar = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         cmbTipo = new javax.swing.JComboBox<>();
         lblNota = new javax.swing.JLabel();
@@ -114,10 +114,9 @@ public class registrarMaterial extends javax.swing.JFrame {
         });
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Información del Material", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Microsoft YaHei", 1, 13), new java.awt.Color(0, 0, 0))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Información del Material", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Microsoft YaHei", 1, 13))); // NOI18N
 
         jLabel5.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Marca:");
 
         cmbMarca.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
@@ -128,7 +127,6 @@ public class registrarMaterial extends javax.swing.JFrame {
         });
 
         jLabel6.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Presentación:");
 
         cmbPresent.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
@@ -139,7 +137,6 @@ public class registrarMaterial extends javax.swing.JFrame {
         });
 
         jLabel7.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Cantidad Inicial:");
 
         spinCant.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
@@ -149,25 +146,20 @@ public class registrarMaterial extends javax.swing.JFrame {
         txtArt.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Nombre del artículo:");
 
         txtCodigo.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Código de barras:");
 
         jLabel4.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Descripción:");
 
         cual1.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        cual1.setForeground(new java.awt.Color(0, 0, 0));
         cual1.setText("¿Cuál?");
 
         cual2.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        cual2.setForeground(new java.awt.Color(0, 0, 0));
         cual2.setText("¿Cuál?");
 
         txtMarca.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
@@ -179,11 +171,15 @@ public class registrarMaterial extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jButton1.setText("Registrar Material");
+        btnRegistrar.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        btnRegistrar.setText("Registrar Material");
+        btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarActionPerformed(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setText("Tipo de código:");
 
         cmbTipo.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
@@ -248,7 +244,7 @@ public class registrarMaterial extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1))
+                        .addComponent(btnRegistrar))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(51, 51, 51)
                         .addComponent(jLabel4)
@@ -309,7 +305,7 @@ public class registrarMaterial extends javax.swing.JFrame {
                         .addComponent(jLabel7))
                     .addComponent(spinCant, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(btnRegistrar)
                 .addContainerGap())
         );
 
@@ -442,6 +438,40 @@ public class registrarMaterial extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cmbTipoActionPerformed
 
+    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+        this.setAlwaysOnTop(false);
+        boolean camposLlenos=true;
+        //Verifica que los campos estém llenos
+        if(txtCodigo.getText().isEmpty() || txtArt.getText().isEmpty() || txtDesc.getText().isEmpty() || cmbMarca.getSelectedItem()==null || cmbPresent.getSelectedItem()==null){
+            camposLlenos=false;
+        }else{
+            if(cmbMarca.getSelectedItem().equals("Otra")){
+                if(txtMarca.getText().isEmpty()){
+                    camposLlenos=false;
+                }
+            }else{
+                if(cmbPresent.getSelectedItem().equals("Otra")){
+                    if(txtPresent.getText().isEmpty()){
+                        camposLlenos=false;
+                    }
+                }
+            }
+        }
+        
+        if(camposLlenos==false){
+            JOptionPane.showMessageDialog(null,"Llene todos los campos para continuar.");
+        }else{
+            System.out.println("Inicia registro");
+            vaciarCampos();
+        }
+        this.setAlwaysOnTop(true);
+    }//GEN-LAST:event_btnRegistrarActionPerformed
+
+    private void vaciarCampos(){
+        txtCodigo.setText(""); txtArt.setText(""); txtDesc.setText(""); cmbMarca.setSelectedItem(0); cmbPresent.setSelectedItem(0);
+        txtMarca.setText(""); txtPresent.setText(""); spinCant.setValue(0);
+    }
+    
     private void aplicarPerCod(){
         cmbTipo.setSelectedItem("Código personalizado");
         txtCodigo.setEditable(false);
@@ -540,12 +570,12 @@ public class registrarMaterial extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAboutUs;
+    private javax.swing.JButton btnRegistrar;
     private javax.swing.JComboBox<String> cmbMarca;
     private javax.swing.JComboBox<String> cmbPresent;
     private javax.swing.JComboBox<String> cmbTipo;
     private javax.swing.JLabel cual1;
     private javax.swing.JLabel cual2;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
