@@ -51,7 +51,7 @@
               </Group>
               <Group type="102" attributes="0">
                   <EmptySpace min="-2" pref="188" max="-2" attributes="0"/>
-                  <Component id="Pestañas" pref="1063" max="32767" attributes="0"/>
+                  <Component id="Pestañas" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -77,10 +77,6 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="28" pref="28" max="-2" attributes="0"/>
-                      <Component id="logo" min="-2" pref="130" max="-2" attributes="0"/>
-                  </Group>
                   <Component id="btnDisplayInicio" max="32767" attributes="0"/>
                   <Component id="btnDisplayBuscar" max="32767" attributes="0"/>
                   <Component id="btnDisplayMov" max="32767" attributes="0"/>
@@ -90,6 +86,11 @@
                   <Component id="btnDisplayAdmin" pref="190" max="32767" attributes="0"/>
                   <Component id="btnDisplaySettings" max="32767" attributes="0"/>
                   <Component id="btnLogout" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                      <Component id="logo" min="-2" pref="129" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                  </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">

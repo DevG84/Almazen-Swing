@@ -719,7 +719,7 @@ public class registrarUsuario extends javax.swing.JFrame {
                 && evt.getKeyChar()!='_' && evt.getKeyChar()!='-' && evt.getKeyChar()!='.' && evt.getKeyChar()!='ñ' && evt.getKeyChar()!='Ñ')
             ){
                 JOptionPane.showMessageDialog(rootPane, "No puedes usar ' " + evt.getKeyChar() + " '.");
-                cadena.deleteCharAt(cadena.length()-1);
+                cadena.deleteCharAt(cadena.length());
                 txtPass.setText(cadena.toString());
                 cadena=null;
             }
