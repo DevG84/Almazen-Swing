@@ -42,6 +42,9 @@ public class registrarMaterial extends javax.swing.JFrame {
     boolean perCodAutorizar=false;
     
     //
+    String idMerca="";
+    
+    //
     Inicio i;
     
     public registrarMaterial(Inicio inicio) {
@@ -374,6 +377,7 @@ public class registrarMaterial extends javax.swing.JFrame {
 
     //Llenar información existente
     private void llenarMarca(){
+        cmbMarca.removeAllItems();
         try{
             String consulta="SELECT DISTINCT marca FROM mercancia";
             cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
@@ -390,6 +394,7 @@ public class registrarMaterial extends javax.swing.JFrame {
     }
     
     private void llenarPresentación(){
+        cmbPresent.removeAllItems();
         try{
             String consulta="SELECT DISTINCT presentacion FROM mercancia";
             cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
@@ -465,51 +470,72 @@ public class registrarMaterial extends javax.swing.JFrame {
     }//GEN-LAST:event_cmbTipoActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        
         boolean camposLlenos=true;
-        //Verifica que los campos estém llenos
+        //Verifica que los campos estén llenos
         if(txtCodigo.getText().isEmpty() || txtArt.getText().isEmpty() || txtDesc.getText().isEmpty() || cmbMarca.getSelectedItem()==null || cmbPresent.getSelectedItem()==null){
             camposLlenos=false;
         }else{
-            if(cmbMarca.getSelectedItem().equals("Otra")){
-                if(txtMarca.getText().isEmpty()){
-                    camposLlenos=false;
-                }
-            }else{
-                if(cmbPresent.getSelectedItem().equals("Otra")){
-                    if(txtPresent.getText().isEmpty()){
-                        camposLlenos=false;
-                    }
-                }
-            }
+            if(cmbMarca.getSelectedItem().equals("Otra")){  if(txtMarca.getText().isEmpty()){             camposLlenos=false;}
+            }else{  if(cmbPresent.getSelectedItem().equals("Otra")){if(txtPresent.getText().isEmpty()){   camposLlenos=false;}}}
         }
-        
         if(camposLlenos==false){
             JOptionPane.showMessageDialog(null,"Llene todos los campos para continuar.");
         }else{
             //Verifica que el codigo del material no se halla registrado antes
-            
-            //Inicia registro
             try{
-                String registrar=("INSERT INTO mercancia(codigo,articulo,descripcion,marca,presentacion,existencia) VALUES(?,?,?,?,?,?)");
-                cmd=(PreparedStatement)conexion.conectar.prepareStatement(registrar);
+                //Verifica si el nickname ya esta en uso
+                String consulta="SELECT codigo FROM mercancia WHERE codigo LIKE ? ";
+                cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
                 cmd.setString(1, txtCodigo.getText());
-                cmd.setString(2, txtArt.getText());
-                cmd.setString(3, txtDesc.getText());
-                if(cmbMarca.getSelectedItem().toString().equals("Otra")){    cmd.setString(4, txtMarca.getText());
-                }else{                          cmd.setString(4, cmbMarca.getSelectedItem().toString());}
-                if(cmbPresent.getSelectedItem().toString().equals("Otra")){  cmd.setString(5, txtPresent.getText());
-                }else{                          cmd.setString(5, cmbPresent.getSelectedItem().toString());}
-                cmd.setString(6, spinCant.getValue().toString());
-                cmd.executeUpdate();
-                JOptionPane.showMessageDialog(null,"Registro exitoso.");
-                vaciarCampos();
+                confirma=cmd.executeQuery();
+                if(confirma.next()){
+                    JOptionPane.showMessageDialog(rootPane, "El código de este material ya ha sido registrado.");
+                }else{
+                    //Inicia registro
+                    try{
+                        String registrar=("INSERT INTO mercancia(codigo,articulo,descripcion,marca,presentacion,existencia) VALUES(?,?,?,?,?,?)");
+                        cmd=(PreparedStatement)conexion.conectar.prepareStatement(registrar);
+                        cmd.setString(1, txtCodigo.getText());
+                        cmd.setString(2, txtArt.getText());
+                        cmd.setString(3, txtDesc.getText());
+                        if(cmbMarca.getSelectedItem().toString().equals("Otra")){    cmd.setString(4, txtMarca.getText());
+                        }else{                          cmd.setString(4, cmbMarca.getSelectedItem().toString());}
+                        if(cmbPresent.getSelectedItem().toString().equals("Otra")){  cmd.setString(5, txtPresent.getText());
+                        }else{                          cmd.setString(5, cmbPresent.getSelectedItem().toString());}
+                        cmd.setString(6, spinCant.getValue().toString());
+                        cmd.executeUpdate();
+                        //Consultar id del material recien registrado
+                        try{
+                            String IDconsulta="SELECT IDmercancia FROM mercancia WHERE codigo=? ";
+                            cmd=(PreparedStatement)conexion.conectar.prepareStatement(IDconsulta);
+                            cmd.setString(1, txtCodigo.getText());
+                            ResultSet idresult=cmd.executeQuery();
+                            if (idresult.next()) {
+                                idMerca = idresult.getString(1);
+                            }else{
+                                JOptionPane.showMessageDialog(rootPane, "Falló la consulta.");
+                            }
+                            //Registrar movimiento
+                            String registrarMovimiento=("INSERT INTO movimiento(IDusuario,IDmercancia,tipo,asunto,fecha,cantidad) VALUES (?,?,?,?,?,?)");
+                            
+                            
+                            
+                            
+                            
+                            JOptionPane.showMessageDialog(null,"Registro exitoso.");
+                            vaciarCampos();
+                            llenarMarca();
+                            llenarPresentación();
+                        }catch(SQLException e){
+                            JOptionPane.showMessageDialog(rootPane, "Error al guardar datos de movimiento.");
+                        }
+                    }catch(SQLException e){
+                        JOptionPane.showMessageDialog(null,"Error 007: Error al registrar material.");
+                    }
+                }
             }catch(SQLException e){
-                JOptionPane.showMessageDialog(null,"Error 007: Error al registrar material.");
+                JOptionPane.showMessageDialog(null,"Error 008: Error al consultar codigo de material.");
             }
-            
-            
-            
         }
         
     }//GEN-LAST:event_btnRegistrarActionPerformed
