@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import settings.conexionBD;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import javax.swing.AbstractAction;
@@ -25,6 +26,7 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
@@ -37,6 +39,9 @@ public class registrarMaterial extends javax.swing.JFrame {
     conexionBD conexion=null;
     PreparedStatement cmd;
     ResultSet marca_res, present_res,confirma;
+        // Obtener la fecha actual
+        LocalDate currentDate = LocalDate.now();
+        java.sql.Date fecha = java.sql.Date.valueOf(currentDate);
     
     //Autorizaciones
     boolean perCodAutorizar=false;
@@ -104,6 +109,7 @@ public class registrarMaterial extends javax.swing.JFrame {
         lblNota = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtDesc = new javax.swing.JTextArea();
+        btnClean = new javax.swing.JButton();
         logo = new javax.swing.JLabel();
 
         jLabel1.setText("jLabel1");
@@ -211,6 +217,13 @@ public class registrarMaterial extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(txtDesc);
 
+        btnClean.setText("Limpiar");
+        btnClean.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCleanActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -219,6 +232,8 @@ public class registrarMaterial extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnClean)
+                        .addGap(18, 18, 18)
                         .addComponent(btnRegistrar))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -271,6 +286,9 @@ public class registrarMaterial extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
+
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnClean, btnRegistrar});
+
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -321,7 +339,9 @@ public class registrarMaterial extends javax.swing.JFrame {
                         .addComponent(jLabel7))
                     .addComponent(spinCant, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                .addComponent(btnRegistrar)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnRegistrar)
+                    .addComponent(btnClean))
                 .addContainerGap())
         );
 
@@ -517,11 +537,14 @@ public class registrarMaterial extends javax.swing.JFrame {
                             }
                             //Registrar movimiento
                             String registrarMovimiento=("INSERT INTO movimiento(IDusuario,IDmercancia,tipo,asunto,fecha,cantidad) VALUES (?,?,?,?,?,?)");
-                            
-                            
-                            
-                            
-                            
+                            cmd=(PreparedStatement)conexion.conectar.prepareStatement(registrarMovimiento);
+                            cmd.setString(1, i.id);
+                            cmd.setString(2, idMerca);
+                            cmd.setString(3, "E");
+                            cmd.setString(4, "Nuevo registro de material");
+                            cmd.setDate(5, fecha);
+                            cmd.setString(6, spinCant.getValue().toString());
+                            cmd.executeUpdate();
                             JOptionPane.showMessageDialog(null,"Registro exitoso.");
                             vaciarCampos();
                             llenarMarca();
@@ -553,6 +576,10 @@ public class registrarMaterial extends javax.swing.JFrame {
             cadena=null;
         }
     }//GEN-LAST:event_txtDescKeyTyped
+
+    private void btnCleanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCleanActionPerformed
+        vaciarCampos();
+    }//GEN-LAST:event_btnCleanActionPerformed
 
     public void setImageIn(JLabel a,String route){
         ImageIcon img; Icon icono;
@@ -665,6 +692,7 @@ public class registrarMaterial extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAboutUs;
+    private javax.swing.JButton btnClean;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JComboBox<String> cmbMarca;
     private javax.swing.JComboBox<String> cmbPresent;
