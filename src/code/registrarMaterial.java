@@ -38,7 +38,7 @@ public class registrarMaterial extends javax.swing.JFrame {
     //Para acciones en la base de datos
     conexionBD conexion=null;
     PreparedStatement cmd;
-    ResultSet marca_res, present_res,confirma;
+    ResultSet marca_res, present_res,confirma, result;
         // Obtener la fecha actual
         LocalDate currentDate = LocalDate.now();
         java.sql.Date fecha = java.sql.Date.valueOf(currentDate);
@@ -217,6 +217,7 @@ public class registrarMaterial extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(txtDesc);
 
+        btnClean.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         btnClean.setText("Limpiar");
         btnClean.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -338,7 +339,7 @@ public class registrarMaterial extends javax.swing.JFrame {
                         .addGap(3, 3, 3)
                         .addComponent(jLabel7))
                     .addComponent(spinCant, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 167, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRegistrar)
                     .addComponent(btnClean))
@@ -375,8 +376,8 @@ public class registrarMaterial extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 157, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(btnAboutUs)
                 .addContainerGap())
         );
@@ -549,6 +550,14 @@ public class registrarMaterial extends javax.swing.JFrame {
                             vaciarCampos();
                             llenarMarca();
                             llenarPresentación();
+                            try{
+                                String materiales="SELECT * FROM mercancia";
+                                cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
+                                result=cmd.executeQuery();
+                                i.llenarTablaBuscar(result);
+                            }catch(SQLException e){
+                                JOptionPane.showMessageDialog(rootPane, "Error al llenar tabla.");
+                            }
                         }catch(SQLException e){
                             JOptionPane.showMessageDialog(rootPane, "Error al guardar datos de movimiento.");
                         }

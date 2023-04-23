@@ -2,15 +2,26 @@ package code;
 
 import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.EventObject;
+import javax.swing.AbstractCellEditor;
+import javax.swing.DefaultCellEditor;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 import settings.conexionBD;
 
 public class Inicio extends javax.swing.JFrame {
@@ -18,7 +29,7 @@ public class Inicio extends javax.swing.JFrame {
     //Para acciones en la base de datos
     conexionBD conexion=null;
     PreparedStatement cmd;
-    ResultSet result, resultData;
+    ResultSet result, resultData, marca_res;
     
     //Modulos
     public boolean m1=false,m2=false,m3=false,m4=false,m5=false;
@@ -38,6 +49,7 @@ public class Inicio extends javax.swing.JFrame {
         selected=new Color(234,237,237);
         conexion=new conexionBD();
         initComponents();
+        setExtendedState(this.MAXIMIZED_BOTH);
         setUsuario(user);
         iniciarInterfaz();
         setIconImage(getIconImage());
@@ -47,6 +59,7 @@ public class Inicio extends javax.swing.JFrame {
         
     }
 
+    //Interfaces
     public void iniciarInterfaz(){
         setImageIn(logo, "src/sources/logo.png");
         //
@@ -57,10 +70,100 @@ public class Inicio extends javax.swing.JFrame {
         Pestañas.setEnabledAt(4, false);
         Pestañas.setSelectedIndex(0);
         changeButtonColor();
-        //
+        //Inicio
         lblBienvenida.setText("Hola " + nombre + ", bienvenido.");
+        
+        //Buscar
+        iniciarBuscar();
     }
     
+    private void iniciarBuscar(){
+        llenarMarca();
+        //Llena la tabla con todo el material de la base de datos
+        try{
+            String materiales="SELECT * FROM mercancia";
+            cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
+            result=cmd.executeQuery();
+            llenarTablaBuscar(result);
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(rootPane, "Error al llenar tabla.");
+        }
+    }
+    
+    //Funciones utiles
+    public void llenarTablaBuscar(ResultSet registros){
+        String encabezado[]={"Código","Artículo","Descripción","Marca","Presentación","Existencia","Anaquel","Repisa"};
+        DefaultTableModel modeloBuscar = new DefaultTableModel();
+        for (String columnas : encabezado) {
+            modeloBuscar.addColumn(columnas);
+        }
+        try{
+            while(registros.next()){
+                Object[] row = new Object[8];
+                row[0] = registros.getString(2);
+                row[1] = registros.getString(3);
+                row[2] = registros.getString(4);
+                row[3] = registros.getString(5);
+                row[4] = registros.getString(6);
+                row[5] = registros.getString(7);
+                row[6] = registros.getString(8);
+                row[7] = registros.getString(9);
+                modeloBuscar.addRow(row);
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Error 008: Error al consultar materiales registrados en la base de datos.");
+        }
+        tblBuscar.setModel(modeloBuscar);
+        
+        // Establecer ancho de columnas
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+        renderer.setHorizontalAlignment(SwingConstants.LEFT);
+        tblBuscar.setDefaultRenderer(Object.class, renderer);
+        int[] anchos = {80, 150, 300, 100, 120, 70, 70, 60};
+        for (int i = 0; i < tblBuscar.getColumnCount(); i++) {
+            TableColumn columna = tblBuscar.getColumnModel().getColumn(i);
+            int ancho = 0;
+            // Obtener ancho máximo de columna
+            for (int j = 0; j < tblBuscar.getRowCount(); j++) {
+                TableCellRenderer cellRenderer = tblBuscar.getCellRenderer(j, i);
+                Object valor = tblBuscar.getValueAt(j, i);
+                Component componente = cellRenderer.getTableCellRendererComponent(tblBuscar, valor, false, false, j, i);
+                ancho = Math.max(ancho, componente.getPreferredSize().width);
+            }
+            // Establecer ancho de columna
+            if (ancho > 0 && ancho > anchos[i]) {
+                columna.setPreferredWidth(ancho);
+            } else {
+                columna.setPreferredWidth(anchos[i]);
+            }
+            // Establecer editor por defecto para evitar edición de celdas
+            columna.setCellEditor(new DefaultCellEditor(new JTextField()) {
+                @Override
+                public boolean isCellEditable(EventObject e) {
+                    return false;
+                }
+            });
+        }
+        //
+    }
+    
+    private void llenarMarca(){
+        cmbBuscarMarca.removeAllItems();
+        try{
+            String consulta="SELECT DISTINCT marca FROM mercancia";
+            cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+            marca_res=cmd.executeQuery();
+            //Recorrer los resultados y agregar cada valor único de "marca" al JComboBox
+            cmbBuscarMarca.addItem(null);
+            while (marca_res.next()) {
+                cmbBuscarMarca.addItem(marca_res.getString(1));
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Error 004: Error al obtener las marcas registradas en la base de datos.");
+        }
+    }
+    
+    //
     public void setUsuario(String usuario) {
         this.user = usuario;
         try{
@@ -117,7 +220,7 @@ public class Inicio extends javax.swing.JFrame {
         Image retValue=Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("icon_32px.png"));
         return retValue;
     }
-    
+    //
 
     
     @SuppressWarnings("unchecked")
@@ -144,6 +247,16 @@ public class Inicio extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         panelBuscar = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        txtBuscarCodigo = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        txtBuscarArticulo = new javax.swing.JTextField();
+        cmbBuscarTipo = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
+        cmbBuscarMarca = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblBuscar = new javax.swing.JTable();
         panelMov = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         panelConsulta = new javax.swing.JPanel();
@@ -414,7 +527,7 @@ public class Inicio extends javax.swing.JFrame {
                                 .addGap(6, 6, 6)
                                 .addComponent(jLabel5))
                             .addComponent(lblBienvenida))
-                        .addGap(0, 784, Short.MAX_VALUE)))
+                        .addGap(0, 911, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panelInicioLayout.setVerticalGroup(
@@ -424,7 +537,7 @@ public class Inicio extends javax.swing.JFrame {
                 .addComponent(lblBienvenida)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 464, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 474, Short.MAX_VALUE)
                 .addComponent(btnAboutUs)
                 .addContainerGap())
         );
@@ -433,23 +546,105 @@ public class Inicio extends javax.swing.JFrame {
 
         panelBuscar.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setText("Buscar");
+        jLabel1.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setText("Código:");
+
+        txtBuscarCodigo.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+
+        jLabel6.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel6.setText("Artículo:");
+
+        txtBuscarArticulo.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+
+        cmbBuscarTipo.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        cmbBuscarTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Por Descripción", "Por Nombre" }));
+
+        jLabel7.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel7.setText("Marca:");
+
+        jButton1.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jButton1.setText("Borrar selección");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        tblBuscar.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        tblBuscar.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7", "Title 8"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tblBuscar);
 
         javax.swing.GroupLayout panelBuscarLayout = new javax.swing.GroupLayout(panelBuscar);
         panelBuscar.setLayout(panelBuscarLayout);
         panelBuscarLayout.setHorizontalGroup(
             panelBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBuscarLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(1016, Short.MAX_VALUE))
+                .addGroup(panelBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelBuscarLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(panelBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jSeparator1)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelBuscarLayout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtBuscarCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtBuscarArticulo, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cmbBuscarTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cmbBuscarMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelBuscarLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(panelBuscarLayout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(jScrollPane1)))
+                .addContainerGap())
         );
         panelBuscarLayout.setVerticalGroup(
             panelBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBuscarLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(659, Short.MAX_VALUE))
+                .addGroup(panelBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txtBuscarCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6)
+                    .addComponent(txtBuscarArticulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbBuscarTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7)
+                    .addComponent(cmbBuscarMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 596, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         Pestañas.addTab("Buscar", panelBuscar);
@@ -466,14 +661,14 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(panelMovLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addContainerGap(989, Short.MAX_VALUE))
+                .addContainerGap(1101, Short.MAX_VALUE))
         );
         panelMovLayout.setVerticalGroup(
             panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelMovLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addContainerGap(659, Short.MAX_VALUE))
+                .addContainerGap(669, Short.MAX_VALUE))
         );
 
         Pestañas.addTab("Movimientos", panelMov);
@@ -489,14 +684,14 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(panelConsultaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3)
-                .addContainerGap(1006, Short.MAX_VALUE))
+                .addContainerGap(1124, Short.MAX_VALUE))
         );
         panelConsultaLayout.setVerticalGroup(
             panelConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelConsultaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3)
-                .addContainerGap(659, Short.MAX_VALUE))
+                .addContainerGap(669, Short.MAX_VALUE))
         );
 
         Pestañas.addTab("Consulta", panelConsulta);
@@ -512,14 +707,14 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(panelCodesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel4)
-                .addContainerGap(1010, Short.MAX_VALUE))
+                .addContainerGap(1127, Short.MAX_VALUE))
         );
         panelCodesLayout.setVerticalGroup(
             panelCodesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelCodesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel4)
-                .addContainerGap(659, Short.MAX_VALUE))
+                .addContainerGap(669, Short.MAX_VALUE))
         );
 
         Pestañas.addTab("Códigos almazen", panelCodes);
@@ -682,6 +877,11 @@ public class Inicio extends javax.swing.JFrame {
         About a=new About();
         a.setVisible(true);
     }//GEN-LAST:event_btnAboutUsActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        txtBuscarCodigo.setText(""); txtBuscarArticulo.setText(""); cmbBuscarTipo.setSelectedItem("Por Descripción"); cmbBuscarMarca.setSelectedItem(null);
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
     
     public void setImageIn(JLabel a,String route){
         ImageIcon img; Icon icono;
@@ -720,14 +920,21 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JButton btnDisplayRegNew;
     private javax.swing.JButton btnDisplaySettings;
     private javax.swing.JButton btnLogout;
+    private javax.swing.JComboBox<String> cmbBuscarMarca;
+    private javax.swing.JComboBox<String> cmbBuscarTipo;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
     public javax.swing.JLabel lblBienvenida;
     private javax.swing.JLabel logo;
     private javax.swing.JPanel panelBuscar;
@@ -735,5 +942,8 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JPanel panelConsulta;
     private javax.swing.JPanel panelInicio;
     private javax.swing.JPanel panelMov;
+    private javax.swing.JTable tblBuscar;
+    private javax.swing.JTextField txtBuscarArticulo;
+    private javax.swing.JTextField txtBuscarCodigo;
     // End of variables declaration//GEN-END:variables
 }
