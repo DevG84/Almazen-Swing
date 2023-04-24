@@ -71,10 +71,10 @@ public class Inicio extends javax.swing.JFrame {
         Pestañas.setSelectedIndex(0);
         changeButtonColor();
         //Inicio
-        lblBienvenida.setText("Hola " + nombre + ", bienvenido.");
+        lblBienvenida.setText("Hola " + nombre + ", bienvenido/a.");
         
         //Buscar
-        iniciarBuscar();
+        
     }
     
     private void iniciarBuscar(){
@@ -253,7 +253,7 @@ public class Inicio extends javax.swing.JFrame {
         cmbBuscarTipo = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         cmbBuscarMarca = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        btnBorrar = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblBuscar = new javax.swing.JTable();
@@ -547,29 +547,72 @@ public class Inicio extends javax.swing.JFrame {
         panelBuscar.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Código:");
 
         txtBuscarCodigo.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        txtBuscarCodigo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtBuscarCodigoMouseClicked(evt);
+            }
+        });
+        txtBuscarCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBuscarCodigoActionPerformed(evt);
+            }
+        });
+        txtBuscarCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBuscarCodigoKeyReleased(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Artículo:");
 
         txtBuscarArticulo.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        txtBuscarArticulo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtBuscarArticuloMouseClicked(evt);
+            }
+        });
+        txtBuscarArticulo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBuscarArticuloKeyReleased(evt);
+            }
+        });
 
         cmbBuscarTipo.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         cmbBuscarTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Por Descripción", "Por Nombre" }));
+        cmbBuscarTipo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbBuscarTipoItemStateChanged(evt);
+            }
+        });
+        cmbBuscarTipo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbBuscarTipoActionPerformed(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Marca:");
 
-        jButton1.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jButton1.setText("Borrar selección");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        cmbBuscarMarca.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cmbBuscarMarcaMouseClicked(evt);
+            }
+        });
+        cmbBuscarMarca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                cmbBuscarMarcaActionPerformed(evt);
+            }
+        });
+
+        btnBorrar.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        btnBorrar.setText("Borrar selección");
+        btnBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBorrarActionPerformed(evt);
             }
         });
 
@@ -620,7 +663,7 @@ public class Inicio extends javax.swing.JFrame {
                                 .addComponent(cmbBuscarMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelBuscarLayout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(btnBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(panelBuscarLayout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addComponent(jScrollPane1)))
@@ -639,7 +682,7 @@ public class Inicio extends javax.swing.JFrame {
                     .addComponent(jLabel7)
                     .addComponent(cmbBuscarMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addComponent(btnBorrar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -773,6 +816,7 @@ public class Inicio extends javax.swing.JFrame {
     private void btnDisplayBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisplayBuscarActionPerformed
         Pestañas.setSelectedIndex(1);
         changeButtonColor();
+        iniciarBuscar();
     }//GEN-LAST:event_btnDisplayBuscarActionPerformed
 
     private void btnDisplayConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisplayConsultaActionPerformed
@@ -878,10 +922,119 @@ public class Inicio extends javax.swing.JFrame {
         a.setVisible(true);
     }//GEN-LAST:event_btnAboutUsActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
         txtBuscarCodigo.setText(""); txtBuscarArticulo.setText(""); cmbBuscarTipo.setSelectedItem("Por Descripción"); cmbBuscarMarca.setSelectedItem(null);
         
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnBorrarActionPerformed
+
+    private void txtBuscarCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarCodigoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBuscarCodigoActionPerformed
+
+    private void txtBuscarCodigoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarCodigoKeyReleased
+        try{
+            String consulta="SELECT * FROM mercancia WHERE codigo LIKE ?";
+            cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+            cmd.setString(1, txtBuscarCodigo.getText() + "%");
+            result=cmd.executeQuery();
+            llenarTablaBuscar(result);
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(rootPane,"Error al consultar.");
+        }
+    }//GEN-LAST:event_txtBuscarCodigoKeyReleased
+
+    private void txtBuscarArticuloKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarArticuloKeyReleased
+        switch(cmbBuscarTipo.getSelectedItem().toString()){
+            case "Por Descripción":
+                try{
+                    String consulta="SELECT * FROM mercancia WHERE descripcion LIKE ?";
+                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                    cmd.setString(1, "%" + txtBuscarArticulo.getText() + "%");
+                    result=cmd.executeQuery();
+                    llenarTablaBuscar(result);
+                }catch(SQLException e){
+                    JOptionPane.showMessageDialog(rootPane,"Error al consultar.");
+                }
+            break;
+            case "Por Nombre":
+                try{
+                    String consulta="SELECT * FROM mercancia WHERE articulo LIKE ?";
+                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                    cmd.setString(1, "%" + txtBuscarArticulo.getText() + "%");
+                    result=cmd.executeQuery();
+                    llenarTablaBuscar(result);
+                }catch(SQLException e){
+                    JOptionPane.showMessageDialog(rootPane,"Error al consultar.");
+                }
+            break;
+        }
+    }//GEN-LAST:event_txtBuscarArticuloKeyReleased
+
+    private void cmbBuscarTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbBuscarTipoActionPerformed
+        switch(cmbBuscarTipo.getSelectedItem().toString()){
+            case "Por Descripción":
+                try{
+                    String consulta="SELECT * FROM mercancia WHERE descripcion LIKE ?";
+                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                    cmd.setString(1, "%" + txtBuscarArticulo.getText() + "%");
+                    result=cmd.executeQuery();
+                    llenarTablaBuscar(result);
+                }catch(SQLException e){
+                    JOptionPane.showMessageDialog(rootPane,"Error al consultar.");
+                }
+            break;
+            case "Por Nombre":
+                try{
+                    String consulta="SELECT * FROM mercancia WHERE articulo LIKE ?";
+                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                    cmd.setString(1, "%" + txtBuscarArticulo.getText() + "%");
+                    result=cmd.executeQuery();
+                    llenarTablaBuscar(result);
+                }catch(SQLException e){
+                    JOptionPane.showMessageDialog(rootPane,"Error al consultar.");
+                }
+            break;
+        }
+    }//GEN-LAST:event_cmbBuscarTipoActionPerformed
+
+    private void cmbBuscarMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbBuscarMarcaActionPerformed
+        if(cmbBuscarMarca.getSelectedItem() == null){
+            try{
+                String consulta="SELECT * FROM mercancia";
+                cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                result=cmd.executeQuery();
+                llenarTablaBuscar(result);
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(rootPane,"Error al consultar.");
+            }
+        }else{
+            try{
+                String consulta="SELECT * FROM mercancia WHERE marca LIKE ?";
+                cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                cmd.setString(1, "%" + cmbBuscarMarca.getSelectedItem().toString() + "%");
+                result=cmd.executeQuery();
+                llenarTablaBuscar(result);
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(rootPane,"Error al consultar.");
+            }
+        }
+    }//GEN-LAST:event_cmbBuscarMarcaActionPerformed
+
+    private void txtBuscarCodigoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtBuscarCodigoMouseClicked
+        txtBuscarArticulo.setText(""); cmbBuscarTipo.setSelectedItem("Por Descripción"); cmbBuscarMarca.setSelectedItem(null);
+    }//GEN-LAST:event_txtBuscarCodigoMouseClicked
+
+    private void txtBuscarArticuloMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtBuscarArticuloMouseClicked
+        txtBuscarCodigo.setText(""); cmbBuscarMarca.setSelectedItem(null);
+    }//GEN-LAST:event_txtBuscarArticuloMouseClicked
+
+    private void cmbBuscarMarcaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cmbBuscarMarcaMouseClicked
+        txtBuscarCodigo.setText(""); txtBuscarArticulo.setText("");
+    }//GEN-LAST:event_cmbBuscarMarcaMouseClicked
+
+    private void cmbBuscarTipoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbBuscarTipoItemStateChanged
+        txtBuscarArticulo.grabFocus();
+    }//GEN-LAST:event_cmbBuscarTipoItemStateChanged
     
     public void setImageIn(JLabel a,String route){
         ImageIcon img; Icon icono;
@@ -911,6 +1064,7 @@ public class Inicio extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JTabbedPane Pestañas;
     private javax.swing.JButton btnAboutUs;
+    private javax.swing.JButton btnBorrar;
     private javax.swing.JButton btnDisplayAdmin;
     private javax.swing.JButton btnDisplayBuscar;
     private javax.swing.JButton btnDisplayCodes;
@@ -922,7 +1076,6 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JButton btnLogout;
     private javax.swing.JComboBox<String> cmbBuscarMarca;
     private javax.swing.JComboBox<String> cmbBuscarTipo;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -599,14 +599,32 @@ public class registrarMaterial extends javax.swing.JFrame {
     }
     
     private void vaciarCampos(){
-        txtCodigo.setText(""); txtArt.setText(""); txtDesc.setText(""); cmbMarca.setSelectedItem(0); cmbPresent.setSelectedItem(0);
-        txtMarca.setText(""); txtPresent.setText(""); spinCant.setValue(0);
+        txtCodigo.setText(""); txtArt.setText(""); txtDesc.setText(""); cmbMarca.setSelectedItem(null); cmbPresent.setSelectedItem(null);
+        txtMarca.setText(""); txtPresent.setText(""); spinCant.setValue(0); cmbTipo.setSelectedItem("Código del articulo");
     }
     
     private void aplicarPerCod(){
         cmbTipo.setSelectedItem("Código personalizado");
         txtCodigo.setEditable(false);
-        txtCodigo.setText("almz-XXX");
+        //Asignar código personalizado
+        try{
+            String consulta="SELECT MAX(codigo) FROM mercancia WHERE codigo LIKE 'ALMZ-%'";
+            cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+            result=cmd.executeQuery();
+            if(result.next()){
+                String maxCode=result.getString(1);
+                if(maxCode != null){
+                    int valor = Integer.parseInt(maxCode.substring(5));
+                    txtCodigo.setText("ALMZ-" + (valor+1));
+                }else{
+                    txtCodigo.setText("ALMZ-1");
+                }
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Error 009: Falló la consulta de los códigos personalizados.");
+        }
+        
+        
     }
         
     private void autorizar(){
