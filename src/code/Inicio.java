@@ -575,6 +575,11 @@ public class Inicio extends javax.swing.JFrame {
                 txtBuscarArticuloMouseClicked(evt);
             }
         });
+        txtBuscarArticulo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBuscarArticuloActionPerformed(evt);
+            }
+        });
         txtBuscarArticulo.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtBuscarArticuloKeyReleased(evt);
@@ -949,7 +954,7 @@ public class Inicio extends javax.swing.JFrame {
                 try{
                     String consulta="SELECT * FROM mercancia WHERE descripcion LIKE ?";
                     cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
-                    cmd.setString(1, "%" + txtBuscarArticulo.getText() + "%");
+                    cmd.setString(1, txtBuscarArticulo.getText() + "%");
                     result=cmd.executeQuery();
                     llenarTablaBuscar(result);
                 }catch(SQLException e){
@@ -960,7 +965,7 @@ public class Inicio extends javax.swing.JFrame {
                 try{
                     String consulta="SELECT * FROM mercancia WHERE articulo LIKE ?";
                     cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
-                    cmd.setString(1, "%" + txtBuscarArticulo.getText() + "%");
+                    cmd.setString(1, txtBuscarArticulo.getText() + "%");
                     result=cmd.executeQuery();
                     llenarTablaBuscar(result);
                 }catch(SQLException e){
@@ -972,7 +977,7 @@ public class Inicio extends javax.swing.JFrame {
 
     private void cmbBuscarTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbBuscarTipoActionPerformed
         switch(cmbBuscarTipo.getSelectedItem().toString()){
-            case "Por Descripción":
+            case "Por Descripción" -> {
                 try{
                     String consulta="SELECT * FROM mercancia WHERE descripcion LIKE ?";
                     cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
@@ -982,8 +987,8 @@ public class Inicio extends javax.swing.JFrame {
                 }catch(SQLException e){
                     JOptionPane.showMessageDialog(rootPane,"Error al consultar.");
                 }
-            break;
-            case "Por Nombre":
+            }
+            case "Por Nombre" -> {
                 try{
                     String consulta="SELECT * FROM mercancia WHERE articulo LIKE ?";
                     cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
@@ -993,7 +998,7 @@ public class Inicio extends javax.swing.JFrame {
                 }catch(SQLException e){
                     JOptionPane.showMessageDialog(rootPane,"Error al consultar.");
                 }
-            break;
+            }
         }
     }//GEN-LAST:event_cmbBuscarTipoActionPerformed
 
@@ -1025,7 +1030,7 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_txtBuscarCodigoMouseClicked
 
     private void txtBuscarArticuloMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtBuscarArticuloMouseClicked
-        txtBuscarCodigo.setText(""); cmbBuscarMarca.setSelectedItem(null);
+        txtBuscarCodigo.setText(""); cmbBuscarMarca.setSelectedItem(null); txtBuscarArticulo.setText("");
     }//GEN-LAST:event_txtBuscarArticuloMouseClicked
 
     private void cmbBuscarMarcaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cmbBuscarMarcaMouseClicked
@@ -1035,6 +1040,10 @@ public class Inicio extends javax.swing.JFrame {
     private void cmbBuscarTipoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbBuscarTipoItemStateChanged
         txtBuscarArticulo.grabFocus();
     }//GEN-LAST:event_cmbBuscarTipoItemStateChanged
+
+    private void txtBuscarArticuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarArticuloActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBuscarArticuloActionPerformed
     
     public void setImageIn(JLabel a,String route){
         ImageIcon img; Icon icono;
