@@ -13,6 +13,7 @@ import javax.swing.AbstractCellEditor;
 import javax.swing.DefaultCellEditor;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -30,14 +31,11 @@ public class Inicio extends javax.swing.JFrame {
     conexionBD conexion=null;
     PreparedStatement cmd;
     ResultSet result, resultData, marca_res;
-    
     //Modulos
     public boolean m1=false,m2=false,m3=false,m4=false,m5=false;
     private final Color unused,used,selected;
-    
     //Bienvenida
     public String welcomeUser="";
-    
     //Datos del usuario
     public String user="";
     public String id="",nickname="",nombre="",paterno="",materno="",cargo="",boleta="";
@@ -54,8 +52,6 @@ public class Inicio extends javax.swing.JFrame {
         iniciarInterfaz();
         setIconImage(getIconImage());
         this.setLocationRelativeTo(null);
-        
-        
         
     }
 
@@ -78,13 +74,25 @@ public class Inicio extends javax.swing.JFrame {
     }
     
     private void iniciarBuscar(){
-        llenarMarca();
+        llenarMarca(cmbBuscarMarca);
         //Llena la tabla con todo el material de la base de datos
         try{
             String materiales="SELECT * FROM mercancia";
             cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
             result=cmd.executeQuery();
             llenarTablaBuscar(result);
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(rootPane, "Error al llenar tabla.");
+        }
+    }
+    
+    private void iniciarMovimientos(){
+        llenarMarca(cmbBuscarMarcaMov);
+        try{
+            String materiales="SELECT codigo,articulo,descripcion,marca,existencia,presentacion FROM mercancia";
+            cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
+            result=cmd.executeQuery();
+            llenarTablaSeleccionar(result);
         }catch(SQLException e){
             JOptionPane.showMessageDialog(rootPane, "Error al llenar tabla.");
         }
@@ -148,7 +156,7 @@ public class Inicio extends javax.swing.JFrame {
         //
     }
     
-    private void llenarMarca(){
+    private void llenarMarca(JComboBox cmbBuscarMarca){
         cmbBuscarMarca.removeAllItems();
         try{
             String consulta="SELECT DISTINCT marca FROM mercancia";
@@ -261,7 +269,24 @@ public class Inicio extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         cmbAlmacen = new javax.swing.JComboBox<>();
         panelMov = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblSeleccionarMaterial = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tblMoverMaterial = new javax.swing.JTable();
+        btnMover = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        txtBuscarCodigoMov = new javax.swing.JTextField();
+        cmbAlmacenMov = new javax.swing.JComboBox<>();
+        txtBuscarArticuloMov = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        cmbBuscarTipoMov = new javax.swing.JComboBox<>();
+        jLabel10 = new javax.swing.JLabel();
+        cmbBuscarMarcaMov = new javax.swing.JComboBox<>();
+        btnBorrarMov = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
         panelConsulta = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         panelCodes = new javax.swing.JPanel();
@@ -530,7 +555,7 @@ public class Inicio extends javax.swing.JFrame {
                                 .addGap(6, 6, 6)
                                 .addComponent(jLabel5))
                             .addComponent(lblBienvenida))
-                        .addGap(0, 911, Short.MAX_VALUE)))
+                        .addGap(0, 946, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panelInicioLayout.setVerticalGroup(
@@ -540,7 +565,7 @@ public class Inicio extends javax.swing.JFrame {
                 .addComponent(lblBienvenida)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 474, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 596, Short.MAX_VALUE)
                 .addComponent(btnAboutUs)
                 .addContainerGap())
         );
@@ -630,6 +655,8 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
 
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+
         tblBuscar.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         tblBuscar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -685,7 +712,7 @@ public class Inicio extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtBuscarArticulo, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)
+                                .addComponent(txtBuscarArticulo, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(cmbBuscarTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
@@ -723,7 +750,7 @@ public class Inicio extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 596, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -732,23 +759,214 @@ public class Inicio extends javax.swing.JFrame {
         panelMov.setBackground(new java.awt.Color(255, 255, 255));
         panelMov.setForeground(new java.awt.Color(51, 51, 51));
 
-        jLabel2.setText("Movimientos");
+        tblSeleccionarMaterial.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(tblSeleccionarMaterial);
+
+        tblMoverMaterial.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(tblMoverMaterial);
+
+        btnMover.setText("Realizar Movimiento");
+
+        jLabel2.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setText("Código:");
+
+        txtBuscarCodigoMov.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        txtBuscarCodigoMov.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtBuscarCodigoMovMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                txtBuscarCodigoMovMousePressed(evt);
+            }
+        });
+        txtBuscarCodigoMov.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBuscarCodigoMovActionPerformed(evt);
+            }
+        });
+        txtBuscarCodigoMov.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBuscarCodigoMovKeyReleased(evt);
+            }
+        });
+
+        cmbAlmacenMov.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        cmbAlmacenMov.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Zona 100 (Principal)", "Zona 100 (Bodega)", "Edificio A" }));
+        cmbAlmacenMov.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbAlmacenMovItemStateChanged(evt);
+            }
+        });
+        cmbAlmacenMov.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbAlmacenMovActionPerformed(evt);
+            }
+        });
+
+        txtBuscarArticuloMov.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        txtBuscarArticuloMov.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtBuscarArticuloMovMouseClicked(evt);
+            }
+        });
+        txtBuscarArticuloMov.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBuscarArticuloMovActionPerformed(evt);
+            }
+        });
+        txtBuscarArticuloMov.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBuscarArticuloMovKeyReleased(evt);
+            }
+        });
+
+        jLabel9.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel9.setText("Artículo:");
+
+        cmbBuscarTipoMov.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        cmbBuscarTipoMov.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Por Descripción", "Por Nombre" }));
+        cmbBuscarTipoMov.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbBuscarTipoMovItemStateChanged(evt);
+            }
+        });
+        cmbBuscarTipoMov.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbBuscarTipoMovActionPerformed(evt);
+            }
+        });
+
+        jLabel10.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel10.setText("Marca:");
+
+        cmbBuscarMarcaMov.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cmbBuscarMarcaMovMouseClicked(evt);
+            }
+        });
+        cmbBuscarMarcaMov.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbBuscarMarcaMovActionPerformed(evt);
+            }
+        });
+
+        btnBorrarMov.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        btnBorrarMov.setText("Borrar selección");
+        btnBorrarMov.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBorrarMovActionPerformed(evt);
+            }
+        });
+
+        jLabel11.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel11.setText("Almacén ubicado:");
+
+        jLabel12.setFont(new java.awt.Font("Microsoft YaHei", 1, 13)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel12.setText("Material Seleccionado");
+
+        jLabel13.setFont(new java.awt.Font("Microsoft YaHei", 1, 13)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel13.setText("Material disponible");
 
         javax.swing.GroupLayout panelMovLayout = new javax.swing.GroupLayout(panelMov);
         panelMov.setLayout(panelMovLayout);
         panelMovLayout.setHorizontalGroup(
             panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelMovLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMovLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2)
-                .addContainerGap(1101, Short.MAX_VALUE))
+                .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jSeparator2)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelMovLayout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtBuscarCodigoMov, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtBuscarArticuloMov, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cmbBuscarTipoMov, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cmbBuscarMarcaMov, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelMovLayout.createSequentialGroup()
+                        .addComponent(jLabel11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cmbAlmacenMov, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnBorrarMov, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelMovLayout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 970, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnMover))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelMovLayout.createSequentialGroup()
+                        .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel12)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 970, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel13))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         panelMovLayout.setVerticalGroup(
             panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelMovLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMovLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2)
-                .addContainerGap(669, Short.MAX_VALUE))
+                .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtBuscarCodigoMov, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9)
+                    .addComponent(txtBuscarArticuloMov, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbBuscarTipoMov, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10)
+                    .addComponent(cmbBuscarMarcaMov, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBorrarMov)
+                    .addComponent(jLabel11)
+                    .addComponent(cmbAlmacenMov, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelMovLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnMover))
+                    .addGroup(panelMovLayout.createSequentialGroup()
+                        .addComponent(jLabel13)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         Pestañas.addTab("Movimientos", panelMov);
@@ -764,14 +982,14 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(panelConsultaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3)
-                .addContainerGap(1124, Short.MAX_VALUE))
+                .addContainerGap(1159, Short.MAX_VALUE))
         );
         panelConsultaLayout.setVerticalGroup(
             panelConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelConsultaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3)
-                .addContainerGap(669, Short.MAX_VALUE))
+                .addContainerGap(791, Short.MAX_VALUE))
         );
 
         Pestañas.addTab("Consulta", panelConsulta);
@@ -787,14 +1005,14 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(panelCodesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel4)
-                .addContainerGap(1127, Short.MAX_VALUE))
+                .addContainerGap(1162, Short.MAX_VALUE))
         );
         panelCodesLayout.setVerticalGroup(
             panelCodesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelCodesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel4)
-                .addContainerGap(669, Short.MAX_VALUE))
+                .addContainerGap(791, Short.MAX_VALUE))
         );
 
         Pestañas.addTab("Códigos almazen", panelCodes);
@@ -848,6 +1066,7 @@ public class Inicio extends javax.swing.JFrame {
     private void btnDisplayMovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisplayMovActionPerformed
         Pestañas.setSelectedIndex(2);
         changeButtonColor();
+        iniciarMovimientos();
     }//GEN-LAST:event_btnDisplayMovActionPerformed
 
     private void btnDisplayBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisplayBuscarActionPerformed
@@ -1256,6 +1475,119 @@ public class Inicio extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_cmbAlmacenActionPerformed
+
+    //Buscar Material  SELECT (codigo, articulo, descripcion, marca, existencia, presentacion) FROM mercancia
+    
+    public void llenarTablaSeleccionar(ResultSet r){
+        String encabezado[]={"Código","Artículo","Descripción","Marca","Existencia","Presentación"};
+        DefaultTableModel modeloBuscar = new DefaultTableModel();
+        for (String columnas : encabezado) {
+            modeloBuscar.addColumn(columnas);
+        }
+        try{
+            while(r.next()){
+                Object[] row = new Object[6];
+                row[0] = r.getString(1);
+                row[1] = r.getString(2);
+                row[2] = r.getString(3);
+                row[3] = r.getString(4);
+                row[4] = r.getString(5);
+                row[5] = r.getString(6);
+                modeloBuscar.addRow(row);
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Error 008: Error al consultar materiales registrados en la base de datos.");
+        }
+        tblSeleccionarMaterial.setModel(modeloBuscar);
+        
+        // Establecer ancho de columnas
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+        renderer.setHorizontalAlignment(SwingConstants.LEFT);
+        tblSeleccionarMaterial.setDefaultRenderer(Object.class, renderer);
+        int[] anchos = {80, 90, 190, 50, 8, 30};
+        for (int i=0; i<tblSeleccionarMaterial.getColumnCount(); i++) {
+            TableColumn columna = tblSeleccionarMaterial.getColumnModel().getColumn(i);
+            int ancho=0;
+            // Obtener ancho máximo de columna
+            for (int j=0; j<tblSeleccionarMaterial.getRowCount(); j++) {
+                TableCellRenderer cellRenderer=tblSeleccionarMaterial.getCellRenderer(j, i);
+                Object valor=tblSeleccionarMaterial.getValueAt(j, i);
+                Component componente=cellRenderer.getTableCellRendererComponent(tblSeleccionarMaterial, valor, false, false, j, i);
+                ancho=Math.max(ancho, componente.getPreferredSize().width);
+            }
+            // Establecer ancho de columna
+            if (ancho>0 && ancho>anchos[i]) {
+                columna.setPreferredWidth(ancho);
+            } else {
+                columna.setPreferredWidth(anchos[i]);
+            }
+            // Establecer editor por defecto para evitar edición de celdas
+            columna.setCellEditor(new DefaultCellEditor(new JTextField()) {
+                @Override
+                public boolean isCellEditable(EventObject e) {
+                    return false;
+                }
+            });
+        }
+        //
+    }
+     
+    private void txtBuscarCodigoMovMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtBuscarCodigoMovMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBuscarCodigoMovMouseClicked
+
+    private void txtBuscarCodigoMovMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtBuscarCodigoMovMousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBuscarCodigoMovMousePressed
+
+    private void txtBuscarCodigoMovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarCodigoMovActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBuscarCodigoMovActionPerformed
+
+    private void txtBuscarCodigoMovKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarCodigoMovKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBuscarCodigoMovKeyReleased
+
+    private void cmbAlmacenMovItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbAlmacenMovItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbAlmacenMovItemStateChanged
+
+    private void cmbAlmacenMovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbAlmacenMovActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbAlmacenMovActionPerformed
+
+    private void txtBuscarArticuloMovMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtBuscarArticuloMovMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBuscarArticuloMovMouseClicked
+
+    private void txtBuscarArticuloMovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarArticuloMovActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBuscarArticuloMovActionPerformed
+
+    private void txtBuscarArticuloMovKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarArticuloMovKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBuscarArticuloMovKeyReleased
+
+    private void cmbBuscarTipoMovItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbBuscarTipoMovItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbBuscarTipoMovItemStateChanged
+
+    private void cmbBuscarTipoMovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbBuscarTipoMovActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbBuscarTipoMovActionPerformed
+
+    private void cmbBuscarMarcaMovMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cmbBuscarMarcaMovMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbBuscarMarcaMovMouseClicked
+
+    private void cmbBuscarMarcaMovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbBuscarMarcaMovActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbBuscarMarcaMovActionPerformed
+
+    private void btnBorrarMovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarMovActionPerformed
+        txtBuscarCodigoMov.setText(""); txtBuscarArticuloMov.setText(""); cmbBuscarTipoMov.setSelectedItem("Por Descripción"); cmbBuscarMarcaMov.setSelectedItem(null);
+        cmbAlmacenMov.setSelectedItem("Todos");
+    }//GEN-LAST:event_btnBorrarMovActionPerformed
     
     public void setImageIn(JLabel a,String route){
         ImageIcon img; Icon icono;
@@ -1264,6 +1596,9 @@ public class Inicio extends javax.swing.JFrame {
         a.setIcon(icono);
         this.repaint();
     }
+    
+    //Realizar movimientos
+    
     
     public static void main(String args[]) {
         String usuario="";
@@ -1286,6 +1621,7 @@ public class Inicio extends javax.swing.JFrame {
     public javax.swing.JTabbedPane Pestañas;
     private javax.swing.JButton btnAboutUs;
     private javax.swing.JButton btnBorrar;
+    private javax.swing.JButton btnBorrarMov;
     private javax.swing.JButton btnDisplayAdmin;
     private javax.swing.JButton btnDisplayBuscar;
     private javax.swing.JButton btnDisplayCodes;
@@ -1295,10 +1631,18 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JButton btnDisplayRegNew;
     private javax.swing.JButton btnDisplaySettings;
     private javax.swing.JButton btnLogout;
+    private javax.swing.JButton btnMover;
     private javax.swing.JComboBox<String> cmbAlmacen;
+    private javax.swing.JComboBox<String> cmbAlmacenMov;
     private javax.swing.JComboBox<String> cmbBuscarMarca;
+    private javax.swing.JComboBox<String> cmbBuscarMarcaMov;
     private javax.swing.JComboBox<String> cmbBuscarTipo;
+    private javax.swing.JComboBox<String> cmbBuscarTipoMov;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1306,11 +1650,15 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     public javax.swing.JLabel lblBienvenida;
     private javax.swing.JLabel logo;
     private javax.swing.JPanel panelBuscar;
@@ -1319,7 +1667,11 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JPanel panelInicio;
     private javax.swing.JPanel panelMov;
     private javax.swing.JTable tblBuscar;
+    private javax.swing.JTable tblMoverMaterial;
+    private javax.swing.JTable tblSeleccionarMaterial;
     private javax.swing.JTextField txtBuscarArticulo;
+    private javax.swing.JTextField txtBuscarArticuloMov;
     private javax.swing.JTextField txtBuscarCodigo;
+    private javax.swing.JTextField txtBuscarCodigoMov;
     // End of variables declaration//GEN-END:variables
 }
