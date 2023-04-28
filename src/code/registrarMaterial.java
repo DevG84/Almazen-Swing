@@ -427,12 +427,13 @@ public class registrarMaterial extends javax.swing.JFrame {
                             .addComponent(jLabel11)
                             .addComponent(cmbAlmacen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cmbAnaquel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel9)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(txtAnaquel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(cual3)))
+                                .addComponent(cual3))
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(cmbAnaquel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel9)))
                         .addGap(20, 20, 20)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel10)
@@ -581,6 +582,9 @@ public class registrarMaterial extends javax.swing.JFrame {
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null, "Error 005: Error al obtener las presentaciones registradas en la base de datos.");
         }
+        
+        //Almacén
+        cmbAlmacen.addItem(null); cmbAlmacen.addItem("Zona 100 (Principal)"); cmbAlmacen.addItem("Zona 100 (Bodega)"); cmbAlmacen.addItem("Edificio A");
     }
     
     private void btnAboutUsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAboutUsActionPerformed
@@ -661,7 +665,7 @@ public class registrarMaterial extends javax.swing.JFrame {
         }else{
             //Verifica que el codigo del material no se halla registrado antes
             try{
-                //Verifica si el nickname ya esta en uso
+                //Verifica si el codigo ya fué registrado
                 String consulta="SELECT codigo FROM mercancia WHERE codigo LIKE ? ";
                 cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
                 cmd.setString(1, txtCodigo.getText());
@@ -671,7 +675,7 @@ public class registrarMaterial extends javax.swing.JFrame {
                 }else{
                     //Inicia registro
                     try{
-                        String registrar=("INSERT INTO mercancia(codigo,articulo,descripcion,marca,presentacion,existencia) VALUES(?,?,?,?,?,?)");
+                        String registrar=("INSERT INTO mercancia(codigo,articulo,descripcion,marca,presentacion,existencia,almacen,anaquel,repisa) VALUES(?,?,?,?,?,?)");
                         cmd=(PreparedStatement)conexion.conectar.prepareStatement(registrar);
                         cmd.setString(1, txtCodigo.getText());
                         cmd.setString(2, txtArt.getText());
@@ -681,6 +685,11 @@ public class registrarMaterial extends javax.swing.JFrame {
                         if(cmbPresent.getSelectedItem().toString().equals("Otra")){  cmd.setString(5, txtPresent.getText());
                         }else{                          cmd.setString(5, cmbPresent.getSelectedItem().toString());}
                         cmd.setString(6, spinCant.getValue().toString());
+                        cmd.setString(7, cmbAlmacen.getSelectedItem().toString());
+                        if(cmbAnaquel.getSelectedItem().toString().equals("Otra")){    cmd.setString(8, txtAnaquel.getText());
+                        }else{                          cmd.setString(8, cmbAnaquel.getSelectedItem().toString());}
+                        if(cmbRepisa.getSelectedItem().toString().equals("Otra")){  cmd.setString(9, txtRepisa.getText());
+                        }else{                          cmd.setString(9, cmbRepisa.getSelectedItem().toString());}
                         cmd.executeUpdate();
                         //Consultar id del material recien registrado
                         try{
@@ -715,6 +724,7 @@ public class registrarMaterial extends javax.swing.JFrame {
                             }catch(SQLException e){
                                 JOptionPane.showMessageDialog(rootPane, "Error al llenar tabla.");
                             }
+                            
                         }catch(SQLException e){
                             JOptionPane.showMessageDialog(rootPane, "Error al guardar datos de movimiento.");
                         }
@@ -789,7 +799,8 @@ public class registrarMaterial extends javax.swing.JFrame {
     
     private void vaciarCampos(){
         txtCodigo.setText(""); txtArt.setText(""); txtDesc.setText(""); cmbMarca.setSelectedItem(null); cmbPresent.setSelectedItem(null);
-        txtMarca.setText(""); txtPresent.setText(""); spinCant.setValue(0); cmbTipo.setSelectedItem("Código del articulo");
+        txtMarca.setText(""); txtPresent.setText(""); spinCant.setValue(0); cmbTipo.setSelectedItem("Código del articulo"); cmbAlmacen.setSelectedItem(null);
+        cmbAnaquel.setSelectedItem(null); cmbRepisa.setSelectedItem(null); txtAnaquel.setText(""); txtRepisa.setText("");
     }
     
     private void aplicarPerCod(){
