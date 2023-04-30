@@ -1009,13 +1009,13 @@ public class Inicio extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtBuscarArticuloMov, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtBuscarArticuloMov, javax.swing.GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(cmbBuscarTipoMov, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel10)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cmbBuscarMarcaMov, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(cmbBuscarMarcaMov, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(panelMovLayout.createSequentialGroup()
                                 .addComponent(jLabel11)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1078,7 +1078,7 @@ public class Inicio extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelMovLayout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel12))
                     .addGroup(panelMovLayout.createSequentialGroup()
@@ -1091,9 +1091,7 @@ public class Inicio extends javax.swing.JFrame {
                         .addComponent(btnAddMov)))
                 .addGap(12, 12, 12)
                 .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelMovLayout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
                     .addGroup(panelMovLayout.createSequentialGroup()
                         .addComponent(spinCantRest, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1729,12 +1727,12 @@ public class Inicio extends javax.swing.JFrame {
 
     private void btnAddMovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddMovActionPerformed
         if(cmbTipoMov.getSelectedItem()!=null){
-            TableModel tabla1 = tblSeleccionarMaterial.getModel();
-            int filas[] = tblSeleccionarMaterial.getSelectedRows();
+            TableModel tabla1=tblSeleccionarMaterial.getModel();
+            int filas[]=tblSeleccionarMaterial.getSelectedRows();
 
             tblMoverMaterial.getSelectionModel().clearSelection(); // Deseleccionar todas las filas de la segunda tabla
 
-            for (int a = 0; a < filas.length; a++) {
+            for (int a=0; a<filas.length; a++) {
                 Object[] row=new Object[7];
                 int cantidad=(int)spinCantAdd.getValue();
                 row[0] = tabla1.getValueAt(filas[a], 0); //Código
@@ -1746,28 +1744,25 @@ public class Inicio extends javax.swing.JFrame {
                 row[6] = cmbTipoMov.getSelectedItem().toString();
                 // Verificar si el elemento ya está en la tabla2
                 if (tabla2Data.containsKey(row[0])) {
-                    // Si el elemento ya está en la tabla2, aumentar su cantidad en la cantidad del spinner
-                    int currentCantidad = tabla2Data.get(row[0].toString());
-                    currentCantidad += (int) spinCantAdd.getValue();
-                    tabla2Data.put(row[0].toString(), currentCantidad);
-
+                    // Si el elemento ya está en la tabla2, aumentar su cantidad en la cantidad del spinner                    
+                    int cantidadActual=Integer.parseInt(tblMoverMaterial.getValueAt(a, 5).toString());
+                    int nuevaCantidad=cantidadActual+(int)spinCantAdd.getValue();
+                    
                     // Actualizar la cantidad en la fila correspondiente en la tabla2
-                    for (int i = 0; i < tblMoverMaterial.getRowCount(); i++) {
+                    for (int i=0; i<tblMoverMaterial.getRowCount(); i++) {
                         if (tblMoverMaterial.getValueAt(i, 0).toString().equals(row[0])) {
-                            tblMoverMaterial.setValueAt(currentCantidad, i, 5);
+                            tblMoverMaterial.setValueAt(nuevaCantidad, i, 5);
                             tblMoverMaterial.getSelectionModel().addSelectionInterval(i, i); // Selección de fila
                             break;
                         }
                     }
                 } else {
-                    // Si el elemento no está en la tabla2, agregar una nueva fila con la cantidad en 1
+                    // Si el elemento no está en la tabla2, agregar una nueva fila con la cantidad seleccionada en el spin
                     tabla2Data.put(row[0].toString(), (int) spinCantAdd.getValue());
-                    row[5] = tabla2Data.get(row[0].toString()); // Establecer el valor actual de la cantidad
+                    row[5]=tabla2Data.get(row[0].toString()); // Establecer el valor actual de la cantidad
                     ((DefaultTableModel) tblMoverMaterial.getModel()).addRow(row);
                     tblMoverMaterial.getSelectionModel().addSelectionInterval(tblMoverMaterial.getRowCount() - 1, tblMoverMaterial.getRowCount() - 1); // Selección de fila
-
-                    spinCantRest.setValue(1);
-
+                    
                     // Ajustar el ancho de las columnas
                     TableColumnModel columnModel = tblMoverMaterial.getColumnModel();
                     for (int i = 0; i < columnModel.getColumnCount(); i++) {
