@@ -9,6 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.EventObject;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.AbstractCellEditor;
 import javax.swing.DefaultCellEditor;
 import javax.swing.Icon;
@@ -23,6 +25,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
 import settings.conexionBD;
 
 public class Inicio extends javax.swing.JFrame {
@@ -39,6 +43,9 @@ public class Inicio extends javax.swing.JFrame {
     //Datos del usuario
     public String user="";
     public String id="",nickname="",nombre="",paterno="",materno="",cargo="",boleta="";
+    //Para realizar movimientos
+    private Map<String, Integer> tabla2Data = new HashMap<>();
+    
 
     public Inicio(String usuario){
         this.user = usuario;
@@ -88,6 +95,9 @@ public class Inicio extends javax.swing.JFrame {
     
     private void iniciarMovimientos(){
         llenarMarca(cmbBuscarMarcaMov);
+        cmbTipoMov.addItem(null);
+        cmbTipoMov.addItem("Entrada");
+        cmbTipoMov.addItem("Salida");
         try{
             String materiales="SELECT codigo,articulo,descripcion,marca,existencia,presentacion FROM mercancia";
             cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
@@ -287,6 +297,14 @@ public class Inicio extends javax.swing.JFrame {
         jSeparator2 = new javax.swing.JSeparator();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
+        btnAddMov = new javax.swing.JButton();
+        btnDeleteMov = new javax.swing.JButton();
+        btnRestMov = new javax.swing.JButton();
+        spinCantRest = new javax.swing.JSpinner();
+        spinCantAdd = new javax.swing.JSpinner();
+        cmbTipoMov = new javax.swing.JComboBox<>();
+        jLabel14 = new javax.swing.JLabel();
+        btnSumMov = new javax.swing.JButton();
         panelConsulta = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         panelCodes = new javax.swing.JPanel();
@@ -555,7 +573,7 @@ public class Inicio extends javax.swing.JFrame {
                                 .addGap(6, 6, 6)
                                 .addComponent(jLabel5))
                             .addComponent(lblBienvenida))
-                        .addGap(0, 946, Short.MAX_VALUE)))
+                        .addGap(0, 999, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panelInicioLayout.setVerticalGroup(
@@ -712,7 +730,7 @@ public class Inicio extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtBuscarArticulo, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)
+                                .addComponent(txtBuscarArticulo, javax.swing.GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(cmbBuscarTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
@@ -759,33 +777,67 @@ public class Inicio extends javax.swing.JFrame {
         panelMov.setBackground(new java.awt.Color(255, 255, 255));
         panelMov.setForeground(new java.awt.Color(51, 51, 51));
 
+        tblSeleccionarMaterial.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         tblSeleccionarMaterial.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Código", "Artículo", "Descripción", "Marca", "Existencia", "Presentación"
             }
-        ));
-        jScrollPane2.setViewportView(tblSeleccionarMaterial);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
 
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(tblSeleccionarMaterial);
+        if (tblSeleccionarMaterial.getColumnModel().getColumnCount() > 0) {
+            tblSeleccionarMaterial.getColumnModel().getColumn(0).setResizable(false);
+            tblSeleccionarMaterial.getColumnModel().getColumn(1).setResizable(false);
+            tblSeleccionarMaterial.getColumnModel().getColumn(2).setResizable(false);
+            tblSeleccionarMaterial.getColumnModel().getColumn(3).setResizable(false);
+            tblSeleccionarMaterial.getColumnModel().getColumn(4).setResizable(false);
+            tblSeleccionarMaterial.getColumnModel().getColumn(5).setResizable(false);
+        }
+
+        tblMoverMaterial.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         tblMoverMaterial.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Código", "Artículo", "Descripción", "Marca", "Presentación", "Cantidad", "Tipo"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane3.setViewportView(tblMoverMaterial);
+        if (tblMoverMaterial.getColumnModel().getColumnCount() > 0) {
+            tblMoverMaterial.getColumnModel().getColumn(0).setResizable(false);
+            tblMoverMaterial.getColumnModel().getColumn(1).setResizable(false);
+            tblMoverMaterial.getColumnModel().getColumn(2).setResizable(false);
+            tblMoverMaterial.getColumnModel().getColumn(3).setResizable(false);
+            tblMoverMaterial.getColumnModel().getColumn(4).setResizable(false);
+            tblMoverMaterial.getColumnModel().getColumn(5).setResizable(false);
+            tblMoverMaterial.getColumnModel().getColumn(6).setResizable(false);
+        }
 
         btnMover.setText("Realizar Movimiento");
+        btnMover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMoverActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
@@ -893,44 +945,98 @@ public class Inicio extends javax.swing.JFrame {
         jLabel13.setForeground(new java.awt.Color(0, 0, 0));
         jLabel13.setText("Material disponible");
 
+        btnAddMov.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        btnAddMov.setText("Añadir");
+        btnAddMov.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddMovActionPerformed(evt);
+            }
+        });
+
+        btnDeleteMov.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        btnDeleteMov.setText("Eliminar");
+        btnDeleteMov.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteMovActionPerformed(evt);
+            }
+        });
+
+        btnRestMov.setText("Disminuir");
+        btnRestMov.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRestMovActionPerformed(evt);
+            }
+        });
+
+        spinCantRest.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        spinCantRest.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+
+        spinCantAdd.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        spinCantAdd.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+
+        cmbTipoMov.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+
+        jLabel14.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel14.setText("Tipo:");
+
+        btnSumMov.setText("Aumentar");
+        btnSumMov.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSumMovActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelMovLayout = new javax.swing.GroupLayout(panelMov);
         panelMov.setLayout(panelMovLayout);
         panelMovLayout.setHorizontalGroup(
             panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMovLayout.createSequentialGroup()
+            .addGroup(panelMovLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jSeparator2)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelMovLayout.createSequentialGroup()
+                .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(panelMovLayout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtBuscarCodigoMov, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtBuscarArticuloMov, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)
+                        .addComponent(txtBuscarArticuloMov, javax.swing.GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cmbBuscarTipoMov, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cmbBuscarMarcaMov, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelMovLayout.createSequentialGroup()
+                    .addGroup(panelMovLayout.createSequentialGroup()
                         .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cmbAlmacenMov, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnBorrarMov, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelMovLayout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 970, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnMover))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelMovLayout.createSequentialGroup()
-                        .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel12)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 970, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel13))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(jLabel12)
+                    .addComponent(jLabel13)
+                    .addGroup(panelMovLayout.createSequentialGroup()
+                        .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1090, Short.MAX_VALUE)
+                            .addComponent(jScrollPane3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnMover)
+                            .addGroup(panelMovLayout.createSequentialGroup()
+                                .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(btnDeleteMov, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(spinCantAdd, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnAddMov, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(panelMovLayout.createSequentialGroup()
+                                        .addComponent(jLabel14)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(cmbTipoMov, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(btnRestMov, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(spinCantRest, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnSumMov, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(29, 29, 29)))))
                 .addContainerGap())
         );
         panelMovLayout.setVerticalGroup(
@@ -953,20 +1059,36 @@ public class Inicio extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelMovLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnMover))
-                    .addGroup(panelMovLayout.createSequentialGroup()
-                        .addComponent(jLabel13)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel12)
+                        .addComponent(jLabel12))
+                    .addGroup(panelMovLayout.createSequentialGroup()
+                        .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel14)
+                            .addComponent(cmbTipoMov, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(btnAddMov)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(spinCantAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(panelMovLayout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(spinCantRest, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnRestMov)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnSumMov)
+                        .addGap(48, 48, 48)
+                        .addComponent(btnDeleteMov)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnMover))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         Pestañas.addTab("Movimientos", panelMov);
@@ -982,7 +1104,7 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(panelConsultaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3)
-                .addContainerGap(1159, Short.MAX_VALUE))
+                .addContainerGap(1212, Short.MAX_VALUE))
         );
         panelConsultaLayout.setVerticalGroup(
             panelConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1005,7 +1127,7 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(panelCodesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel4)
-                .addContainerGap(1162, Short.MAX_VALUE))
+                .addContainerGap(1215, Short.MAX_VALUE))
         );
         panelCodesLayout.setVerticalGroup(
             panelCodesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1588,6 +1710,129 @@ public class Inicio extends javax.swing.JFrame {
         txtBuscarCodigoMov.setText(""); txtBuscarArticuloMov.setText(""); cmbBuscarTipoMov.setSelectedItem("Por Descripción"); cmbBuscarMarcaMov.setSelectedItem(null);
         cmbAlmacenMov.setSelectedItem("Todos");
     }//GEN-LAST:event_btnBorrarMovActionPerformed
+
+    private void btnAddMovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddMovActionPerformed
+        if(cmbTipoMov.getSelectedItem()!=null){
+            TableModel tabla1 = tblSeleccionarMaterial.getModel();
+            int filas[] = tblSeleccionarMaterial.getSelectedRows();
+
+            tblMoverMaterial.getSelectionModel().clearSelection(); // Deseleccionar todas las filas de la segunda tabla
+
+            for (int a = 0; a < filas.length; a++) {
+                Object[] row=new Object[7];
+                int cantidad=(int)spinCantAdd.getValue();
+                row[0] = tabla1.getValueAt(filas[a], 0); //Código
+                row[1] = tabla1.getValueAt(filas[a], 1); //Artículo
+                row[2] = tabla1.getValueAt(filas[a], 2); //Descripción
+                row[3] = tabla1.getValueAt(filas[a], 3); //Marca
+                row[4] = tabla1.getValueAt(filas[a], 5); //Presentación
+                row[5] = cantidad; //Existencia
+                row[6] = cmbTipoMov.getSelectedItem().toString();
+                // Verificar si el elemento ya está en la tabla2
+                if (tabla2Data.containsKey(row[0])) {
+                    // Si el elemento ya está en la tabla2, aumentar su cantidad en la cantidad del spinner
+                    int currentCantidad = tabla2Data.get(row[0].toString());
+                    currentCantidad += (int) spinCantAdd.getValue();
+                    tabla2Data.put(row[0].toString(), currentCantidad);
+
+                    // Actualizar la cantidad en la fila correspondiente en la tabla2
+                    for (int i = 0; i < tblMoverMaterial.getRowCount(); i++) {
+                        if (tblMoverMaterial.getValueAt(i, 0).toString().equals(row[0])) {
+                            tblMoverMaterial.setValueAt(currentCantidad, i, 5);
+                            tblMoverMaterial.getSelectionModel().addSelectionInterval(i, i); // Selección de fila
+                            break;
+                        }
+                    }
+                } else {
+                    // Si el elemento no está en la tabla2, agregar una nueva fila con la cantidad en 1
+                    tabla2Data.put(row[0].toString(), (int) spinCantAdd.getValue());
+                    row[5] = tabla2Data.get(row[0].toString()); // Establecer el valor actual de la cantidad
+                    ((DefaultTableModel) tblMoverMaterial.getModel()).addRow(row);
+                    tblMoverMaterial.getSelectionModel().addSelectionInterval(tblMoverMaterial.getRowCount() - 1, tblMoverMaterial.getRowCount() - 1); // Selección de fila
+
+                    spinCantRest.setValue(1);
+
+                    // Ajustar el ancho de las columnas
+                    TableColumnModel columnModel = tblMoverMaterial.getColumnModel();
+                    for (int i = 0; i < columnModel.getColumnCount(); i++) {
+                        TableColumn column = columnModel.getColumn(i);
+                        int preferredWidth = column.getMinWidth();
+                        int maxWidth = column.getMaxWidth();
+
+                        for (int e = 0; e < tblMoverMaterial.getRowCount(); e++) {
+                            TableCellRenderer cellRenderer = tblMoverMaterial.getCellRenderer(e, i);
+                            Component c = tblMoverMaterial.prepareRenderer(cellRenderer, e, i);
+                            int width = c.getPreferredSize().width + tblMoverMaterial.getIntercellSpacing().width;
+                            preferredWidth = Math.max(preferredWidth, width);
+
+                            // Ajustar la anchura de la columna en función del contenido más ancho de una celda
+                            if (preferredWidth >= maxWidth) {
+                                preferredWidth = maxWidth;
+                                break;
+                            }
+                        }
+                        column.setPreferredWidth(preferredWidth);
+                    }
+                }
+            }
+            spinCantAdd.setValue(1);
+            cmbTipoMov.setSelectedItem(null);
+        }else{
+            JOptionPane.showMessageDialog(null, "Seleccione el tipo de movimiento.");
+        }
+    }//GEN-LAST:event_btnAddMovActionPerformed
+
+    private void btnDeleteMovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteMovActionPerformed
+        DefaultTableModel model = (DefaultTableModel) tblMoverMaterial.getModel();
+        int[] selectedRows = tblMoverMaterial.getSelectedRows();
+
+        // Recorre las filas seleccionadas en orden inverso
+        for (int i=selectedRows.length-1; i >= 0; i--) {
+            // Obtiene el código del material a eliminar
+            String codigo = (String) model.getValueAt(selectedRows[i], 0);
+            model.removeRow(selectedRows[i]);
+            tabla2Data.remove(codigo);
+        }
+    }//GEN-LAST:event_btnDeleteMovActionPerformed
+
+    private void btnMoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoverActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnMoverActionPerformed
+
+    private void btnRestMovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestMovActionPerformed
+        int cantidadActual = 0;
+        int[] selectedRows = tblMoverMaterial.getSelectedRows();
+
+        // Primera pasada: restar 1 a cada fila
+        for (int row : selectedRows) {
+            cantidadActual = (int) tblMoverMaterial.getValueAt(row, 5);
+            if (cantidadActual > 0) {
+                tblMoverMaterial.setValueAt(cantidadActual - (int)spinCantRest.getValue(), row, 5);
+            }
+        }
+
+        // Segunda pasada: eliminar las filas que llegaron a 0
+        for (int i = selectedRows.length - 1; i >= 0; i--) {
+            int row = selectedRows[i];
+            cantidadActual = (int) tblMoverMaterial.getValueAt(row, 5);
+            if (cantidadActual <= 0) {
+                ((DefaultTableModel) tblMoverMaterial.getModel()).removeRow(row);
+            }
+        }
+        spinCantRest.setValue(1);
+    }//GEN-LAST:event_btnRestMovActionPerformed
+
+    private void btnSumMovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSumMovActionPerformed
+        int[] selectedRows = tblMoverMaterial.getSelectedRows();
+        
+        for (int row : selectedRows) {
+            int cantidadActual = Integer.parseInt(tblMoverMaterial.getValueAt(row, 5).toString());
+            int nuevaCantidad = cantidadActual + (int) spinCantRest.getValue();
+            tblMoverMaterial.setValueAt(nuevaCantidad, row, 5);
+        }
+        spinCantRest.setValue(1);
+
+    }//GEN-LAST:event_btnSumMovActionPerformed
     
     public void setImageIn(JLabel a,String route){
         ImageIcon img; Icon icono;
@@ -1620,8 +1865,10 @@ public class Inicio extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JTabbedPane Pestañas;
     private javax.swing.JButton btnAboutUs;
+    private javax.swing.JButton btnAddMov;
     private javax.swing.JButton btnBorrar;
     private javax.swing.JButton btnBorrarMov;
+    private javax.swing.JButton btnDeleteMov;
     private javax.swing.JButton btnDisplayAdmin;
     private javax.swing.JButton btnDisplayBuscar;
     private javax.swing.JButton btnDisplayCodes;
@@ -1632,17 +1879,21 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JButton btnDisplaySettings;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnMover;
+    private javax.swing.JButton btnRestMov;
+    private javax.swing.JButton btnSumMov;
     private javax.swing.JComboBox<String> cmbAlmacen;
     private javax.swing.JComboBox<String> cmbAlmacenMov;
     private javax.swing.JComboBox<String> cmbBuscarMarca;
     private javax.swing.JComboBox<String> cmbBuscarMarcaMov;
     private javax.swing.JComboBox<String> cmbBuscarTipo;
     private javax.swing.JComboBox<String> cmbBuscarTipoMov;
+    private javax.swing.JComboBox<String> cmbTipoMov;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1666,6 +1917,8 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JPanel panelConsulta;
     private javax.swing.JPanel panelInicio;
     private javax.swing.JPanel panelMov;
+    private javax.swing.JSpinner spinCantAdd;
+    private javax.swing.JSpinner spinCantRest;
     private javax.swing.JTable tblBuscar;
     private javax.swing.JTable tblMoverMaterial;
     private javax.swing.JTable tblSeleccionarMaterial;
