@@ -95,6 +95,7 @@ public class Inicio extends javax.swing.JFrame {
     
     private void iniciarMovimientos(){
         llenarMarca(cmbBuscarMarcaMov);
+        cmbTipoMov.removeAllItems();
         cmbTipoMov.addItem(null);
         cmbTipoMov.addItem("Entrada");
         cmbTipoMov.addItem("Salida");
@@ -106,6 +107,7 @@ public class Inicio extends javax.swing.JFrame {
         }catch(SQLException e){
             JOptionPane.showMessageDialog(rootPane, "Error al llenar tabla.");
         }
+        
     }
     
     //Funciones utiles
@@ -694,6 +696,7 @@ public class Inicio extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblBuscar.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tblBuscar);
 
         jLabel8.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
@@ -730,7 +733,7 @@ public class Inicio extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtBuscarArticulo, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtBuscarArticulo, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(cmbBuscarTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
@@ -794,6 +797,7 @@ public class Inicio extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblSeleccionarMaterial.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(tblSeleccionarMaterial);
         if (tblSeleccionarMaterial.getColumnModel().getColumnCount() > 0) {
             tblSeleccionarMaterial.getColumnModel().getColumn(0).setResizable(false);
@@ -821,6 +825,7 @@ public class Inicio extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblMoverMaterial.getTableHeader().setReorderingAllowed(false);
         jScrollPane3.setViewportView(tblMoverMaterial);
         if (tblMoverMaterial.getColumnModel().getColumnCount() > 0) {
             tblMoverMaterial.getColumnModel().getColumn(0).setResizable(false);
@@ -1991,13 +1996,14 @@ public class Inicio extends javax.swing.JFrame {
                 
                 // Verificar si el elemento ya está en la tabla2
                 if (tabla2Data.containsKey(row[0])) {
-                    int cantidadActual = tabla2Data.get(row[0].toString());
+                    int cantidadActual = 0;
+                    cantidadActual =  tabla2Data.get(row[0].toString());
                     int nuevaCantidad = cantidadActual + cantidad;
                     // Si el elemento ya está en la tabla2, aumentar su cantidad en la cantidad del spinner
                     if (tblMoverMaterial.getValueAt(a, 6).toString().equals("Salida")) {
                         if(nuevaCantidad > cantidadExistente){
                             nuevaCantidad = cantidadActual;
-                            JOptionPane.showMessageDialog(null, "La cantidad de salida supera la existencia del material.");
+                            JOptionPane.showMessageDialog(null, "La cantidad de seleccionada supera la existencia del material disponible.");
                         }else{
                             cantidadActual = tabla2Data.get(row[0].toString());
                             nuevaCantidad = cantidadActual + cantidad;
@@ -2110,8 +2116,28 @@ public class Inicio extends javax.swing.JFrame {
         
         for (int row : selectedRows) {
             int cantidadActual = Integer.parseInt(tblMoverMaterial.getValueAt(row, 5).toString());
-            int nuevaCantidad = cantidadActual + (int) spinCantRest.getValue();
-            tblMoverMaterial.setValueAt(nuevaCantidad, row, 5);
+            int nuevaCantidad = 0;
+            int limite=0;
+            if(tblMoverMaterial.getValueAt(row, 6).equals("Salida")){
+                String identificador = tblMoverMaterial.getValueAt(row, 0).toString();
+                for (int i = 0; i < tblSeleccionarMaterial.getRowCount(); i++) {
+                    if (identificador.equals(tblSeleccionarMaterial.getValueAt(i, 0).toString())) {
+                        limite = Integer.parseInt(tblSeleccionarMaterial.getValueAt(i, 4).toString());
+                        break;
+                    }
+                }
+                nuevaCantidad = cantidadActual + (int) spinCantRest.getValue();
+                if(nuevaCantidad>limite){
+                    nuevaCantidad=limite;
+                    tblMoverMaterial.setValueAt(nuevaCantidad, row, 5);
+                    JOptionPane.showMessageDialog(null, "La cantidad de seleccionada supera la existencia del material disponible.");
+                }else{
+                    tblMoverMaterial.setValueAt(nuevaCantidad, row, 5);
+                }
+            }else{
+                nuevaCantidad = cantidadActual + (int) spinCantRest.getValue();
+                tblMoverMaterial.setValueAt(nuevaCantidad, row, 5);
+            }
         }
         spinCantRest.setValue(1);
 
