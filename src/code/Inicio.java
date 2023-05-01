@@ -99,7 +99,7 @@ public class Inicio extends javax.swing.JFrame {
         cmbTipoMov.addItem("Entrada");
         cmbTipoMov.addItem("Salida");
         try{
-            String materiales="SELECT codigo,articulo,descripcion,marca,existencia,presentacion FROM mercancia";
+            String materiales="SELECT * FROM mercancia";
             cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
             result=cmd.executeQuery();
             llenarTablaSeleccionar(result);
@@ -1623,11 +1623,11 @@ public class Inicio extends javax.swing.JFrame {
         try{
             while(r.next()){
                 Object[] row = new Object[6];
-                row[0] = r.getString(1);
-                row[1] = r.getString(2);
-                row[2] = r.getString(3);
-                row[3] = r.getString(4);
-                row[4] = r.getString(5);
+                row[0] = r.getString(2);
+                row[1] = r.getString(3);
+                row[2] = r.getString(4);
+                row[3] = r.getString(5);
+                row[4] = r.getString(7);
                 row[5] = r.getString(6);
                 modeloBuscar.addRow(row);
             }
@@ -1669,7 +1669,7 @@ public class Inicio extends javax.swing.JFrame {
     }
      
     private void txtBuscarCodigoMovMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtBuscarCodigoMovMouseClicked
-        // TODO add your handling code here:
+        txtBuscarCodigoMov.setText(""); txtBuscarArticuloMov.setText(""); cmbBuscarTipoMov.setSelectedItem("Por Descripción"); cmbBuscarMarcaMov.setSelectedItem(null);
     }//GEN-LAST:event_txtBuscarCodigoMovMouseClicked
 
     private void txtBuscarCodigoMovMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtBuscarCodigoMovMousePressed
@@ -1681,7 +1681,23 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_txtBuscarCodigoMovActionPerformed
 
     private void txtBuscarCodigoMovKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarCodigoMovKeyReleased
-        // TODO add your handling code here:
+        String consulta;
+        try{
+            if(cmbAlmacenMov.getSelectedItem().toString().equals("Todos")){
+                consulta="SELECT * FROM mercancia WHERE codigo LIKE ?";
+                cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                cmd.setString(1, txtBuscarCodigoMov.getText() + "%");
+            }else{
+                consulta="SELECT * FROM mercancia WHERE codigo LIKE ? AND almacen LIKE ?";
+                cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                cmd.setString(1, txtBuscarCodigoMov.getText() + "%");
+                cmd.setString(2, cmbAlmacenMov.getSelectedItem().toString());
+            }
+            result=cmd.executeQuery();
+            llenarTablaSeleccionar(result);
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(rootPane,"Error al consultar.");
+        }
     }//GEN-LAST:event_txtBuscarCodigoMovKeyReleased
 
     private void cmbAlmacenMovItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbAlmacenMovItemStateChanged
@@ -1689,11 +1705,127 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_cmbAlmacenMovItemStateChanged
 
     private void cmbAlmacenMovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbAlmacenMovActionPerformed
-        // TODO add your handling code here:
+        String materiales;
+        //Si todo está vacio
+        if(txtBuscarCodigoMov.getText().isEmpty() && txtBuscarArticuloMov.getText().isEmpty() && cmbBuscarMarcaMov.getSelectedItem()==null){
+            try{
+                if(cmbAlmacenMov.getSelectedItem().toString().equals("Todos")){
+                    materiales="SELECT * FROM mercancia";
+                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
+                }else{
+                    materiales="SELECT * FROM mercancia WHERE almacen LIKE ?";
+                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
+                    cmd.setString(1, cmbAlmacenMov.getSelectedItem().toString());
+                }
+                result=cmd.executeQuery();
+                llenarTablaSeleccionar(result);
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(rootPane, "Error al consultar..");
+            }
+        }else{
+            //Si solo el código está escrito
+            if(txtBuscarArticuloMov.getText().isEmpty() && cmbBuscarMarcaMov.getSelectedItem()==null){
+                try{
+                    if(cmbAlmacenMov.getSelectedItem().toString().equals("Todos")){
+                        materiales="SELECT * FROM mercancia WHERE codigo LIKE ?";
+                        cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
+                        cmd.setString(1, txtBuscarCodigoMov.getText() + "%");
+                    }else{
+                        materiales="SELECT * FROM mercancia WHERE codigo LIKE ? AND almacen LIKE ?";
+                        cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
+                        cmd.setString(1, txtBuscarCodigoMov.getText() + "%");
+                        cmd.setString(2, cmbAlmacenMov.getSelectedItem().toString());
+                    }
+                    result=cmd.executeQuery();
+                    llenarTablaSeleccionar(result);
+                }catch(SQLException e){
+                    JOptionPane.showMessageDialog(rootPane,"Error al consultar.");
+                }
+            }else{
+                //Si solo el articulo está escrito
+                if(txtBuscarCodigoMov.getText().isEmpty() && cmbBuscarMarcaMov.getSelectedItem()==null){
+                    switch(cmbBuscarTipoMov.getSelectedItem().toString()){
+                        case "Por Descripción":
+                            try{
+                                if(cmbAlmacenMov.getSelectedItem().toString().equals("Todos")){
+                                    materiales="SELECT * FROM mercancia WHERE descripcion LIKE ?";
+                                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
+                                    cmd.setString(1, txtBuscarArticuloMov.getText() + "%");
+                                }else{
+                                    materiales="SELECT * FROM mercancia WHERE descripcion LIKE ? AND almacen LIKE ?";
+                                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
+                                    cmd.setString(1, txtBuscarArticuloMov.getText() + "%");
+                                    cmd.setString(2, cmbAlmacenMov.getSelectedItem().toString());
+                                }
+                                result=cmd.executeQuery();
+                                llenarTablaSeleccionar(result);
+                            }catch(SQLException e){
+                                JOptionPane.showMessageDialog(rootPane,"Error al consultar.");
+                            }
+                        break;
+                        case "Por Nombre":
+                            try{
+                                if(cmbAlmacenMov.getSelectedItem().toString().equals("Todos")){
+                                    materiales="SELECT * FROM mercancia WHERE articulo LIKE ?";
+                                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
+                                    cmd.setString(1, txtBuscarArticuloMov.getText() + "%");
+                                }else{
+                                    materiales="SELECT * FROM mercancia WHERE articulo LIKE ? AND almacen LIKE ?";
+                                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
+                                    cmd.setString(1, txtBuscarArticuloMov.getText() + "%");
+                                    cmd.setString(2, cmbAlmacenMov.getSelectedItem().toString());
+                                }
+                                result=cmd.executeQuery();
+                                llenarTablaSeleccionar(result);
+                            }catch(SQLException e){
+                                JOptionPane.showMessageDialog(rootPane,"Error al consultar.");
+                            }
+                        break;
+                    }
+                }else{
+                    //Si solo está seleccionada la marca
+                    if(txtBuscarCodigoMov.getText().isEmpty() && txtBuscarArticuloMov.getText().isEmpty()){
+                        if(cmbBuscarMarcaMov.getSelectedItem() == null){
+                            try{
+                                if(cmbAlmacenMov.getSelectedItem().toString().equals("Todos")){
+                                    materiales="SELECT * FROM mercancia";
+                                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
+                                }else{
+                                    materiales="SELECT * FROM mercancia WHERE almacen LIKE ?";
+                                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
+                                    cmd.setString(1, cmbAlmacenMov.getSelectedItem().toString());
+                                }
+                                result=cmd.executeQuery();
+                                llenarTablaSeleccionar(result);
+                            }catch(SQLException e){
+                                JOptionPane.showMessageDialog(rootPane,"Error al consultar.");
+                            }
+                        }else{
+                            try{
+                                if(cmbAlmacenMov.getSelectedItem().toString().equals("Todos")){
+                                    materiales="SELECT * FROM mercancia WHERE marca LIKE ?";
+                                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
+                                    cmd.setString(1, cmbBuscarMarcaMov.getSelectedItem().toString());
+                                }else{
+                                    materiales="SELECT * FROM mercancia WHERE marca LIKE ? AND almacen LIKE ?";
+                                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
+                                    cmd.setString(1, cmbBuscarMarcaMov.getSelectedItem().toString());
+                                    cmd.setString(2, cmbAlmacenMov.getSelectedItem().toString());
+                                }
+                                result=cmd.executeQuery();
+                                llenarTablaSeleccionar(result);
+                            }catch(SQLException e){
+                                JOptionPane.showMessageDialog(rootPane,"Error al consultar.");
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }//GEN-LAST:event_cmbAlmacenMovActionPerformed
 
     private void txtBuscarArticuloMovMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtBuscarArticuloMovMouseClicked
-        // TODO add your handling code here:
+        txtBuscarCodigoMov.setText(""); cmbBuscarMarcaMov.setSelectedItem(null); txtBuscarArticuloMov.setText("");
     }//GEN-LAST:event_txtBuscarArticuloMovMouseClicked
 
     private void txtBuscarArticuloMovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarArticuloMovActionPerformed
@@ -1701,23 +1833,132 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_txtBuscarArticuloMovActionPerformed
 
     private void txtBuscarArticuloMovKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarArticuloMovKeyReleased
-        // TODO add your handling code here:
+        String consulta;
+        switch(cmbBuscarTipoMov.getSelectedItem().toString()){
+            case "Por Descripción":
+                try{
+                    if(cmbAlmacenMov.getSelectedItem().toString().equals("Todos")){
+                        consulta="SELECT * FROM mercancia WHERE descripcion LIKE ?";
+                        cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                        cmd.setString(1, txtBuscarArticuloMov.getText() + "%");
+                    }else{
+                        consulta="SELECT * FROM mercancia WHERE descripcion LIKE ? AND almacen LIKE ?";
+                        cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                        cmd.setString(1, txtBuscarArticuloMov.getText() + "%");
+                        cmd.setString(2, cmbAlmacenMov.getSelectedItem().toString());
+                    }
+                    result=cmd.executeQuery();
+                    llenarTablaSeleccionar(result);
+                }catch(SQLException e){
+                    JOptionPane.showMessageDialog(rootPane,"Error al consultar.");
+                }
+            break;
+            case "Por Nombre":
+                try{
+                    if(cmbAlmacenMov.getSelectedItem().toString().equals("Todos")){
+                        consulta="SELECT * FROM mercancia WHERE articulo LIKE ?";
+                        cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                        cmd.setString(1, txtBuscarArticuloMov.getText() + "%");
+                    }else{
+                        consulta="SELECT * FROM mercancia WHERE articulo LIKE ? AND almacen LIKE ?";
+                        cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                        cmd.setString(1, txtBuscarArticuloMov.getText() + "%");
+                        cmd.setString(2, cmbAlmacenMov.getSelectedItem().toString());
+                    }
+                    result=cmd.executeQuery();
+                    llenarTablaSeleccionar(result);
+                }catch(SQLException e){
+                    JOptionPane.showMessageDialog(rootPane,"Error al consultar.");
+                }
+            break;
+        }
     }//GEN-LAST:event_txtBuscarArticuloMovKeyReleased
 
     private void cmbBuscarTipoMovItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbBuscarTipoMovItemStateChanged
-        // TODO add your handling code here:
+        txtBuscarArticuloMov.grabFocus();
     }//GEN-LAST:event_cmbBuscarTipoMovItemStateChanged
 
     private void cmbBuscarTipoMovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbBuscarTipoMovActionPerformed
-        // TODO add your handling code here:
+        String consulta;
+        switch(cmbBuscarTipoMov.getSelectedItem().toString()){
+            case "Por Descripción":
+                try{
+                    if(cmbAlmacenMov.getSelectedItem().toString().equals("Todos")){
+                        consulta="SELECT * FROM mercancia WHERE descripcion LIKE ?";
+                        cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                        cmd.setString(1, txtBuscarArticuloMov.getText() + "%");
+                    }else{
+                        consulta="SELECT * FROM mercancia WHERE descripcion LIKE ? AND almacen LIKE ?";
+                        cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                        cmd.setString(1, txtBuscarArticuloMov.getText() + "%");
+                        cmd.setString(2, cmbAlmacenMov.getSelectedItem().toString());
+                    }
+                    result=cmd.executeQuery();
+                    llenarTablaSeleccionar(result);
+                }catch(SQLException e){
+                    JOptionPane.showMessageDialog(rootPane,"Error al consultar.");
+                }
+            break;
+            case "Por Nombre":
+                try{
+                    if(cmbAlmacenMov.getSelectedItem().toString().equals("Todos")){
+                        consulta="SELECT * FROM mercancia WHERE articulo LIKE ?";
+                        cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                        cmd.setString(1, txtBuscarArticuloMov.getText() + "%");
+                    }else{
+                        consulta="SELECT * FROM mercancia WHERE articulo LIKE ? AND almacen LIKE ?";
+                        cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                        cmd.setString(1, txtBuscarArticuloMov.getText() + "%");
+                        cmd.setString(2, cmbAlmacenMov.getSelectedItem().toString());
+                    }
+                    result=cmd.executeQuery();
+                    llenarTablaSeleccionar(result);
+                }catch(SQLException e){
+                    JOptionPane.showMessageDialog(rootPane,"Error al consultar.");
+                }
+            break;
+        }
     }//GEN-LAST:event_cmbBuscarTipoMovActionPerformed
 
     private void cmbBuscarMarcaMovMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cmbBuscarMarcaMovMouseClicked
-        // TODO add your handling code here:
+        txtBuscarCodigoMov.setText(""); txtBuscarArticuloMov.setText("");
     }//GEN-LAST:event_cmbBuscarMarcaMovMouseClicked
 
     private void cmbBuscarMarcaMovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbBuscarMarcaMovActionPerformed
-        // TODO add your handling code here:
+        String consulta;
+        if(cmbBuscarMarcaMov.getSelectedItem() == null){
+            try{
+                if(cmbAlmacenMov.getSelectedItem().toString().equals("Todos")){
+                    consulta="SELECT * FROM mercancia";
+                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                }else{
+                    consulta="SELECT * FROM mercancia WHERE almacen LIKE ?";
+                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                    cmd.setString(1, cmbAlmacenMov.getSelectedItem().toString());
+                }
+                result=cmd.executeQuery();
+                llenarTablaSeleccionar(result);
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(rootPane,"Error al consultar.");
+            }
+        }else{
+            try{
+                if(cmbAlmacenMov.getSelectedItem().toString().equals("Todos")){
+                    consulta="SELECT * FROM mercancia WHERE marca LIKE ?";
+                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                    cmd.setString(1, cmbBuscarMarcaMov.getSelectedItem().toString());
+                }else{
+                    consulta="SELECT * FROM mercancia WHERE marca LIKE ? AND almacen LIKE ?";
+                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                    cmd.setString(1, cmbBuscarMarcaMov.getSelectedItem().toString());
+                    cmd.setString(2, cmbAlmacenMov.getSelectedItem().toString());
+                }
+                result=cmd.executeQuery();
+                llenarTablaSeleccionar(result);
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(rootPane,"Error al consultar.");
+            }
+        }
     }//GEN-LAST:event_cmbBuscarMarcaMovActionPerformed
 
     private void btnBorrarMovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarMovActionPerformed
@@ -1726,43 +1967,68 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBorrarMovActionPerformed
 
     private void btnAddMovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddMovActionPerformed
-        if(cmbTipoMov.getSelectedItem()!=null){
-            TableModel tabla1=tblSeleccionarMaterial.getModel();
-            int filas[]=tblSeleccionarMaterial.getSelectedRows();
-
+        if (cmbTipoMov.getSelectedItem() != null) {
+            TableModel tabla1 = tblSeleccionarMaterial.getModel();
+            int filas[] = tblSeleccionarMaterial.getSelectedRows();
             tblMoverMaterial.getSelectionModel().clearSelection(); // Deseleccionar todas las filas de la segunda tabla
 
-            for (int a=0; a<filas.length; a++) {
-                Object[] row=new Object[7];
-                int cantidad=(int)spinCantAdd.getValue();
-                row[0] = tabla1.getValueAt(filas[a], 0); //Código
-                row[1] = tabla1.getValueAt(filas[a], 1); //Artículo
-                row[2] = tabla1.getValueAt(filas[a], 2); //Descripción
-                row[3] = tabla1.getValueAt(filas[a], 3); //Marca
-                row[4] = tabla1.getValueAt(filas[a], 5); //Presentación
-                row[5] = cantidad; //Existencia
+            for (int a = 0; a < filas.length; a++) {
+                Object[] row = new Object[7];
+                int cantidad = (int)spinCantAdd.getValue();
+                row[0] = tabla1.getValueAt(filas[a], 0); // Código
+                row[1] = tabla1.getValueAt(filas[a], 1); // Artículo
+                row[2] = tabla1.getValueAt(filas[a], 2); // Descripción
+                row[3] = tabla1.getValueAt(filas[a], 3); // Marca
+                row[4] = tabla1.getValueAt(filas[a], 5); // Presentación
+                row[5] = cantidad; // Existencia
                 row[6] = cmbTipoMov.getSelectedItem().toString();
+
+                //
+                String strcant = (String) tabla1.getValueAt(filas[a], 4);
+                int cantidadExistente = Integer.parseInt(strcant);
+                
+                //
+                
                 // Verificar si el elemento ya está en la tabla2
                 if (tabla2Data.containsKey(row[0])) {
-                    // Si el elemento ya está en la tabla2, aumentar su cantidad en la cantidad del spinner                    
-                    int cantidadActual=Integer.parseInt(tblMoverMaterial.getValueAt(a, 5).toString());
-                    int nuevaCantidad=cantidadActual+(int)spinCantAdd.getValue();
-                    
+                    int cantidadActual = tabla2Data.get(row[0].toString());
+                    int nuevaCantidad = cantidadActual + cantidad;
+                    // Si el elemento ya está en la tabla2, aumentar su cantidad en la cantidad del spinner
+                    if (tblMoverMaterial.getValueAt(a, 6).toString().equals("Salida")) {
+                        if(nuevaCantidad > cantidadExistente){
+                            nuevaCantidad = cantidadActual;
+                            JOptionPane.showMessageDialog(null, "La cantidad de salida supera la existencia del material.");
+                        }else{
+                            cantidadActual = tabla2Data.get(row[0].toString());
+                            nuevaCantidad = cantidadActual + cantidad;
+                            tabla2Data.put(row[0].toString(), nuevaCantidad);
+                        }
+                    }else{    
+                        cantidadActual = tabla2Data.get(row[0].toString());
+                        nuevaCantidad = cantidadActual + cantidad;
+                        tabla2Data.put(row[0].toString(), nuevaCantidad);
+                    }
                     // Actualizar la cantidad en la fila correspondiente en la tabla2
-                    for (int i=0; i<tblMoverMaterial.getRowCount(); i++) {
+                    for (int i = 0; i < tblMoverMaterial.getRowCount(); i++) {
                         if (tblMoverMaterial.getValueAt(i, 0).toString().equals(row[0])) {
                             tblMoverMaterial.setValueAt(nuevaCantidad, i, 5);
+                            
                             tblMoverMaterial.getSelectionModel().addSelectionInterval(i, i); // Selección de fila
                             break;
                         }
                     }
+
                 } else {
                     // Si el elemento no está en la tabla2, agregar una nueva fila con la cantidad seleccionada en el spin
-                    tabla2Data.put(row[0].toString(), (int) spinCantAdd.getValue());
-                    row[5]=tabla2Data.get(row[0].toString()); // Establecer el valor actual de la cantidad
-                    ((DefaultTableModel) tblMoverMaterial.getModel()).addRow(row);
-                    tblMoverMaterial.getSelectionModel().addSelectionInterval(tblMoverMaterial.getRowCount() - 1, tblMoverMaterial.getRowCount() - 1); // Selección de fila
+                    if (row[6].equals("Salida") && cantidad > cantidadExistente) {
+                        JOptionPane.showMessageDialog(null, "La cantidad de seleccionada supera la existencia del material disponible.");
+                        continue;
+                    }
                     
+                    tabla2Data.put(row[0].toString(), cantidad);
+                    row[5] = cantidad; // Establecer el valor actual de la cantidad
+                    ((DefaultTableModel) tblMoverMaterial.getModel()).addRow(row);
+
                     // Ajustar el ancho de las columnas
                     TableColumnModel columnModel = tblMoverMaterial.getColumnModel();
                     for (int i = 0; i < columnModel.getColumnCount(); i++) {
@@ -1784,13 +2050,19 @@ public class Inicio extends javax.swing.JFrame {
                         }
                         column.setPreferredWidth(preferredWidth);
                     }
+                    // Actualizar la cantidad en la fila correspondiente en la tabla2
+                    for (int i = 0; i < tblMoverMaterial.getRowCount(); i++) {
+                        if (tblMoverMaterial.getValueAt(i, 0).toString().equals(row[0])) {
+                            tblMoverMaterial.getSelectionModel().addSelectionInterval(i, i); // Selección de fila
+                            break;
+                        }
+                    }
                 }
             }
-            spinCantAdd.setValue(1);
-            cmbTipoMov.setSelectedItem(null);
         }else{
             JOptionPane.showMessageDialog(null, "Seleccione el tipo de movimiento.");
         }
+        spinCantAdd.setValue(1);  cmbTipoMov.setSelectedItem(null);
     }//GEN-LAST:event_btnAddMovActionPerformed
 
     private void btnDeleteMovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteMovActionPerformed
