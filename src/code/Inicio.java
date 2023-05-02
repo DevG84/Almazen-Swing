@@ -2250,7 +2250,11 @@ public class Inicio extends javax.swing.JFrame {
             int row = selectedRows[i];
             cantidadActual = (int) tblMoverMaterial.getValueAt(row, 5);
             if (cantidadActual <= 0) {
-                ((DefaultTableModel) tblMoverMaterial.getModel()).removeRow(row);
+                DefaultTableModel model = (DefaultTableModel) tblMoverMaterial.getModel();
+                // Obtiene el código del material a eliminar
+                String codigo = (String) model.getValueAt(selectedRows[i], 0);
+                model.removeRow(selectedRows[i]);
+                tabla2Data.remove(codigo);
             }
         }
         spinCantRest.setValue(1);

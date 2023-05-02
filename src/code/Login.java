@@ -24,7 +24,7 @@ import settings.conexionBD;
 import java.sql.SQLException;
 
 public class Login extends javax.swing.JFrame {
-
+    
     //Para acciones en la base de datos
     conexionBD conexion=null;
     PreparedStatement cmd;
@@ -282,7 +282,7 @@ public class Login extends javax.swing.JFrame {
                     .addComponent(nyan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addComponent(lblRegistro)
-                .addContainerGap(7, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         bgLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnOcultar, txtPassword});
