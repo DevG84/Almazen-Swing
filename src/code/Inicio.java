@@ -103,6 +103,7 @@ public class Inicio extends javax.swing.JFrame {
         cmbTipoMov.addItem(null);
         cmbTipoMov.addItem("Entrada");
         cmbTipoMov.addItem("Salida");
+        //Llena la tabla con todo el material de la base de datos
         try{
             String materiales="SELECT * FROM mercancia";
             cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
@@ -112,6 +113,22 @@ public class Inicio extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Error al llenar tabla.");
         }
         
+    }
+    
+    private void iniciarConsulta(){
+        llenarMarca(cmbConsultMarca);
+        llenarNick();
+        //Llena la tabla con la información de la base de datos
+        try{
+            String materiales=("SELECT mov.asunto, merc.codigo, merc.articulo, merc.descripcion, merc.marca, merc.almacen, mov.tipo, mov.cantidad, u.nickname, mov.fecha FROM movimiento AS mov\n" +
+            "JOIN mercancia AS merc ON mov.IDmercancia = merc.IDmercancia\n" +
+            "JOIN usuarios AS u ON mov.IDusuario = u.IDusuario ORDER BY mov.fecha DESC, mov.IDmovimiento DESC");
+            cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
+            result=cmd.executeQuery();
+            llenarTablaConsult(result);
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(rootPane, "Error al llenar tabla.");
+        }
     }
     
     //Funciones utiles
@@ -182,6 +199,22 @@ public class Inicio extends javax.swing.JFrame {
             cmbBuscarMarca.addItem(null);
             while (marca_res.next()) {
                 cmbBuscarMarca.addItem(marca_res.getString(1));
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Error 004: Error al obtener las marcas registradas en la base de datos.");
+        }
+    }
+    
+    private void llenarNick(){
+        cmbConsultNick.removeAllItems();
+        try{
+            String consulta="SELECT DISTINCT usuarios.nickname FROM movimiento JOIN usuarios ON movimiento.IDusuario = usuarios.IDusuario";
+            cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+            result=cmd.executeQuery();
+            //Recorrer los resultados y agregar cada valor único de "marca" al JComboBox
+            cmbConsultNick.addItem(null);
+            while (result.next()) {
+                cmbConsultNick.addItem(result.getString(1));
             }
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null, "Error 004: Error al obtener las marcas registradas en la base de datos.");
@@ -315,7 +348,29 @@ public class Inicio extends javax.swing.JFrame {
         jScrollPane5 = new javax.swing.JScrollPane();
         txtAsunto = new javax.swing.JTextArea();
         panelConsulta = new javax.swing.JPanel();
+        jSeparator3 = new javax.swing.JSeparator();
+        cmbConsultAlmacen = new javax.swing.JComboBox<>();
+        jLabel17 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        txtConsultCodigo = new javax.swing.JTextField();
+        jLabel18 = new javax.swing.JLabel();
+        txtConsultArticulo = new javax.swing.JTextField();
+        cmbConsultTipo = new javax.swing.JComboBox<>();
+        jLabel19 = new javax.swing.JLabel();
+        cmbConsultMarca = new javax.swing.JComboBox<>();
+        btnBorrarConsult = new javax.swing.JButton();
+        jLabel20 = new javax.swing.JLabel();
+        cmbConsultMov = new javax.swing.JComboBox<>();
+        jLabel21 = new javax.swing.JLabel();
+        cmbConsultNick = new javax.swing.JComboBox<>();
+        jLabel22 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tblConsulta = new javax.swing.JTable();
+        dateConsultDe = new com.toedter.calendar.JDateChooser();
+        dateConsultA = new com.toedter.calendar.JDateChooser();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         panelCodes = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
 
@@ -582,7 +637,7 @@ public class Inicio extends javax.swing.JFrame {
                                 .addGap(6, 6, 6)
                                 .addComponent(jLabel5))
                             .addComponent(lblBienvenida))
-                        .addGap(0, 1048, Short.MAX_VALUE)))
+                        .addGap(0, 1063, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panelInicioLayout.setVerticalGroup(
@@ -709,7 +764,7 @@ public class Inicio extends javax.swing.JFrame {
 
         jLabel8.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel8.setText("Almacén ubicado:");
+        jLabel8.setText("Almacén:");
 
         cmbAlmacen.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         cmbAlmacen.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Zona 100 (Principal)", "Zona 100 (Bodega)", "Edificio A" }));
@@ -735,25 +790,30 @@ public class Inicio extends javax.swing.JFrame {
                         .addGroup(panelBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jSeparator1)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelBuscarLayout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtBuscarCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtBuscarArticulo, javax.swing.GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cmbBuscarTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cmbBuscarMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelBuscarLayout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cmbAlmacen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnBorrar))))
+                                .addGroup(panelBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelBuscarLayout.createSequentialGroup()
+                                        .addComponent(jLabel8)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(cmbAlmacen, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelBuscarLayout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtBuscarCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(panelBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panelBuscarLayout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel6)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtBuscarArticulo)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(cmbBuscarTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel7)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(cmbBuscarMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBuscarLayout.createSequentialGroup()
+                                        .addGap(893, 893, 893)
+                                        .addComponent(btnBorrar))))))
                     .addGroup(panelBuscarLayout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addComponent(jScrollPane1)))
@@ -951,7 +1011,7 @@ public class Inicio extends javax.swing.JFrame {
 
         jLabel11.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel11.setText("Almacén ubicado:");
+        jLabel11.setText("Almacén:");
 
         jLabel12.setFont(new java.awt.Font("Microsoft YaHei", 1, 13)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(0, 0, 0));
@@ -1043,25 +1103,6 @@ public class Inicio extends javax.swing.JFrame {
                     .addGroup(panelMovLayout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelMovLayout.createSequentialGroup()
-                                .addComponent(jLabel11)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cmbAlmacenMov, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnBorrarMov))
-                            .addGroup(panelMovLayout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtBuscarCodigoMov, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel9)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtBuscarArticuloMov)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cmbBuscarTipoMov, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel10)
-                                .addGap(206, 206, 206))
                             .addComponent(jLabel13)
                             .addGroup(panelMovLayout.createSequentialGroup()
                                 .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1083,15 +1124,37 @@ public class Inicio extends javax.swing.JFrame {
                                                 .addComponent(cmbTipoMov, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                             .addComponent(spinCantAdd)
                                             .addComponent(btnAddMov, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMovLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(cmbBuscarMarcaMov, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(panelMovLayout.createSequentialGroup()
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1052, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(panelMovLayout.createSequentialGroup()
+                                .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelMovLayout.createSequentialGroup()
+                                        .addComponent(jLabel11)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(cmbAlmacenMov, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelMovLayout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtBuscarCodigoMov, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panelMovLayout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel9)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtBuscarArticuloMov)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(cmbBuscarTipoMov, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel10)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(cmbBuscarMarcaMov, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMovLayout.createSequentialGroup()
+                                        .addGap(893, 893, 893)
+                                        .addComponent(btnBorrarMov)))))))
                 .addContainerGap())
         );
         panelMovLayout.setVerticalGroup(
@@ -1152,23 +1215,278 @@ public class Inicio extends javax.swing.JFrame {
 
         panelConsulta.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel3.setText("Consulta");
+        cmbConsultAlmacen.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        cmbConsultAlmacen.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Zona 100 (Principal)", "Zona 100 (Bodega)", "Edificio A" }));
+        cmbConsultAlmacen.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbConsultAlmacenItemStateChanged(evt);
+            }
+        });
+        cmbConsultAlmacen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbConsultAlmacenActionPerformed(evt);
+            }
+        });
+
+        jLabel17.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel17.setText("Almacén:");
+
+        jLabel3.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel3.setText("Código:");
+
+        txtConsultCodigo.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        txtConsultCodigo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtConsultCodigoMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                txtConsultCodigoMousePressed(evt);
+            }
+        });
+        txtConsultCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtConsultCodigoActionPerformed(evt);
+            }
+        });
+        txtConsultCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtConsultCodigoKeyReleased(evt);
+            }
+        });
+
+        jLabel18.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel18.setText("Artículo:");
+
+        txtConsultArticulo.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        txtConsultArticulo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtConsultArticuloMouseClicked(evt);
+            }
+        });
+        txtConsultArticulo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtConsultArticuloActionPerformed(evt);
+            }
+        });
+        txtConsultArticulo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtConsultArticuloKeyReleased(evt);
+            }
+        });
+
+        cmbConsultTipo.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        cmbConsultTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Por Descripción", "Por Nombre" }));
+        cmbConsultTipo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbConsultTipoItemStateChanged(evt);
+            }
+        });
+        cmbConsultTipo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbConsultTipoActionPerformed(evt);
+            }
+        });
+
+        jLabel19.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel19.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel19.setText("Marca:");
+
+        cmbConsultMarca.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cmbConsultMarcaMouseClicked(evt);
+            }
+        });
+        cmbConsultMarca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbConsultMarcaActionPerformed(evt);
+            }
+        });
+
+        btnBorrarConsult.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        btnBorrarConsult.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/trash2_24px.png"))); // NOI18N
+        btnBorrarConsult.setText("Borrar selección");
+        btnBorrarConsult.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBorrarConsultActionPerformed(evt);
+            }
+        });
+
+        jLabel20.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel20.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel20.setText("Tipo:");
+
+        cmbConsultMov.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        cmbConsultMov.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Entrada y salida", "Entrada", "Salida" }));
+
+        jLabel21.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel21.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel21.setText("Nickname:");
+
+        cmbConsultNick.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+
+        jLabel22.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel22.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel22.setText("Fecha:");
+
+        tblConsulta.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        tblConsulta.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Asunto", "Código", "Artículo", "Descripción", "Marca", "Tipo", "Cantidad", "Nickname", "Fecha"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true, false, false, false, true, true, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane4.setViewportView(tblConsulta);
+        if (tblConsulta.getColumnModel().getColumnCount() > 0) {
+            tblConsulta.getColumnModel().getColumn(0).setResizable(false);
+            tblConsulta.getColumnModel().getColumn(2).setResizable(false);
+            tblConsulta.getColumnModel().getColumn(3).setResizable(false);
+            tblConsulta.getColumnModel().getColumn(4).setResizable(false);
+        }
+
+        dateConsultDe.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        dateConsultDe.setPreferredSize(new java.awt.Dimension(85, 24));
+
+        dateConsultA.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        dateConsultA.setPreferredSize(new java.awt.Dimension(85, 24));
+
+        jLabel16.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel16.setText("a");
+
+        jLabel23.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel23.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel23.setText("De");
+
+        jButton1.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/search_24px.png"))); // NOI18N
+        jButton1.setText("Filtrar");
 
         javax.swing.GroupLayout panelConsultaLayout = new javax.swing.GroupLayout(panelConsulta);
         panelConsulta.setLayout(panelConsultaLayout);
         panelConsultaLayout.setHorizontalGroup(
             panelConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelConsultaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3)
-                .addContainerGap(1261, Short.MAX_VALUE))
+                .addGap(6, 6, 6)
+                .addGroup(panelConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelConsultaLayout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtConsultCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtConsultArticulo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cmbConsultTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel19)
+                        .addGap(6, 6, 6)
+                        .addComponent(cmbConsultMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelConsultaLayout.createSequentialGroup()
+                        .addComponent(jLabel17)
+                        .addGap(6, 6, 6)
+                        .addComponent(cmbConsultAlmacen, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel20)
+                        .addGap(6, 6, 6)
+                        .addComponent(cmbConsultMov, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel21)
+                        .addGap(6, 6, 6)
+                        .addComponent(cmbConsultNick, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel22)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel23)
+                        .addGap(5, 5, 5)
+                        .addComponent(dateConsultDe, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel16)
+                        .addGap(7, 7, 7)
+                        .addComponent(dateConsultA, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                        .addComponent(btnBorrarConsult))
+                    .addComponent(jSeparator3)
+                    .addComponent(jScrollPane4))
+                .addGap(6, 6, 6))
         );
         panelConsultaLayout.setVerticalGroup(
             panelConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelConsultaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3)
-                .addContainerGap(864, Short.MAX_VALUE))
+                .addGap(6, 6, 6)
+                .addGroup(panelConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtConsultCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel3))
+                    .addGroup(panelConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtConsultArticulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cmbConsultTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel18))
+                    .addGroup(panelConsultaLayout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addGroup(panelConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cmbConsultMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel19))))
+                .addGap(6, 6, 6)
+                .addGroup(panelConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelConsultaLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel17))
+                    .addGroup(panelConsultaLayout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(cmbConsultAlmacen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelConsultaLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel20))
+                    .addGroup(panelConsultaLayout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(cmbConsultMov, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelConsultaLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel21))
+                    .addGroup(panelConsultaLayout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(cmbConsultNick, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelConsultaLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(panelConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel22)
+                            .addComponent(jLabel23)))
+                    .addGroup(panelConsultaLayout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(dateConsultDe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelConsultaLayout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(jLabel16))
+                    .addGroup(panelConsultaLayout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(dateConsultA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnBorrarConsult)
+                        .addComponent(jButton1)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 798, Short.MAX_VALUE)
+                .addGap(6, 6, 6))
         );
 
         Pestañas.addTab("Consulta", panelConsulta);
@@ -1184,7 +1502,7 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(panelCodesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel4)
-                .addContainerGap(1264, Short.MAX_VALUE))
+                .addContainerGap(1279, Short.MAX_VALUE))
         );
         panelCodesLayout.setVerticalGroup(
             panelCodesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1206,7 +1524,7 @@ public class Inicio extends javax.swing.JFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(188, 188, 188)
-                .addComponent(Pestañas))
+                .addComponent(Pestañas, javax.swing.GroupLayout.DEFAULT_SIZE, 1329, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1257,6 +1575,7 @@ public class Inicio extends javax.swing.JFrame {
     private void btnDisplayConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisplayConsultaActionPerformed
         Pestañas.setSelectedIndex(3);
         changeButtonColor();
+        iniciarConsulta();
     }//GEN-LAST:event_btnDisplayConsultaActionPerformed
 
     private void btnDisplayAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisplayAdminActionPerformed
@@ -2007,7 +2326,7 @@ public class Inicio extends javax.swing.JFrame {
 
     private void btnBorrarMovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarMovActionPerformed
         txtBuscarCodigoMov.setText(""); txtBuscarArticuloMov.setText(""); cmbBuscarTipoMov.setSelectedItem("Por Descripción"); cmbBuscarMarcaMov.setSelectedItem(null);
-        cmbAlmacenMov.setSelectedItem("Todos");
+        cmbAlmacenMov.setSelectedItem("Zona 100 (Principal)");
     }//GEN-LAST:event_btnBorrarMovActionPerformed
 
     private void btnAddMovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddMovActionPerformed
@@ -2231,8 +2550,6 @@ public class Inicio extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnMoverActionPerformed
     
-    
-    
     private void btnRestMovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestMovActionPerformed
         int cantidadActual = 0;
         int[] selectedRows = tblMoverMaterial.getSelectedRows();
@@ -2310,6 +2627,197 @@ public class Inicio extends javax.swing.JFrame {
             cadena=null;
         }
     }//GEN-LAST:event_txtAsuntoKeyTyped
+
+    /*
+    Consultar Movimientos:  Mercancia(codigo,articulo,descripción,marca) 
+                            Movimiento(tipo,asunto,fecha,cantidad) 
+                            Usuarios(nickname)[Información en variables del frame]
+    Filtros hechos: Código, articulo, marca, almacén ubicado.
+    Filtros nuevos: Fecha, tipo de movimiento, nickname.
+    
+    Orden: asunto, codigo, articulo, descripción, marca, tipo, cantidad, nickname, fecha
+    */
+    
+    public void llenarTablaConsult(ResultSet r){
+        String encabezado[]={"Asunto","Código","Artículo","Descripción","Marca","Almacén","Tipo","Cantidad","Responsable","Fecha"};
+        String tipoMovimiento="";
+        
+        DefaultTableModel modeloConsulta = new DefaultTableModel();
+        for (String columnas : encabezado) {
+            modeloConsulta.addColumn(columnas);
+        }
+        try{
+            while(r.next()){
+                Object[] row = new Object[10];
+                row[0] = r.getString(1);
+                row[1] = r.getString(2);
+                row[2] = r.getString(3);
+                row[3] = r.getString(4);
+                row[4] = r.getString(5);
+                row[5] = r.getString(6);
+                tipoMovimiento=r.getString(7);
+                if(tipoMovimiento.equals("E")){
+                    row[6]="Entrada";
+                }else{
+                    row[6]="Salida";
+                }
+                row[7] = r.getString(8);
+                row[8] = r.getString(9);
+                row[9] = r.getString(10);
+                modeloConsulta.addRow(row);
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Error 008: Error al consultar materiales registrados en la base de datos.");
+        }
+        tblConsulta.setModel(modeloConsulta);
+        
+        // Ajustar el ancho de las columnas
+        TableColumnModel columnModel = tblConsulta.getColumnModel();
+        for (int i = 0; i < columnModel.getColumnCount(); i++) {
+            TableColumn column = columnModel.getColumn(i);
+            int preferredWidth = column.getMinWidth();
+            int maxWidth = column.getMaxWidth();
+
+            for (int e = 0; e < tblConsulta.getRowCount(); e++) {
+                TableCellRenderer cellRenderer = tblConsulta.getCellRenderer(e, i);
+                Component c = tblConsulta.prepareRenderer(cellRenderer, e, i);
+                int width = c.getPreferredSize().width + tblConsulta.getIntercellSpacing().width;
+                preferredWidth = Math.max(preferredWidth, width);
+
+                // Ajustar la anchura de la columna en función del contenido más ancho de una celda
+                if (preferredWidth >= maxWidth) {
+                    preferredWidth = maxWidth;
+                    break;
+                }
+            }
+            column.setPreferredWidth(preferredWidth);
+        }
+        //
+    }
+    
+    /*Optimixar la consulta con filtros
+    Condiciones:
+        Mostrar todo        (Almacén=="Todos" && Movimuento=="Entrada y salida" && Nickname==null && Fecha=="Cualquiera")
+        Filtro Almacén      ()
+        Filtro Movimiento   ()
+        Filtro Nickname     ()
+        Filtro Fecha        ()
+        
+    
+    */
+    private void consultFiltrosDefault(String columna, String campo){
+        String consulta;
+        try{
+            consulta=("""
+            SELECT mov.asunto, merc.codigo, merc.articulo, merc.descripcion, merc.marca, merc.almacen, mov.tipo, mov.cantidad, u.nickname, mov.fecha FROM movimiento AS mov
+            JOIN mercancia AS merc ON mov.IDmercancia = merc.IDmercancia
+            JOIN usuarios AS u ON mov.IDusuario = u.IDusuario
+            WHERE merc.""" + columna +" LIKE ?\n" +
+            "ORDER BY mov.fecha DESC, mov.IDmovimiento DESC");
+            cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+            cmd.setString(1, campo + "%");
+            result=cmd.executeQuery();
+            llenarTablaConsult(result);
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(rootPane,"Error al consultar.");
+        }
+    }
+    
+    private void consultFiltrosActivos(){
+        
+    }
+    private void cmbConsultAlmacenItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbConsultAlmacenItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbConsultAlmacenItemStateChanged
+
+    private void cmbConsultAlmacenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbConsultAlmacenActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbConsultAlmacenActionPerformed
+
+    private void txtConsultCodigoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtConsultCodigoMouseClicked
+        txtConsultCodigo.setText(""); txtConsultArticulo.setText(""); cmbConsultTipo.setSelectedItem("Por Descripción"); cmbConsultMarca.setSelectedItem(null);
+    }//GEN-LAST:event_txtConsultCodigoMouseClicked
+
+    private void txtConsultCodigoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtConsultCodigoMousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtConsultCodigoMousePressed
+
+    private void txtConsultCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtConsultCodigoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtConsultCodigoActionPerformed
+
+    private void txtConsultCodigoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtConsultCodigoKeyReleased
+        if(cmbConsultAlmacen.getSelectedItem().toString().equals("Todos") && cmbConsultMov.getSelectedItem().equals("Entrada y salida") && cmbConsultNick.getSelectedItem()==null
+         && dateConsultDe.getDate()==null && dateConsultA.getDate()==null    ){
+            consultFiltrosDefault("codigo",txtConsultCodigo.getText());
+        }   
+    }//GEN-LAST:event_txtConsultCodigoKeyReleased
+
+    private void txtConsultArticuloMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtConsultArticuloMouseClicked
+        txtConsultCodigo.setText(""); cmbConsultMarca.setSelectedItem(null); txtConsultArticulo.setText("");
+    }//GEN-LAST:event_txtConsultArticuloMouseClicked
+
+    private void txtConsultArticuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtConsultArticuloActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtConsultArticuloActionPerformed
+
+    private void txtConsultArticuloKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtConsultArticuloKeyReleased
+        if(cmbConsultAlmacen.getSelectedItem().toString().equals("Todos") && cmbConsultMov.getSelectedItem().equals("Entrada y salida") && cmbConsultNick.getSelectedItem()==null
+         && dateConsultDe.getDate()==null && dateConsultA.getDate()==null    ){
+            if (cmbConsultTipo.getSelectedItem().toString().equals("Por Descripción")){
+                consultFiltrosDefault("descripcion",txtConsultArticulo.getText());
+            }else{
+                consultFiltrosDefault("articulo",txtConsultArticulo.getText());
+            }
+        }
+    }//GEN-LAST:event_txtConsultArticuloKeyReleased
+
+    private void cmbConsultTipoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbConsultTipoItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbConsultTipoItemStateChanged
+
+    private void cmbConsultTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbConsultTipoActionPerformed
+        if(cmbConsultAlmacen.getSelectedItem().toString().equals("Todos") && cmbConsultMov.getSelectedItem().equals("Entrada y salida") && cmbConsultNick.getSelectedItem()==null
+         && dateConsultDe.getDate()==null && dateConsultA.getDate()==null    ){
+            if (cmbConsultTipo.getSelectedItem().toString().equals("Por Descripción")){
+                consultFiltrosDefault("descripcion",txtConsultArticulo.getText());
+            }else{
+                consultFiltrosDefault("articulo",txtConsultArticulo.getText());
+            }
+        }
+    }//GEN-LAST:event_cmbConsultTipoActionPerformed
+
+    private void cmbConsultMarcaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cmbConsultMarcaMouseClicked
+        txtConsultCodigo.setText(""); txtConsultArticulo.setText("");
+    }//GEN-LAST:event_cmbConsultMarcaMouseClicked
+
+    private void cmbConsultMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbConsultMarcaActionPerformed
+        if(cmbConsultAlmacen.getSelectedItem().toString().equals("Todos") && cmbConsultMov.getSelectedItem().equals("Entrada y salida") && cmbConsultNick.getSelectedItem()==null
+         && dateConsultDe.getDate()==null && dateConsultA.getDate()==null    ){
+            if(cmbConsultMarca.getSelectedItem()==null){
+                try{
+                    String consulta=("""
+                    SELECT mov.asunto, merc.codigo, merc.articulo, merc.descripcion, merc.marca, merc.almacen, mov.tipo, mov.cantidad, u.nickname, mov.fecha FROM movimiento AS mov
+                    JOIN mercancia AS merc ON mov.IDmercancia = merc.IDmercancia
+                    JOIN usuarios AS u ON mov.IDusuario = u.IDusuario
+                    ORDER BY mov.fecha DESC, mov.IDmovimiento DESC""");
+                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                    result=cmd.executeQuery();
+                    llenarTablaConsult(result);
+                }catch(SQLException e){
+                    JOptionPane.showMessageDialog(rootPane,"Error al consultar.");
+                }
+            }else{
+                consultFiltrosDefault("marca",cmbConsultMarca.getSelectedItem().toString());
+            }
+        }
+    }//GEN-LAST:event_cmbConsultMarcaActionPerformed
+
+    private void btnBorrarConsultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarConsultActionPerformed
+        txtConsultCodigo.setText(""); txtConsultArticulo.setText(""); cmbConsultTipo.setSelectedItem("Por Descripción"); cmbConsultMarca.setSelectedItem(null);
+        cmbConsultAlmacen.setSelectedItem("Todos"); cmbConsultMov.setSelectedItem("Entrada y salida"); cmbConsultNick.setSelectedItem(null);
+        dateConsultDe.setDate(null); dateConsultA.setDate(null);
+    }//GEN-LAST:event_btnBorrarConsultActionPerformed
     
     public void setImageIn(JLabel a,String route){
         ImageIcon img; Icon icono;
@@ -2344,6 +2852,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JButton btnAboutUs;
     private javax.swing.JButton btnAddMov;
     private javax.swing.JButton btnBorrar;
+    private javax.swing.JButton btnBorrarConsult;
     private javax.swing.JButton btnBorrarMov;
     private javax.swing.JButton btnDeleteMov;
     private javax.swing.JButton btnDisplayAdmin;
@@ -2364,7 +2873,15 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmbBuscarMarcaMov;
     private javax.swing.JComboBox<String> cmbBuscarTipo;
     private javax.swing.JComboBox<String> cmbBuscarTipoMov;
+    private javax.swing.JComboBox<String> cmbConsultAlmacen;
+    private javax.swing.JComboBox<String> cmbConsultMarca;
+    private javax.swing.JComboBox<String> cmbConsultMov;
+    private javax.swing.JComboBox<String> cmbConsultNick;
+    private javax.swing.JComboBox<String> cmbConsultTipo;
     private javax.swing.JComboBox<String> cmbTipoMov;
+    private com.toedter.calendar.JDateChooser dateConsultA;
+    private com.toedter.calendar.JDateChooser dateConsultDe;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2372,7 +2889,15 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -2386,9 +2911,11 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
     public javax.swing.JLabel lblBienvenida;
     private javax.swing.JLabel logo;
     private javax.swing.JPanel panelBuscar;
@@ -2399,6 +2926,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JSpinner spinCantAdd;
     private javax.swing.JSpinner spinCantRest;
     private javax.swing.JTable tblBuscar;
+    private javax.swing.JTable tblConsulta;
     private javax.swing.JTable tblMoverMaterial;
     private javax.swing.JTable tblSeleccionarMaterial;
     private javax.swing.JTextArea txtAsunto;
@@ -2406,5 +2934,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JTextField txtBuscarArticuloMov;
     private javax.swing.JTextField txtBuscarCodigo;
     private javax.swing.JTextField txtBuscarCodigoMov;
+    private javax.swing.JTextField txtConsultArticulo;
+    private javax.swing.JTextField txtConsultCodigo;
     // End of variables declaration//GEN-END:variables
 }
