@@ -1,6 +1,7 @@
 package code;
 
 import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
+import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Image;
@@ -8,7 +9,9 @@ import java.awt.Toolkit;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.EventObject;
 import java.util.HashMap;
 import java.util.Map;
@@ -118,6 +121,9 @@ public class Inicio extends javax.swing.JFrame {
     private void iniciarConsulta(){
         llenarMarca(cmbConsultMarca);
         llenarNick();
+        cmbConsultAlmacen.setSelectedItem("Todos"); cmbConsultMov.setSelectedItem("Entrada y salida"); cmbConsultNick.setSelectedItem(null);
+        dateConsultDe.setDate(null); dateConsultA.setDate(null);
+        btnFiltrarConsult.setEnabled(false);
         //Llena la tabla con la información de la base de datos
         try{
             String materiales=("SELECT mov.asunto, merc.codigo, merc.articulo, merc.descripcion, merc.marca, merc.almacen, mov.tipo, mov.cantidad, u.nickname, mov.fecha FROM movimiento AS mov\n" +
@@ -370,7 +376,7 @@ public class Inicio extends javax.swing.JFrame {
         dateConsultA = new com.toedter.calendar.JDateChooser();
         jLabel16 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnFiltrarConsult = new javax.swing.JButton();
         panelCodes = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
 
@@ -1320,12 +1326,22 @@ public class Inicio extends javax.swing.JFrame {
 
         cmbConsultMov.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         cmbConsultMov.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Entrada y salida", "Entrada", "Salida" }));
+        cmbConsultMov.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbConsultMovActionPerformed(evt);
+            }
+        });
 
         jLabel21.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         jLabel21.setForeground(new java.awt.Color(0, 0, 0));
         jLabel21.setText("Nickname:");
 
         cmbConsultNick.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        cmbConsultNick.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbConsultNickActionPerformed(evt);
+            }
+        });
 
         jLabel22.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         jLabel22.setForeground(new java.awt.Color(0, 0, 0));
@@ -1359,11 +1375,35 @@ public class Inicio extends javax.swing.JFrame {
             tblConsulta.getColumnModel().getColumn(4).setResizable(false);
         }
 
+        dateConsultDe.setDateFormatString("dd MMM yyyy"); // NOI18N
         dateConsultDe.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        dateConsultDe.setMaxSelectableDate(fecha);
         dateConsultDe.setPreferredSize(new java.awt.Dimension(85, 24));
+        dateConsultDe.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                dateConsultDePropertyChange(evt);
+            }
+        });
+        dateConsultDe.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                dateConsultDeKeyReleased(evt);
+            }
+        });
 
+        dateConsultA.setDateFormatString("dd MMM yyyy"); // NOI18N
         dateConsultA.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        dateConsultA.setMaxSelectableDate(fecha);
         dateConsultA.setPreferredSize(new java.awt.Dimension(85, 24));
+        dateConsultA.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                dateConsultAPropertyChange(evt);
+            }
+        });
+        dateConsultA.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                dateConsultAKeyReleased(evt);
+            }
+        });
 
         jLabel16.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(0, 0, 0));
@@ -1373,9 +1413,14 @@ public class Inicio extends javax.swing.JFrame {
         jLabel23.setForeground(new java.awt.Color(0, 0, 0));
         jLabel23.setText("De");
 
-        jButton1.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/search_24px.png"))); // NOI18N
-        jButton1.setText("Filtrar");
+        btnFiltrarConsult.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        btnFiltrarConsult.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/search_24px.png"))); // NOI18N
+        btnFiltrarConsult.setText("Filtrar");
+        btnFiltrarConsult.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFiltrarConsultActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelConsultaLayout = new javax.swing.GroupLayout(panelConsulta);
         panelConsulta.setLayout(panelConsultaLayout);
@@ -1421,7 +1466,7 @@ public class Inicio extends javax.swing.JFrame {
                         .addGap(7, 7, 7)
                         .addComponent(dateConsultA, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
+                        .addComponent(btnFiltrarConsult)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                         .addComponent(btnBorrarConsult))
                     .addComponent(jSeparator3)
@@ -1481,7 +1526,7 @@ public class Inicio extends javax.swing.JFrame {
                         .addComponent(dateConsultA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnBorrarConsult)
-                        .addComponent(jButton1)))
+                        .addComponent(btnFiltrarConsult)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(6, 6, 6)
@@ -1524,7 +1569,7 @@ public class Inicio extends javax.swing.JFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(188, 188, 188)
-                .addComponent(Pestañas, javax.swing.GroupLayout.DEFAULT_SIZE, 1329, Short.MAX_VALUE))
+                .addComponent(Pestañas))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2723,15 +2768,91 @@ public class Inicio extends javax.swing.JFrame {
         }
     }
     
-    private void consultFiltrosActivos(){
+    private void consultFiltrosActivos(String almacen, String tipo, String nickname, String fechaDe, String fechaA){
+        //Buscar por código, articulo o marca
+        String buscar="";
+        String modo="";
+        if(txtConsultCodigo.getText()!=null && txtConsultArticulo.getText().isEmpty() && cmbConsultMarca.getSelectedItem()==null){
+           buscar=txtConsultCodigo.getText();
+           modo="merc.codigo LIKE ?";
+        }else{
+            if(txtConsultCodigo.getText().isEmpty() && txtConsultArticulo.getText()!=null && cmbConsultMarca.getSelectedItem()==null){
+                buscar=txtConsultArticulo.getText(); 
+                if(cmbConsultTipo.getSelectedItem().toString().equals("Por Nombre")){   
+                    modo="merc.articulo LIKE ?";
+                }else{  
+                    if(cmbConsultTipo.getSelectedItem().toString().equals("Por Descripción")){   
+                        modo="merc.descripcion LIKE ?";
+                    }
+                }
+            }else{
+                if(txtConsultCodigo.getText().isEmpty() && txtConsultArticulo.getText().isEmpty() && cmbConsultMarca.getSelectedItem()!=null){
+                    buscar=cmbConsultMarca.getSelectedItem().toString(); 
+                    modo="merc.marca LIKE ?";
+                }
+            }
+        }
+        if("Entrada".equals(tipo)){tipo="E";}else{if("Salida".equals(tipo)){tipo="S";}}
+        //Buscar por 
+        if(tipo=="Entrada y salida") tipo=null;
+        if(almacen=="Todos") almacen=null;
+        if(nickname=="") nickname=null;
+        if(fechaDe=="") fechaDe=null;
+        if(fechaA=="") fechaA=null;
+        String filtro="";
+        int casofiltro=0;  //8 casos
+        if(almacen==null && tipo==null && nickname==null && (fechaDe!=null && fechaA!=null)){ casofiltro=1; filtro=""; }else{    //solo DE fechas
+        if(almacen!=null && tipo==null && nickname==null && (fechaDe!=null && fechaA!=null)){ casofiltro=2; filtro="AND merc.almacen LIKE ?"; }else{    //A y DE
+        if(almacen==null && tipo!=null && nickname==null && (fechaDe!=null && fechaA!=null)){ casofiltro=3; filtro="AND mov.tipo LIKE ?"; }else{    //B y DE
+        if(almacen==null && tipo==null && nickname!=null && (fechaDe!=null && fechaA!=null)){ casofiltro=4; filtro="AND u.nickname LIKE ?"; }else{    //C y DE
+        if(almacen!=null && tipo!=null && nickname==null && (fechaDe!=null && fechaA!=null)){ casofiltro=5; filtro="AND merc.almacen LIKE ? AND mov.tipo LIKE ?"; }else{    //A, B y DE
+        if(almacen!=null && tipo==null && nickname!=null && (fechaDe!=null && fechaA!=null)){ casofiltro=6; filtro="AND merc.almacen LIKE ? AND u.nickname LIKE ?"; }else{    //A, C y DE
+        if(almacen==null && tipo!=null && nickname!=null && (fechaDe!=null && fechaA!=null)){ casofiltro=7; filtro="AND mov.tipo LIKE ? AND u.nickname LIKE ?"; }else{    //B, C y DE
+        if(almacen!=null && tipo!=null && nickname!=null && (fechaDe!=null && fechaA!=null))  casofiltro=8; filtro="AND merc.almacen LIKE ? AND mov.tipo LIKE ? AND u.nickname LIKE ?"; }}}}}}}   // A, B, C y DE
+        
+        String consulta;
+        try {
+            consulta = ("""
+            SELECT mov.asunto, merc.codigo, merc.articulo, merc.descripcion, merc.marca, merc.almacen, mov.tipo, mov.cantidad, u.nickname, mov.fecha FROM movimiento AS mov
+            JOIN mercancia AS merc ON mov.IDmercancia = merc.IDmercancia
+            JOIN usuarios AS u ON mov.IDusuario = u.IDusuario
+            WHERE """ + " " + modo + " " + filtro + " AND mov.fecha BETWEEN '" + fechaDe + "' AND '" + fechaA + "' " +
+            "ORDER BY mov.fecha DESC, mov.IDmovimiento DESC");
+            cmd = (PreparedStatement) conexion.conectar.prepareStatement(consulta);
+            cmd.setString(1, buscar + "%");
+            if (casofiltro == 1){ }else{
+            if (casofiltro == 2){ cmd.setString(2, almacen); }else{
+            if (casofiltro == 3){ cmd.setString(2, tipo); }else{
+            if (casofiltro == 4){ cmd.setString(2, nickname); }else{ 
+            if (casofiltro == 5){ cmd.setString(2, almacen); cmd.setString(3, tipo); }else{
+            if (casofiltro == 6){ cmd.setString(2, almacen); cmd.setString(3, nickname); }else{
+            if (casofiltro == 7){ cmd.setString(2, tipo); cmd.setString(3, nickname); }else{
+            if (casofiltro == 8){ cmd.setString(2, almacen); cmd.setString(3, tipo); cmd.setString(4, nickname);}}}}}}}}
+            result = cmd.executeQuery();
+            llenarTablaConsult(result);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(rootPane, "Error al consultar.");
+        }
+    }
+    
+    private void consultSoloFiltroActivo(String almacen, String tipo, String nickname, String fechaDe, String fechaA){
+        //Buscar por filtro
+        
+        
         
     }
+    
     private void cmbConsultAlmacenItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbConsultAlmacenItemStateChanged
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbConsultAlmacenItemStateChanged
 
     private void cmbConsultAlmacenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbConsultAlmacenActionPerformed
-        // TODO add your handling code here:
+        if(cmbConsultAlmacen.getSelectedItem().toString().equals("Todos") && cmbConsultMov.getSelectedItem().equals("Entrada y salida") && cmbConsultNick.getSelectedItem()==null
+         && dateConsultDe.getDate()==null && dateConsultA.getDate()==null    ){
+            btnFiltrarConsult.setEnabled(false);   
+        }else{
+            btnFiltrarConsult.setEnabled(true);
+        }
     }//GEN-LAST:event_cmbConsultAlmacenActionPerformed
 
     private void txtConsultCodigoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtConsultCodigoMouseClicked
@@ -2814,11 +2935,118 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_cmbConsultMarcaActionPerformed
 
     private void btnBorrarConsultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarConsultActionPerformed
-        txtConsultCodigo.setText(""); txtConsultArticulo.setText(""); cmbConsultTipo.setSelectedItem("Por Descripción"); cmbConsultMarca.setSelectedItem(null);
         cmbConsultAlmacen.setSelectedItem("Todos"); cmbConsultMov.setSelectedItem("Entrada y salida"); cmbConsultNick.setSelectedItem(null);
         dateConsultDe.setDate(null); dateConsultA.setDate(null);
+        txtConsultCodigo.setText(""); txtConsultArticulo.setText(""); cmbConsultTipo.setSelectedItem("Por Descripción"); cmbConsultMarca.setSelectedItem(null);
+        if(cmbConsultAlmacen.getSelectedItem().toString().equals("Todos") && cmbConsultMov.getSelectedItem().equals("Entrada y salida") && cmbConsultNick.getSelectedItem()==null
+         && dateConsultDe.getDate()==null && dateConsultA.getDate()==null    ){
+            btnFiltrarConsult.setEnabled(false);   
+        }else{
+            btnFiltrarConsult.setEnabled(true);
+        }
     }//GEN-LAST:event_btnBorrarConsultActionPerformed
+
+    private void btnFiltrarConsultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarConsultActionPerformed
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+        String fechaFormat1 = ""; String fechaFormat2 = ""; String nickTo="";
+        if((dateConsultDe.getDate()==null && dateConsultA.getDate()!=null) || (dateConsultDe.getDate()!=null && dateConsultA.getDate()==null)){
+            JOptionPane.showMessageDialog(null, "Ingrese una fecha válida.");
+        }else{
+            int resultadoComparacion=0;
+            if(dateConsultDe.getDate()==null && dateConsultA.getDate()==null){
+                try{
+                    String getDBFecha="SELECT MIN(fecha) FROM movimiento";
+                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(getDBFecha);
+                    result=cmd.executeQuery();
+                    while(result.next()){
+                        fechaFormat1=result.getString(1);
+                    }
+                }catch(SQLException ex) {
+                    JOptionPane.showMessageDialog(null, result);
+                }
+                fechaFormat2=fecha.toString();
+            }else{
+                resultadoComparacion = dateConsultDe.getDate().compareTo(dateConsultA.getDate());
+                if (resultadoComparacion < 0) {
+                    //Fecha 2 es mayor a fecha1 (Orden normal)
+                    fechaFormat1 = formato.format(dateConsultDe.getDate());
+                    fechaFormat2 = formato.format(dateConsultA.getDate());
+                } else if (resultadoComparacion == 0) {
+                    //Las fechas son iguales
+                    fechaFormat1 = formato.format(dateConsultDe.getDate());
+                    fechaFormat2 = formato.format(dateConsultA.getDate());
+                } else {
+                    //Fecha 1 es mayor que fecha2 (Orden inverso)
+                    fechaFormat2 = formato.format(dateConsultDe.getDate());
+                    fechaFormat1 = formato.format(dateConsultA.getDate());
+                }
+            }
+            if (cmbConsultNick.getSelectedItem()==null) {nickTo="";}else{nickTo=cmbConsultNick.getSelectedItem().toString();}
+            if(txtConsultCodigo.getText()==null && txtConsultArticulo.getText()==null && cmbConsultMarca.getSelectedItem()==null){}else{
+                //Buscar articulo con filtro
+                consultFiltrosActivos(cmbConsultAlmacen.getSelectedItem().toString(), cmbConsultMov.getSelectedItem().toString(),nickTo, fechaFormat1, fechaFormat2);
+            }
+            //
+            if(cmbConsultAlmacen.getSelectedItem().toString().equals("Todos") && cmbConsultMov.getSelectedItem().equals("Entrada y salida") && cmbConsultNick.getSelectedItem()==null
+             && dateConsultDe.getDate()==null && dateConsultA.getDate()==null    ){
+                btnFiltrarConsult.setEnabled(false);
+            }else{
+                btnFiltrarConsult.setEnabled(true);
+            }
+        }
+    }//GEN-LAST:event_btnFiltrarConsultActionPerformed
+
+    private void cmbConsultMovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbConsultMovActionPerformed
+        if(cmbConsultAlmacen.getSelectedItem().toString().equals("Todos") && cmbConsultMov.getSelectedItem().equals("Entrada y salida") && cmbConsultNick.getSelectedItem()==null
+         && dateConsultDe.getDate()==null && dateConsultA.getDate()==null    ){
+            btnFiltrarConsult.setEnabled(false);   
+        }else{
+            btnFiltrarConsult.setEnabled(true);
+        }
+    }//GEN-LAST:event_cmbConsultMovActionPerformed
+
+    private void cmbConsultNickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbConsultNickActionPerformed
+        if(cmbConsultAlmacen.getSelectedItem().toString().equals("Todos") && cmbConsultMov.getSelectedItem().equals("Entrada y salida") && cmbConsultNick.getSelectedItem()==null
+         && dateConsultDe.getDate()==null && dateConsultA.getDate()==null    ){
+            btnFiltrarConsult.setEnabled(false);   
+        }else{
+            btnFiltrarConsult.setEnabled(true);
+        }
+    }//GEN-LAST:event_cmbConsultNickActionPerformed
+
+    private void dateConsultDePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dateConsultDePropertyChange
+        if(dateConsultA.getDate()==null){
+            dateConsultA.setDate(fecha);
+        }
+        if(cmbConsultAlmacen.getSelectedItem().toString().equals("Todos") && cmbConsultMov.getSelectedItem().equals("Entrada y salida") && cmbConsultNick.getSelectedItem()==null
+         && dateConsultDe.getDate()==null && dateConsultA.getDate()==null    ){
+            btnFiltrarConsult.setEnabled(false);   
+        }else{
+            btnFiltrarConsult.setEnabled(true);
+        }
+    }//GEN-LAST:event_dateConsultDePropertyChange
+
+    private void dateConsultAPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dateConsultAPropertyChange
+        if(cmbConsultAlmacen.getSelectedItem().toString().equals("Todos") && cmbConsultMov.getSelectedItem().equals("Entrada y salida") && cmbConsultNick.getSelectedItem()==null
+         && dateConsultDe.getDate()==null && dateConsultA.getDate()==null    ){
+            btnFiltrarConsult.setEnabled(false);   
+        }else{
+            btnFiltrarConsult.setEnabled(true);
+        }
+    }//GEN-LAST:event_dateConsultAPropertyChange
+
+    private void dateConsultDeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dateConsultDeKeyReleased
+        
+    }//GEN-LAST:event_dateConsultDeKeyReleased
+
+    private void dateConsultAKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dateConsultAKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dateConsultAKeyReleased
     
+     
+   
+
+
     public void setImageIn(JLabel a,String route){
         ImageIcon img; Icon icono;
         img=new ImageIcon(route);
@@ -2863,6 +3091,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JButton btnDisplayMov;
     private javax.swing.JButton btnDisplayRegNew;
     private javax.swing.JButton btnDisplaySettings;
+    private javax.swing.JButton btnFiltrarConsult;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnMover;
     private javax.swing.JButton btnRestMov;
@@ -2881,7 +3110,6 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmbTipoMov;
     private com.toedter.calendar.JDateChooser dateConsultA;
     private com.toedter.calendar.JDateChooser dateConsultDe;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
