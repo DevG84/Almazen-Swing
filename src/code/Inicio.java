@@ -137,6 +137,10 @@ public class Inicio extends javax.swing.JFrame {
         }
     }
     
+    private void iniciarPerCod(){
+        
+    }
+    
     //Funciones utiles
     public void llenarTablaBuscar(ResultSet registros){
         String encabezado[]={"Código","Artículo","Descripción","Marca","Presentación","Existencia","Almacén","Anaquel","Repisa"};
@@ -308,7 +312,9 @@ public class Inicio extends javax.swing.JFrame {
         panelInicio = new javax.swing.JPanel();
         lblBienvenida = new javax.swing.JLabel();
         btnAboutUs = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel4 = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
         panelBuscar = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtBuscarCodigo = new javax.swing.JTextField();
@@ -378,7 +384,6 @@ public class Inicio extends javax.swing.JFrame {
         jLabel23 = new javax.swing.JLabel();
         btnFiltrarConsult = new javax.swing.JButton();
         panelCodes = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Almazen");
@@ -625,25 +630,56 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/progress.gif"))); // NOI18N
+        jTabbedPane1.setTabPlacement(javax.swing.JTabbedPane.LEFT);
+
+        jPanel4.setForeground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1203, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 419, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Introducción", jPanel4);
+
+        jPanel5.setForeground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Tutorial", jPanel5);
 
         javax.swing.GroupLayout panelInicioLayout = new javax.swing.GroupLayout(panelInicio);
         panelInicio.setLayout(panelInicioLayout);
         panelInicioLayout.setHorizontalGroup(
             panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelInicioLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelInicioLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnAboutUs))
                     .addGroup(panelInicioLayout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelInicioLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(btnAboutUs))
                             .addGroup(panelInicioLayout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(jLabel5))
-                            .addComponent(lblBienvenida))
-                        .addGap(0, 1048, Short.MAX_VALUE)))
+                                .addComponent(lblBienvenida)
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(panelInicioLayout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(jTabbedPane1)))
                 .addContainerGap())
         );
         panelInicioLayout.setVerticalGroup(
@@ -652,8 +688,8 @@ public class Inicio extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(lblBienvenida)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 669, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 390, Short.MAX_VALUE)
                 .addComponent(btnAboutUs)
                 .addContainerGap())
         );
@@ -1563,23 +1599,15 @@ public class Inicio extends javax.swing.JFrame {
 
         panelCodes.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel4.setText("Códigos");
-
         javax.swing.GroupLayout panelCodesLayout = new javax.swing.GroupLayout(panelCodes);
         panelCodes.setLayout(panelCodesLayout);
         panelCodesLayout.setHorizontalGroup(
             panelCodesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelCodesLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel4)
-                .addContainerGap(1264, Short.MAX_VALUE))
+            .addGap(0, 1314, Short.MAX_VALUE)
         );
         panelCodesLayout.setVerticalGroup(
             panelCodesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelCodesLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel4)
-                .addContainerGap(864, Short.MAX_VALUE))
+            .addGap(0, 886, Short.MAX_VALUE)
         );
 
         Pestañas.addTab("Códigos almazen", panelCodes);
@@ -1671,6 +1699,7 @@ public class Inicio extends javax.swing.JFrame {
     private void btnDisplayCodesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisplayCodesActionPerformed
         Pestañas.setSelectedIndex(4);
         changeButtonColor();
+        iniciarPerCod();
     }//GEN-LAST:event_btnDisplayCodesActionPerformed
 
     private void btnDisplayInicioMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDisplayInicioMouseMoved
@@ -2757,16 +2786,6 @@ public class Inicio extends javax.swing.JFrame {
         //
     }
     
-    /*Optimixar la consulta con filtros
-    Condiciones:
-        Mostrar todo        (Almacén=="Todos" && Movimuento=="Entrada y salida" && Nickname==null && Fecha=="Cualquiera")
-        Filtro Almacén      ()
-        Filtro Movimiento   ()
-        Filtro Nickname     ()
-        Filtro Fecha        ()
-        
-    
-    */
     private void consultFiltrosDefault(String columna, String campo){
         String consulta;
         try{
@@ -2850,13 +2869,6 @@ public class Inicio extends javax.swing.JFrame {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(rootPane, "Error al consultar.");
         }
-    }
-    
-    private void consultSoloFiltroActivo(String almacen, String tipo, String nickname, String fechaDe, String fechaA){
-        //Buscar por filtro
-        
-        
-        
     }
     
     private void cmbConsultAlmacenItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbConsultAlmacenItemStateChanged
@@ -3060,8 +3072,9 @@ public class Inicio extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_dateConsultAKeyReleased
     
-     
-   
+    //Códigos personalizados
+    
+    
 
 
     public void setImageIn(JLabel a,String route){
@@ -3144,8 +3157,6 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -3153,6 +3164,8 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -3161,6 +3174,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JTabbedPane jTabbedPane1;
     public javax.swing.JLabel lblBienvenida;
     private javax.swing.JLabel logo;
     private javax.swing.JPanel panelBuscar;
