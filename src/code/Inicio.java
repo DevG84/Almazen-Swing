@@ -91,7 +91,7 @@ public class Inicio extends javax.swing.JFrame {
         llenarMarca(cmbBuscarMarca);
         //Llena la tabla con todo el material de la base de datos
         try{
-            String materiales="SELECT * FROM mercancia";
+            String materiales="SELECT * FROM mercancia ORDER BY articulo ASC";
             cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
             result=cmd.executeQuery();
             llenarTablaBuscar(result);
@@ -108,7 +108,7 @@ public class Inicio extends javax.swing.JFrame {
         cmbTipoMov.addItem("Salida");
         //Llena la tabla con todo el material de la base de datos
         try{
-            String materiales="SELECT * FROM mercancia";
+            String materiales="SELECT * FROM mercancia ORDER BY articulo ASC";
             cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
             result=cmd.executeQuery();
             llenarTablaSeleccionar(result);
@@ -198,7 +198,7 @@ public class Inicio extends javax.swing.JFrame {
     private void llenarMarca(JComboBox cmbBuscarMarca){
         cmbBuscarMarca.removeAllItems();
         try{
-            String consulta="SELECT DISTINCT marca FROM mercancia";
+            String consulta="SELECT DISTINCT marca FROM mercancia ORDER BY marca ASC";
             cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
             marca_res=cmd.executeQuery();
             //Recorrer los resultados y agregar cada valor único de "marca" al JComboBox
@@ -643,7 +643,7 @@ public class Inicio extends javax.swing.JFrame {
                                 .addGap(6, 6, 6)
                                 .addComponent(jLabel5))
                             .addComponent(lblBienvenida))
-                        .addGap(0, 1063, Short.MAX_VALUE)))
+                        .addGap(0, 1048, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panelInicioLayout.setVerticalGroup(
@@ -709,6 +709,7 @@ public class Inicio extends javax.swing.JFrame {
 
         cmbBuscarTipo.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         cmbBuscarTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Por Descripción", "Por Nombre" }));
+        cmbBuscarTipo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cmbBuscarTipo.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmbBuscarTipoItemStateChanged(evt);
@@ -724,6 +725,7 @@ public class Inicio extends javax.swing.JFrame {
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Marca:");
 
+        cmbBuscarMarca.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cmbBuscarMarca.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 cmbBuscarMarcaMouseClicked(evt);
@@ -738,6 +740,7 @@ public class Inicio extends javax.swing.JFrame {
         btnBorrar.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         btnBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/trash2_24px.png"))); // NOI18N
         btnBorrar.setText("Borrar selección");
+        btnBorrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnBorrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBorrarActionPerformed(evt);
@@ -774,6 +777,7 @@ public class Inicio extends javax.swing.JFrame {
 
         cmbAlmacen.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         cmbAlmacen.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Zona 100 (Principal)", "Zona 100 (Bodega)", "Edificio A" }));
+        cmbAlmacen.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cmbAlmacen.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmbAlmacenItemStateChanged(evt);
@@ -913,6 +917,7 @@ public class Inicio extends javax.swing.JFrame {
 
         btnMover.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/move_48px.png"))); // NOI18N
         btnMover.setText("Mover");
+        btnMover.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnMover.setIconTextGap(-107);
         btnMover.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -946,6 +951,7 @@ public class Inicio extends javax.swing.JFrame {
 
         cmbAlmacenMov.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         cmbAlmacenMov.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Zona 100 (Principal)", "Zona 100 (Bodega)", "Edificio A" }));
+        cmbAlmacenMov.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cmbAlmacenMov.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmbAlmacenMovItemStateChanged(evt);
@@ -980,6 +986,7 @@ public class Inicio extends javax.swing.JFrame {
 
         cmbBuscarTipoMov.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         cmbBuscarTipoMov.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Por Descripción", "Por Nombre" }));
+        cmbBuscarTipoMov.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cmbBuscarTipoMov.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmbBuscarTipoMovItemStateChanged(evt);
@@ -995,6 +1002,7 @@ public class Inicio extends javax.swing.JFrame {
         jLabel10.setForeground(new java.awt.Color(0, 0, 0));
         jLabel10.setText("Marca:");
 
+        cmbBuscarMarcaMov.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cmbBuscarMarcaMov.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 cmbBuscarMarcaMovMouseClicked(evt);
@@ -1009,6 +1017,7 @@ public class Inicio extends javax.swing.JFrame {
         btnBorrarMov.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         btnBorrarMov.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/trash2_24px.png"))); // NOI18N
         btnBorrarMov.setText("Borrar selección");
+        btnBorrarMov.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnBorrarMov.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBorrarMovActionPerformed(evt);
@@ -1030,6 +1039,7 @@ public class Inicio extends javax.swing.JFrame {
         btnAddMov.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         btnAddMov.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/add_32px.png"))); // NOI18N
         btnAddMov.setText("Añadir");
+        btnAddMov.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnAddMov.setIconTextGap(-90);
         btnAddMov.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1040,6 +1050,7 @@ public class Inicio extends javax.swing.JFrame {
         btnDeleteMov.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         btnDeleteMov.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/trash2_32px.png"))); // NOI18N
         btnDeleteMov.setText("Eliminar");
+        btnDeleteMov.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnDeleteMov.setIconTextGap(-90);
         btnDeleteMov.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1050,6 +1061,7 @@ public class Inicio extends javax.swing.JFrame {
         btnRestMov.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         btnRestMov.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/OutBox_32px.png"))); // NOI18N
         btnRestMov.setText("Disminuir");
+        btnRestMov.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnRestMov.setIconTextGap(-100);
         btnRestMov.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1064,6 +1076,7 @@ public class Inicio extends javax.swing.JFrame {
         spinCantAdd.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
 
         cmbTipoMov.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        cmbTipoMov.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cmbTipoMov.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbTipoMovActionPerformed(evt);
@@ -1077,6 +1090,7 @@ public class Inicio extends javax.swing.JFrame {
         btnSumMov.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         btnSumMov.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/InBox_32px.png"))); // NOI18N
         btnSumMov.setText("Aumentar");
+        btnSumMov.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnSumMov.setIconTextGap(-100);
         btnSumMov.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1109,33 +1123,6 @@ public class Inicio extends javax.swing.JFrame {
                     .addGroup(panelMovLayout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel13)
-                            .addGroup(panelMovLayout.createSequentialGroup()
-                                .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel12)
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 1052, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(btnDeleteMov, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnRestMov, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnSumMov, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(spinCantRest, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnMover, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelMovLayout.createSequentialGroup()
-                                        .addGap(5, 5, 5)
-                                        .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addGroup(panelMovLayout.createSequentialGroup()
-                                                .addComponent(jLabel14)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(cmbTipoMov, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                            .addComponent(spinCantAdd)
-                                            .addComponent(btnAddMov, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                            .addGroup(panelMovLayout.createSequentialGroup()
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1052, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
-                                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(panelMovLayout.createSequentialGroup()
                                 .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelMovLayout.createSequentialGroup()
@@ -1160,7 +1147,38 @@ public class Inicio extends javax.swing.JFrame {
                                         .addComponent(cmbBuscarMarcaMov, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMovLayout.createSequentialGroup()
                                         .addGap(893, 893, 893)
-                                        .addComponent(btnBorrarMov)))))))
+                                        .addComponent(btnBorrarMov))))
+                            .addGroup(panelMovLayout.createSequentialGroup()
+                                .addComponent(jLabel13)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(panelMovLayout.createSequentialGroup()
+                                .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panelMovLayout.createSequentialGroup()
+                                        .addComponent(jLabel12)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(jScrollPane2)
+                                    .addComponent(jScrollPane3))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(btnDeleteMov, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnRestMov, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnSumMov, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(spinCantRest, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(btnMover, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelMovLayout.createSequentialGroup()
+                                            .addGap(5, 5, 5)
+                                            .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addGroup(panelMovLayout.createSequentialGroup()
+                                                    .addComponent(jLabel14)
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                    .addComponent(cmbTipoMov, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                .addComponent(spinCantAdd)
+                                                .addComponent(btnAddMov, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addGroup(panelMovLayout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap())
         );
         panelMovLayout.setVerticalGroup(
@@ -1187,6 +1205,12 @@ public class Inicio extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelMovLayout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 369, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel12)
+                        .addGap(12, 12, 12)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 369, Short.MAX_VALUE))
+                    .addGroup(panelMovLayout.createSequentialGroup()
                         .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cmbTipoMov, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel14))
@@ -1197,14 +1221,8 @@ public class Inicio extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel12)
-                .addGap(12, 12, 12)
-                .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 369, Short.MAX_VALUE)
-                    .addGroup(panelMovLayout.createSequentialGroup()
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
+                        .addGap(36, 36, 36)
                         .addComponent(spinCantRest, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnSumMov)
@@ -1223,6 +1241,7 @@ public class Inicio extends javax.swing.JFrame {
 
         cmbConsultAlmacen.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         cmbConsultAlmacen.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Zona 100 (Principal)", "Zona 100 (Bodega)", "Edificio A" }));
+        cmbConsultAlmacen.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cmbConsultAlmacen.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmbConsultAlmacenItemStateChanged(evt);
@@ -1285,6 +1304,7 @@ public class Inicio extends javax.swing.JFrame {
 
         cmbConsultTipo.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         cmbConsultTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Por Descripción", "Por Nombre" }));
+        cmbConsultTipo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cmbConsultTipo.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmbConsultTipoItemStateChanged(evt);
@@ -1300,6 +1320,7 @@ public class Inicio extends javax.swing.JFrame {
         jLabel19.setForeground(new java.awt.Color(0, 0, 0));
         jLabel19.setText("Marca:");
 
+        cmbConsultMarca.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cmbConsultMarca.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 cmbConsultMarcaMouseClicked(evt);
@@ -1314,6 +1335,7 @@ public class Inicio extends javax.swing.JFrame {
         btnBorrarConsult.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         btnBorrarConsult.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/trash2_24px.png"))); // NOI18N
         btnBorrarConsult.setText("Borrar selección");
+        btnBorrarConsult.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnBorrarConsult.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBorrarConsultActionPerformed(evt);
@@ -1326,6 +1348,7 @@ public class Inicio extends javax.swing.JFrame {
 
         cmbConsultMov.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         cmbConsultMov.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Entrada y salida", "Entrada", "Salida" }));
+        cmbConsultMov.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cmbConsultMov.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbConsultMovActionPerformed(evt);
@@ -1337,6 +1360,7 @@ public class Inicio extends javax.swing.JFrame {
         jLabel21.setText("Nickname:");
 
         cmbConsultNick.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        cmbConsultNick.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cmbConsultNick.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbConsultNickActionPerformed(evt);
@@ -1416,6 +1440,7 @@ public class Inicio extends javax.swing.JFrame {
         btnFiltrarConsult.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         btnFiltrarConsult.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/search_24px.png"))); // NOI18N
         btnFiltrarConsult.setText("Filtrar");
+        btnFiltrarConsult.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnFiltrarConsult.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnFiltrarConsultActionPerformed(evt);
@@ -1467,7 +1492,7 @@ public class Inicio extends javax.swing.JFrame {
                         .addComponent(dateConsultA, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnFiltrarConsult)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                         .addComponent(btnBorrarConsult))
                     .addComponent(jSeparator3)
                     .addComponent(jScrollPane4))
@@ -1547,7 +1572,7 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(panelCodesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel4)
-                .addContainerGap(1279, Short.MAX_VALUE))
+                .addContainerGap(1264, Short.MAX_VALUE))
         );
         panelCodesLayout.setVerticalGroup(
             panelCodesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1734,11 +1759,11 @@ public class Inicio extends javax.swing.JFrame {
         String consulta;
         try{
             if(cmbAlmacen.getSelectedItem().toString().equals("Todos")){
-                consulta="SELECT * FROM mercancia WHERE codigo LIKE ?";
+                consulta="SELECT * FROM mercancia WHERE codigo LIKE ? ORDER BY articulo ASC";
                 cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
                 cmd.setString(1, txtBuscarCodigo.getText() + "%");
             }else{
-                consulta="SELECT * FROM mercancia WHERE codigo LIKE ? AND almacen LIKE ?";
+                consulta="SELECT * FROM mercancia WHERE codigo LIKE ? AND almacen LIKE ? ORDER BY articulo ASC";
                 cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
                 cmd.setString(1, txtBuscarCodigo.getText() + "%");
                 cmd.setString(2, cmbAlmacen.getSelectedItem().toString());
@@ -1756,11 +1781,11 @@ public class Inicio extends javax.swing.JFrame {
             case "Por Descripción":
                 try{
                     if(cmbAlmacen.getSelectedItem().toString().equals("Todos")){
-                        consulta="SELECT * FROM mercancia WHERE descripcion LIKE ?";
+                        consulta="SELECT * FROM mercancia WHERE descripcion LIKE ? ORDER BY articulo ASC";
                         cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
                         cmd.setString(1, txtBuscarArticulo.getText() + "%");
                     }else{
-                        consulta="SELECT * FROM mercancia WHERE descripcion LIKE ? AND almacen LIKE ?";
+                        consulta="SELECT * FROM mercancia WHERE descripcion LIKE ? AND almacen LIKE ? ORDER BY articulo ASC";
                         cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
                         cmd.setString(1, txtBuscarArticulo.getText() + "%");
                         cmd.setString(2, cmbAlmacen.getSelectedItem().toString());
@@ -1774,11 +1799,11 @@ public class Inicio extends javax.swing.JFrame {
             case "Por Nombre":
                 try{
                     if(cmbAlmacen.getSelectedItem().toString().equals("Todos")){
-                        consulta="SELECT * FROM mercancia WHERE articulo LIKE ?";
+                        consulta="SELECT * FROM mercancia WHERE articulo LIKE ? ORDER BY articulo ASC";
                         cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
                         cmd.setString(1, txtBuscarArticulo.getText() + "%");
                     }else{
-                        consulta="SELECT * FROM mercancia WHERE articulo LIKE ? AND almacen LIKE ?";
+                        consulta="SELECT * FROM mercancia WHERE articulo LIKE ? AND almacen LIKE ? ORDER BY articulo ASC";
                         cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
                         cmd.setString(1, txtBuscarArticulo.getText() + "%");
                         cmd.setString(2, cmbAlmacen.getSelectedItem().toString());
@@ -1798,11 +1823,11 @@ public class Inicio extends javax.swing.JFrame {
             case "Por Descripción":
                 try{
                     if(cmbAlmacen.getSelectedItem().toString().equals("Todos")){
-                        consulta="SELECT * FROM mercancia WHERE descripcion LIKE ?";
+                        consulta="SELECT * FROM mercancia WHERE descripcion LIKE ? ORDER BY articulo ASC";
                         cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
                         cmd.setString(1, txtBuscarArticulo.getText() + "%");
                     }else{
-                        consulta="SELECT * FROM mercancia WHERE descripcion LIKE ? AND almacen LIKE ?";
+                        consulta="SELECT * FROM mercancia WHERE descripcion LIKE ? AND almacen LIKE ? ORDER BY articulo ASC";
                         cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
                         cmd.setString(1, txtBuscarArticulo.getText() + "%");
                         cmd.setString(2, cmbAlmacen.getSelectedItem().toString());
@@ -1816,11 +1841,11 @@ public class Inicio extends javax.swing.JFrame {
             case "Por Nombre":
                 try{
                     if(cmbAlmacen.getSelectedItem().toString().equals("Todos")){
-                        consulta="SELECT * FROM mercancia WHERE articulo LIKE ?";
+                        consulta="SELECT * FROM mercancia WHERE articulo LIKE ? ORDER BY articulo ASC";
                         cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
                         cmd.setString(1, txtBuscarArticulo.getText() + "%");
                     }else{
-                        consulta="SELECT * FROM mercancia WHERE articulo LIKE ? AND almacen LIKE ?";
+                        consulta="SELECT * FROM mercancia WHERE articulo LIKE ? AND almacen LIKE ? ORDER BY articulo ASC";
                         cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
                         cmd.setString(1, txtBuscarArticulo.getText() + "%");
                         cmd.setString(2, cmbAlmacen.getSelectedItem().toString());
@@ -1839,10 +1864,10 @@ public class Inicio extends javax.swing.JFrame {
         if(cmbBuscarMarca.getSelectedItem() == null){
             try{
                 if(cmbAlmacen.getSelectedItem().toString().equals("Todos")){
-                    consulta="SELECT * FROM mercancia";
+                    consulta="SELECT * FROM mercancia ORDER BY articulo ASC";
                     cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
                 }else{
-                    consulta="SELECT * FROM mercancia WHERE almacen LIKE ?";
+                    consulta="SELECT * FROM mercancia WHERE almacen LIKE ? ORDER BY articulo ASC";
                     cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
                     cmd.setString(1, cmbAlmacen.getSelectedItem().toString());
                 }
@@ -1854,11 +1879,11 @@ public class Inicio extends javax.swing.JFrame {
         }else{
             try{
                 if(cmbAlmacen.getSelectedItem().toString().equals("Todos")){
-                    consulta="SELECT * FROM mercancia WHERE marca LIKE ?";
+                    consulta="SELECT * FROM mercancia WHERE marca LIKE ? ORDER BY articulo ASC";
                     cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
                     cmd.setString(1, cmbBuscarMarca.getSelectedItem().toString());
                 }else{
-                    consulta="SELECT * FROM mercancia WHERE marca LIKE ? AND almacen LIKE ?";
+                    consulta="SELECT * FROM mercancia WHERE marca LIKE ? AND almacen LIKE ? ORDER BY articulo ASC";
                     cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
                     cmd.setString(1, cmbBuscarMarca.getSelectedItem().toString());
                     cmd.setString(2, cmbAlmacen.getSelectedItem().toString());
@@ -1905,10 +1930,10 @@ public class Inicio extends javax.swing.JFrame {
         if(txtBuscarCodigo.getText().isEmpty() && txtBuscarArticulo.getText().isEmpty() && cmbBuscarMarca.getSelectedItem()==null){
             try{
                 if(cmbAlmacen.getSelectedItem().toString().equals("Todos")){
-                    materiales="SELECT * FROM mercancia";
+                    materiales="SELECT * FROM mercancia ORDER BY articulo ASC";
                     cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
                 }else{
-                    materiales="SELECT * FROM mercancia WHERE almacen LIKE ?";
+                    materiales="SELECT * FROM mercancia WHERE almacen LIKE ? ORDER BY articulo ASC";
                     cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
                     cmd.setString(1, cmbAlmacen.getSelectedItem().toString());
                 }
@@ -1922,11 +1947,11 @@ public class Inicio extends javax.swing.JFrame {
             if(txtBuscarArticulo.getText().isEmpty() && cmbBuscarMarca.getSelectedItem()==null){
                 try{
                     if(cmbAlmacen.getSelectedItem().toString().equals("Todos")){
-                        materiales="SELECT * FROM mercancia WHERE codigo LIKE ?";
+                        materiales="SELECT * FROM mercancia WHERE codigo LIKE ? ORDER BY articulo ASC";
                         cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
                         cmd.setString(1, txtBuscarCodigo.getText() + "%");
                     }else{
-                        materiales="SELECT * FROM mercancia WHERE codigo LIKE ? AND almacen LIKE ?";
+                        materiales="SELECT * FROM mercancia WHERE codigo LIKE ? AND almacen LIKE ? ORDER BY articulo ASC";
                         cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
                         cmd.setString(1, txtBuscarCodigo.getText() + "%");
                         cmd.setString(2, cmbAlmacen.getSelectedItem().toString());
@@ -1943,11 +1968,11 @@ public class Inicio extends javax.swing.JFrame {
                         case "Por Descripción":
                             try{
                                 if(cmbAlmacen.getSelectedItem().toString().equals("Todos")){
-                                    materiales="SELECT * FROM mercancia WHERE descripcion LIKE ?";
+                                    materiales="SELECT * FROM mercancia WHERE descripcion LIKE ? ORDER BY articulo ASC";
                                     cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
                                     cmd.setString(1, txtBuscarArticulo.getText() + "%");
                                 }else{
-                                    materiales="SELECT * FROM mercancia WHERE descripcion LIKE ? AND almacen LIKE ?";
+                                    materiales="SELECT * FROM mercancia WHERE descripcion LIKE ? AND almacen LIKE ? ORDER BY articulo ASC";
                                     cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
                                     cmd.setString(1, txtBuscarArticulo.getText() + "%");
                                     cmd.setString(2, cmbAlmacen.getSelectedItem().toString());
@@ -1961,11 +1986,11 @@ public class Inicio extends javax.swing.JFrame {
                         case "Por Nombre":
                             try{
                                 if(cmbAlmacen.getSelectedItem().toString().equals("Todos")){
-                                    materiales="SELECT * FROM mercancia WHERE articulo LIKE ?";
+                                    materiales="SELECT * FROM mercancia WHERE articulo LIKE ? ORDER BY articulo ASC";
                                     cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
                                     cmd.setString(1, txtBuscarArticulo.getText() + "%");
                                 }else{
-                                    materiales="SELECT * FROM mercancia WHERE articulo LIKE ? AND almacen LIKE ?";
+                                    materiales="SELECT * FROM mercancia WHERE articulo LIKE ? AND almacen LIKE ? ORDER BY articulo ASC";
                                     cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
                                     cmd.setString(1, txtBuscarArticulo.getText() + "%");
                                     cmd.setString(2, cmbAlmacen.getSelectedItem().toString());
@@ -1983,10 +2008,10 @@ public class Inicio extends javax.swing.JFrame {
                         if(cmbBuscarMarca.getSelectedItem() == null){
                             try{
                                 if(cmbAlmacen.getSelectedItem().toString().equals("Todos")){
-                                    materiales="SELECT * FROM mercancia";
+                                    materiales="SELECT * FROM mercancia ORDER BY articulo ASC";
                                     cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
                                 }else{
-                                    materiales="SELECT * FROM mercancia WHERE almacen LIKE ?";
+                                    materiales="SELECT * FROM mercancia WHERE almacen LIKE ? ORDER BY articulo ASC";
                                     cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
                                     cmd.setString(1, cmbAlmacen.getSelectedItem().toString());
                                 }
@@ -1998,11 +2023,11 @@ public class Inicio extends javax.swing.JFrame {
                         }else{
                             try{
                                 if(cmbAlmacen.getSelectedItem().toString().equals("Todos")){
-                                    materiales="SELECT * FROM mercancia WHERE marca LIKE ?";
+                                    materiales="SELECT * FROM mercancia WHERE marca LIKE ? ORDER BY articulo ASC";
                                     cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
                                     cmd.setString(1, cmbBuscarMarca.getSelectedItem().toString());
                                 }else{
-                                    materiales="SELECT * FROM mercancia WHERE marca LIKE ? AND almacen LIKE ?";
+                                    materiales="SELECT * FROM mercancia WHERE marca LIKE ? AND almacen LIKE ? ORDER BY articulo ASC";
                                     cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
                                     cmd.setString(1, cmbBuscarMarca.getSelectedItem().toString());
                                     cmd.setString(2, cmbAlmacen.getSelectedItem().toString());
@@ -2092,11 +2117,11 @@ public class Inicio extends javax.swing.JFrame {
         String consulta;
         try{
             if(cmbAlmacenMov.getSelectedItem().toString().equals("Todos")){
-                consulta="SELECT * FROM mercancia WHERE codigo LIKE ?";
+                consulta="SELECT * FROM mercancia WHERE codigo LIKE ? ORDER BY articulo ASC";
                 cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
                 cmd.setString(1, txtBuscarCodigoMov.getText() + "%");
             }else{
-                consulta="SELECT * FROM mercancia WHERE codigo LIKE ? AND almacen LIKE ?";
+                consulta="SELECT * FROM mercancia WHERE codigo LIKE ? AND almacen LIKE ? ORDER BY articulo ASC";
                 cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
                 cmd.setString(1, txtBuscarCodigoMov.getText() + "%");
                 cmd.setString(2, cmbAlmacenMov.getSelectedItem().toString());
@@ -2118,10 +2143,10 @@ public class Inicio extends javax.swing.JFrame {
         if(txtBuscarCodigoMov.getText().isEmpty() && txtBuscarArticuloMov.getText().isEmpty() && cmbBuscarMarcaMov.getSelectedItem()==null){
             try{
                 if(cmbAlmacenMov.getSelectedItem().toString().equals("Todos")){
-                    materiales="SELECT * FROM mercancia";
+                    materiales="SELECT * FROM mercancia ORDER BY articulo ASC";
                     cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
                 }else{
-                    materiales="SELECT * FROM mercancia WHERE almacen LIKE ?";
+                    materiales="SELECT * FROM mercancia WHERE almacen LIKE ? ORDER BY articulo ASC";
                     cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
                     cmd.setString(1, cmbAlmacenMov.getSelectedItem().toString());
                 }
@@ -2135,11 +2160,11 @@ public class Inicio extends javax.swing.JFrame {
             if(txtBuscarArticuloMov.getText().isEmpty() && cmbBuscarMarcaMov.getSelectedItem()==null){
                 try{
                     if(cmbAlmacenMov.getSelectedItem().toString().equals("Todos")){
-                        materiales="SELECT * FROM mercancia WHERE codigo LIKE ?";
+                        materiales="SELECT * FROM mercancia WHERE codigo LIKE ? ORDER BY articulo ASC";
                         cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
                         cmd.setString(1, txtBuscarCodigoMov.getText() + "%");
                     }else{
-                        materiales="SELECT * FROM mercancia WHERE codigo LIKE ? AND almacen LIKE ?";
+                        materiales="SELECT * FROM mercancia WHERE codigo LIKE ? AND almacen LIKE ? ORDER BY articulo ASC";
                         cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
                         cmd.setString(1, txtBuscarCodigoMov.getText() + "%");
                         cmd.setString(2, cmbAlmacenMov.getSelectedItem().toString());
@@ -2156,11 +2181,11 @@ public class Inicio extends javax.swing.JFrame {
                         case "Por Descripción":
                             try{
                                 if(cmbAlmacenMov.getSelectedItem().toString().equals("Todos")){
-                                    materiales="SELECT * FROM mercancia WHERE descripcion LIKE ?";
+                                    materiales="SELECT * FROM mercancia WHERE descripcion LIKE ? ORDER BY articulo ASC";
                                     cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
                                     cmd.setString(1, txtBuscarArticuloMov.getText() + "%");
                                 }else{
-                                    materiales="SELECT * FROM mercancia WHERE descripcion LIKE ? AND almacen LIKE ?";
+                                    materiales="SELECT * FROM mercancia WHERE descripcion LIKE ? AND almacen LIKE ? ORDER BY articulo ASC";
                                     cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
                                     cmd.setString(1, txtBuscarArticuloMov.getText() + "%");
                                     cmd.setString(2, cmbAlmacenMov.getSelectedItem().toString());
@@ -2174,11 +2199,11 @@ public class Inicio extends javax.swing.JFrame {
                         case "Por Nombre":
                             try{
                                 if(cmbAlmacenMov.getSelectedItem().toString().equals("Todos")){
-                                    materiales="SELECT * FROM mercancia WHERE articulo LIKE ?";
+                                    materiales="SELECT * FROM mercancia WHERE articulo LIKE ? ORDER BY articulo ASC";
                                     cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
                                     cmd.setString(1, txtBuscarArticuloMov.getText() + "%");
                                 }else{
-                                    materiales="SELECT * FROM mercancia WHERE articulo LIKE ? AND almacen LIKE ?";
+                                    materiales="SELECT * FROM mercancia WHERE articulo LIKE ? AND almacen LIKE ? ORDER BY articulo ASC";
                                     cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
                                     cmd.setString(1, txtBuscarArticuloMov.getText() + "%");
                                     cmd.setString(2, cmbAlmacenMov.getSelectedItem().toString());
@@ -2196,10 +2221,10 @@ public class Inicio extends javax.swing.JFrame {
                         if(cmbBuscarMarcaMov.getSelectedItem() == null){
                             try{
                                 if(cmbAlmacenMov.getSelectedItem().toString().equals("Todos")){
-                                    materiales="SELECT * FROM mercancia";
+                                    materiales="SELECT * FROM mercancia ORDER BY articulo ASC";
                                     cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
                                 }else{
-                                    materiales="SELECT * FROM mercancia WHERE almacen LIKE ?";
+                                    materiales="SELECT * FROM mercancia WHERE almacen LIKE ? ORDER BY articulo ASC";
                                     cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
                                     cmd.setString(1, cmbAlmacenMov.getSelectedItem().toString());
                                 }
@@ -2211,11 +2236,11 @@ public class Inicio extends javax.swing.JFrame {
                         }else{
                             try{
                                 if(cmbAlmacenMov.getSelectedItem().toString().equals("Todos")){
-                                    materiales="SELECT * FROM mercancia WHERE marca LIKE ?";
+                                    materiales="SELECT * FROM mercancia WHERE marca LIKE ? ORDER BY articulo ASC";
                                     cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
                                     cmd.setString(1, cmbBuscarMarcaMov.getSelectedItem().toString());
                                 }else{
-                                    materiales="SELECT * FROM mercancia WHERE marca LIKE ? AND almacen LIKE ?";
+                                    materiales="SELECT * FROM mercancia WHERE marca LIKE ? AND almacen LIKE ? ORDER BY articulo ASC";
                                     cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
                                     cmd.setString(1, cmbBuscarMarcaMov.getSelectedItem().toString());
                                     cmd.setString(2, cmbAlmacenMov.getSelectedItem().toString());
@@ -2246,11 +2271,11 @@ public class Inicio extends javax.swing.JFrame {
             case "Por Descripción":
                 try{
                     if(cmbAlmacenMov.getSelectedItem().toString().equals("Todos")){
-                        consulta="SELECT * FROM mercancia WHERE descripcion LIKE ?";
+                        consulta="SELECT * FROM mercancia WHERE descripcion LIKE ? ORDER BY articulo ASC";
                         cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
                         cmd.setString(1, txtBuscarArticuloMov.getText() + "%");
                     }else{
-                        consulta="SELECT * FROM mercancia WHERE descripcion LIKE ? AND almacen LIKE ?";
+                        consulta="SELECT * FROM mercancia WHERE descripcion LIKE ? AND almacen LIKE ? ORDER BY articulo ASC";
                         cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
                         cmd.setString(1, txtBuscarArticuloMov.getText() + "%");
                         cmd.setString(2, cmbAlmacenMov.getSelectedItem().toString());
@@ -2264,11 +2289,11 @@ public class Inicio extends javax.swing.JFrame {
             case "Por Nombre":
                 try{
                     if(cmbAlmacenMov.getSelectedItem().toString().equals("Todos")){
-                        consulta="SELECT * FROM mercancia WHERE articulo LIKE ?";
+                        consulta="SELECT * FROM mercancia WHERE articulo LIKE ? ORDER BY articulo ASC";
                         cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
                         cmd.setString(1, txtBuscarArticuloMov.getText() + "%");
                     }else{
-                        consulta="SELECT * FROM mercancia WHERE articulo LIKE ? AND almacen LIKE ?";
+                        consulta="SELECT * FROM mercancia WHERE articulo LIKE ? AND almacen LIKE ? ORDER BY articulo ASC";
                         cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
                         cmd.setString(1, txtBuscarArticuloMov.getText() + "%");
                         cmd.setString(2, cmbAlmacenMov.getSelectedItem().toString());
@@ -2292,11 +2317,11 @@ public class Inicio extends javax.swing.JFrame {
             case "Por Descripción":
                 try{
                     if(cmbAlmacenMov.getSelectedItem().toString().equals("Todos")){
-                        consulta="SELECT * FROM mercancia WHERE descripcion LIKE ?";
+                        consulta="SELECT * FROM mercancia WHERE descripcion LIKE ? ORDER BY articulo ASC";
                         cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
                         cmd.setString(1, txtBuscarArticuloMov.getText() + "%");
                     }else{
-                        consulta="SELECT * FROM mercancia WHERE descripcion LIKE ? AND almacen LIKE ?";
+                        consulta="SELECT * FROM mercancia WHERE descripcion LIKE ? AND almacen LIKE ? ORDER BY articulo ASC";
                         cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
                         cmd.setString(1, txtBuscarArticuloMov.getText() + "%");
                         cmd.setString(2, cmbAlmacenMov.getSelectedItem().toString());
@@ -2310,11 +2335,11 @@ public class Inicio extends javax.swing.JFrame {
             case "Por Nombre":
                 try{
                     if(cmbAlmacenMov.getSelectedItem().toString().equals("Todos")){
-                        consulta="SELECT * FROM mercancia WHERE articulo LIKE ?";
+                        consulta="SELECT * FROM mercancia WHERE articulo LIKE ? ORDER BY articulo ASC";
                         cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
                         cmd.setString(1, txtBuscarArticuloMov.getText() + "%");
                     }else{
-                        consulta="SELECT * FROM mercancia WHERE articulo LIKE ? AND almacen LIKE ?";
+                        consulta="SELECT * FROM mercancia WHERE articulo LIKE ? AND almacen LIKE ? ORDER BY articulo ASC";
                         cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
                         cmd.setString(1, txtBuscarArticuloMov.getText() + "%");
                         cmd.setString(2, cmbAlmacenMov.getSelectedItem().toString());
@@ -2337,10 +2362,10 @@ public class Inicio extends javax.swing.JFrame {
         if(cmbBuscarMarcaMov.getSelectedItem() == null){
             try{
                 if(cmbAlmacenMov.getSelectedItem().toString().equals("Todos")){
-                    consulta="SELECT * FROM mercancia";
+                    consulta="SELECT * FROM mercancia ORDER BY articulo ASC";
                     cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
                 }else{
-                    consulta="SELECT * FROM mercancia WHERE almacen LIKE ?";
+                    consulta="SELECT * FROM mercancia WHERE almacen LIKE ? ORDER BY articulo ASC";
                     cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
                     cmd.setString(1, cmbAlmacenMov.getSelectedItem().toString());
                 }
@@ -2352,11 +2377,11 @@ public class Inicio extends javax.swing.JFrame {
         }else{
             try{
                 if(cmbAlmacenMov.getSelectedItem().toString().equals("Todos")){
-                    consulta="SELECT * FROM mercancia WHERE marca LIKE ?";
+                    consulta="SELECT * FROM mercancia WHERE marca LIKE ? ORDER BY articulo ASC";
                     cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
                     cmd.setString(1, cmbBuscarMarcaMov.getSelectedItem().toString());
                 }else{
-                    consulta="SELECT * FROM mercancia WHERE marca LIKE ? AND almacen LIKE ?";
+                    consulta="SELECT * FROM mercancia WHERE marca LIKE ? AND almacen LIKE ? ORDER BY articulo ASC";
                     cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
                     cmd.setString(1, cmbBuscarMarcaMov.getSelectedItem().toString());
                     cmd.setString(2, cmbAlmacenMov.getSelectedItem().toString());
@@ -2564,7 +2589,7 @@ public class Inicio extends javax.swing.JFrame {
                 }
                 
                 try{
-                    String materiales="SELECT * FROM mercancia";
+                    String materiales="SELECT * FROM mercancia ORDER BY articulo ASC";
                     cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
                     result=cmd.executeQuery();
                     llenarTablaSeleccionar(result);
@@ -2673,15 +2698,7 @@ public class Inicio extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtAsuntoKeyTyped
 
-    /*
-    Consultar Movimientos:  Mercancia(codigo,articulo,descripción,marca) 
-                            Movimiento(tipo,asunto,fecha,cantidad) 
-                            Usuarios(nickname)[Información en variables del frame]
-    Filtros hechos: Código, articulo, marca, almacén ubicado.
-    Filtros nuevos: Fecha, tipo de movimiento, nickname.
-    
-    Orden: asunto, codigo, articulo, descripción, marca, tipo, cantidad, nickname, fecha
-    */
+    //Consultar Movimientos
     
     public void llenarTablaConsult(ResultSet r){
         String encabezado[]={"Asunto","Código","Artículo","Descripción","Marca","Almacén","Tipo","Cantidad","Responsable","Fecha"};
