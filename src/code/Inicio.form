@@ -917,23 +917,21 @@
                                           </Group>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                              <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                                  <Component id="btnDeleteMov" alignment="0" max="32767" attributes="0"/>
-                                                  <Component id="btnRestMov" alignment="0" max="32767" attributes="0"/>
-                                                  <Component id="btnSumMov" alignment="0" max="32767" attributes="0"/>
-                                                  <Component id="spinCantRest" alignment="0" max="32767" attributes="0"/>
-                                                  <Component id="btnMover" max="32767" attributes="0"/>
-                                                  <Group type="102" alignment="0" attributes="0">
-                                                      <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
-                                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                          <Group type="102" alignment="0" attributes="0">
-                                                              <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
-                                                              <EmptySpace max="-2" attributes="0"/>
-                                                              <Component id="cmbTipoMov" max="32767" attributes="0"/>
-                                                          </Group>
-                                                          <Component id="spinCantAdd" alignment="0" max="32767" attributes="0"/>
-                                                          <Component id="btnAddMov" min="-2" pref="133" max="-2" attributes="0"/>
+                                              <Component id="btnDeleteMov" alignment="0" max="32767" attributes="0"/>
+                                              <Component id="btnRestMov" alignment="0" max="32767" attributes="0"/>
+                                              <Component id="btnSumMov" alignment="0" max="32767" attributes="0"/>
+                                              <Component id="spinCantRest" alignment="0" max="32767" attributes="0"/>
+                                              <Component id="btnMover" alignment="1" max="32767" attributes="0"/>
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+                                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                      <Group type="102" alignment="0" attributes="0">
+                                                          <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
+                                                          <EmptySpace max="-2" attributes="0"/>
+                                                          <Component id="cmbTipoMov" max="32767" attributes="0"/>
                                                       </Group>
+                                                      <Component id="spinCantAdd" alignment="0" max="32767" attributes="0"/>
+                                                      <Component id="btnAddMov" min="-2" pref="133" max="-2" attributes="0"/>
                                                   </Group>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
@@ -1528,7 +1526,7 @@
                               </Group>
                               <Group type="102" attributes="0">
                                   <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
                                   <Component id="cmbConsultAlmacen" min="-2" pref="191" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                                   <Component id="jLabel20" min="-2" max="-2" attributes="0"/>
@@ -1585,12 +1583,11 @@
                           <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                                  <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" attributes="0">
                                   <EmptySpace min="3" pref="3" max="-2" attributes="0"/>
-                                  <Component id="cmbConsultAlmacen" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="cmbConsultAlmacen" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel17" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
                               <Group type="102" attributes="0">
                                   <EmptySpace min="6" pref="6" max="-2" attributes="0"/>

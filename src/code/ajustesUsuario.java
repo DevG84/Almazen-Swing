@@ -2,20 +2,27 @@ package code;
 
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import settings.conexionBD;
 
 public class ajustesUsuario extends javax.swing.JFrame {
 
+    Inicio i;
+    //Para acciones en la base de datos
+    conexionBD conexion=null;
+    PreparedStatement cmd;
+    ResultSet result;
     
-    
-    public ajustesUsuario() {
+    public ajustesUsuario(Inicio inicio) {
+        i=inicio;
         initComponents();
         setIconImage(getIconImage());
         this.setLocationRelativeTo(null);
-        setAlwaysOnTop(true);
-        
+        conexion=new conexionBD();
         
     }
-
+    
     //Logo del JFrame
     @Override
     public Image getIconImage(){
@@ -74,6 +81,7 @@ public class ajustesUsuario extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        Inicio inicio = null;
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -100,7 +108,7 @@ public class ajustesUsuario extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ajustesUsuario().setVisible(true);
+                new ajustesUsuario(inicio).setVisible(true);
             }
         });
     }

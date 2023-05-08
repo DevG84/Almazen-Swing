@@ -81,7 +81,7 @@ public class Inicio extends javax.swing.JFrame {
         Pestañas.setSelectedIndex(0);
         changeButtonColor();
         //Inicio
-        lblBienvenida.setText("Hola " + nombre + ", bienvenido/a.");
+        lblBienvenida.setText("!Saludos " + nombre + "¡ Almazen está listo para acompañarte en tu día.");
         
         //Buscar
         
@@ -119,7 +119,7 @@ public class Inicio extends javax.swing.JFrame {
     }
     
     private void iniciarConsulta(){
-        llenarMarca(cmbConsultMarca);
+        llenarMarcaConsult(cmbConsultMarca);
         llenarNick();
         cmbConsultAlmacen.setSelectedItem("Todos"); cmbConsultMov.setSelectedItem("Entrada y salida"); cmbConsultNick.setSelectedItem(null);
         dateConsultDe.setDate(null); dateConsultA.setDate(null);
@@ -214,6 +214,22 @@ public class Inicio extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error 004: Error al obtener las marcas registradas en la base de datos.");
         }
     }
+    
+    private void llenarMarcaConsult(JComboBox cmbBuscarMarca){
+        cmbBuscarMarca.removeAllItems();
+        try{
+            String consulta="SELECT DISTINCT mercancia.marca FROM movimiento JOIN mercancia ON movimiento.IDmercancia = mercancia.IDmercancia";
+            cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+            marca_res=cmd.executeQuery();
+            //Recorrer los resultados y agregar cada valor único de "marca" al JComboBox
+            cmbBuscarMarca.addItem(null);
+            while (marca_res.next()) {
+                cmbBuscarMarca.addItem(marca_res.getString(1));
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Error 004: Error al obtener las marcas registradas en la base de datos.");
+        }
+    }    
     
     private void llenarNick(){
         cmbConsultNick.removeAllItems();
@@ -1196,21 +1212,20 @@ public class Inicio extends javax.swing.JFrame {
                                     .addComponent(jScrollPane3))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(btnDeleteMov, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnRestMov, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnSumMov, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(spinCantRest, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(btnMover, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelMovLayout.createSequentialGroup()
-                                            .addGap(5, 5, 5)
-                                            .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addGroup(panelMovLayout.createSequentialGroup()
-                                                    .addComponent(jLabel14)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                    .addComponent(cmbTipoMov, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                                .addComponent(spinCantAdd)
-                                                .addComponent(btnAddMov, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(btnDeleteMov, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnRestMov, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnSumMov, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(spinCantRest)
+                                    .addComponent(btnMover, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(panelMovLayout.createSequentialGroup()
+                                        .addGap(5, 5, 5)
+                                        .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addGroup(panelMovLayout.createSequentialGroup()
+                                                .addComponent(jLabel14)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(cmbTipoMov, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addComponent(spinCantAdd)
+                                            .addComponent(btnAddMov, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(panelMovLayout.createSequentialGroup()
                                         .addGap(6, 6, 6)
                                         .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1506,7 +1521,7 @@ public class Inicio extends javax.swing.JFrame {
                         .addComponent(cmbConsultMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelConsultaLayout.createSequentialGroup()
                         .addComponent(jLabel17)
-                        .addGap(6, 6, 6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cmbConsultAlmacen, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel20)
@@ -1554,11 +1569,10 @@ public class Inicio extends javax.swing.JFrame {
                 .addGap(6, 6, 6)
                 .addGroup(panelConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelConsultaLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jLabel17))
-                    .addGroup(panelConsultaLayout.createSequentialGroup()
                         .addGap(3, 3, 3)
-                        .addComponent(cmbConsultAlmacen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(panelConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cmbConsultAlmacen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel17)))
                     .addGroup(panelConsultaLayout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jLabel20))
@@ -1677,7 +1691,7 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDisplayConsultaActionPerformed
 
     private void btnDisplayAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisplayAdminActionPerformed
-        ajustesAdmin admin=new ajustesAdmin();
+        ajustesAdmin admin=new ajustesAdmin(this);
         admin.setVisible(true);
     }//GEN-LAST:event_btnDisplayAdminActionPerformed
 
@@ -1687,7 +1701,7 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDisplayInicioActionPerformed
 
     private void btnDisplaySettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisplaySettingsActionPerformed
-        ajustesUsuario userSettings=new ajustesUsuario();
+        ajustesUsuario userSettings=new ajustesUsuario(this);
         userSettings.setVisible(true);
     }//GEN-LAST:event_btnDisplaySettingsActionPerformed
 
