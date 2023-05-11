@@ -477,6 +477,26 @@ public class Inicio extends javax.swing.JFrame {
         jSeparator4 = new javax.swing.JSeparator();
         jScrollPane6 = new javax.swing.JScrollPane();
         tblPerCod = new javax.swing.JTable();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel27 = new javax.swing.JLabel();
+        jLabel28 = new javax.swing.JLabel();
+        jLabel29 = new javax.swing.JLabel();
+        jLabel30 = new javax.swing.JLabel();
+        jLabel31 = new javax.swing.JLabel();
+        jLabel32 = new javax.swing.JLabel();
+        jLabel33 = new javax.swing.JLabel();
+        jLabel34 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jSpinner1 = new javax.swing.JSpinner();
+        jComboBox3 = new javax.swing.JComboBox<>();
+        jComboBox4 = new javax.swing.JComboBox<>();
+        jComboBox5 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Almazen");
@@ -792,7 +812,6 @@ public class Inicio extends javax.swing.JFrame {
         panelBuscar.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Código:");
 
         txtBuscarCodigo.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
@@ -816,7 +835,6 @@ public class Inicio extends javax.swing.JFrame {
         });
 
         jLabel6.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Artículo:");
 
         txtBuscarArticulo.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
@@ -851,7 +869,6 @@ public class Inicio extends javax.swing.JFrame {
         });
 
         jLabel7.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Marca:");
 
         cmbBuscarMarca.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -901,7 +918,6 @@ public class Inicio extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tblBuscar);
 
         jLabel8.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setText("Almacén:");
 
         cmbAlmacen.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
@@ -1056,7 +1072,6 @@ public class Inicio extends javax.swing.JFrame {
         });
 
         jLabel2.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Código:");
 
         txtBuscarCodigoMov.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
@@ -1111,7 +1126,6 @@ public class Inicio extends javax.swing.JFrame {
         });
 
         jLabel9.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(0, 0, 0));
         jLabel9.setText("Artículo:");
 
         cmbBuscarTipoMov.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
@@ -1129,7 +1143,6 @@ public class Inicio extends javax.swing.JFrame {
         });
 
         jLabel10.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(0, 0, 0));
         jLabel10.setText("Marca:");
 
         cmbBuscarMarcaMov.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -1155,15 +1168,12 @@ public class Inicio extends javax.swing.JFrame {
         });
 
         jLabel11.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(0, 0, 0));
         jLabel11.setText("Almacén:");
 
         jLabel12.setFont(new java.awt.Font("Microsoft YaHei", 1, 13)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(0, 0, 0));
         jLabel12.setText("Material Seleccionado");
 
         jLabel13.setFont(new java.awt.Font("Microsoft YaHei", 1, 13)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(0, 0, 0));
         jLabel13.setText("Material disponible");
 
         btnAddMov.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
@@ -1214,7 +1224,6 @@ public class Inicio extends javax.swing.JFrame {
         });
 
         jLabel14.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(0, 0, 0));
         jLabel14.setText("Tipo:");
 
         btnSumMov.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
@@ -1229,7 +1238,6 @@ public class Inicio extends javax.swing.JFrame {
         });
 
         jLabel15.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(0, 0, 0));
         jLabel15.setText("¿Por qué se está moviendo el material?");
 
         txtAsunto.setColumns(20);
@@ -1305,7 +1313,7 @@ public class Inicio extends javax.swing.JFrame {
                                     .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                         .addComponent(btnDeleteMov, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnRestMov, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
+                                        .addComponent(btnRestMov, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(btnSumMov, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(spinCantRest, javax.swing.GroupLayout.Alignment.LEADING))
                                     .addComponent(btnMover))))))
@@ -1384,11 +1392,9 @@ public class Inicio extends javax.swing.JFrame {
         });
 
         jLabel17.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jLabel17.setForeground(new java.awt.Color(0, 0, 0));
         jLabel17.setText("Almacén:");
 
         jLabel3.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Código:");
 
         txtConsultCodigo.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
@@ -1412,7 +1418,6 @@ public class Inicio extends javax.swing.JFrame {
         });
 
         jLabel18.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jLabel18.setForeground(new java.awt.Color(0, 0, 0));
         jLabel18.setText("Artículo:");
 
         txtConsultArticulo.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
@@ -1447,7 +1452,6 @@ public class Inicio extends javax.swing.JFrame {
         });
 
         jLabel19.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jLabel19.setForeground(new java.awt.Color(0, 0, 0));
         jLabel19.setText("Marca:");
 
         cmbConsultMarca.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -1473,7 +1477,6 @@ public class Inicio extends javax.swing.JFrame {
         });
 
         jLabel20.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jLabel20.setForeground(new java.awt.Color(0, 0, 0));
         jLabel20.setText("Tipo:");
 
         cmbConsultMov.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
@@ -1486,7 +1489,6 @@ public class Inicio extends javax.swing.JFrame {
         });
 
         jLabel21.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jLabel21.setForeground(new java.awt.Color(0, 0, 0));
         jLabel21.setText("Nickname:");
 
         cmbConsultNick.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
@@ -1498,7 +1500,6 @@ public class Inicio extends javax.swing.JFrame {
         });
 
         jLabel22.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jLabel22.setForeground(new java.awt.Color(0, 0, 0));
         jLabel22.setText("Fecha:");
 
         tblConsulta.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
@@ -1561,11 +1562,9 @@ public class Inicio extends javax.swing.JFrame {
         });
 
         jLabel16.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jLabel16.setForeground(new java.awt.Color(0, 0, 0));
         jLabel16.setText("a");
 
         jLabel23.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jLabel23.setForeground(new java.awt.Color(0, 0, 0));
         jLabel23.setText("De");
 
         btnFiltrarConsult.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
@@ -1694,11 +1693,9 @@ public class Inicio extends javax.swing.JFrame {
         panelCodes.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel4.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Código:");
 
         jLabel24.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jLabel24.setForeground(new java.awt.Color(0, 0, 0));
         jLabel24.setText("Almacén:");
 
         cmbAlmacenPerCod.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
@@ -1736,7 +1733,6 @@ public class Inicio extends javax.swing.JFrame {
         });
 
         jLabel25.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jLabel25.setForeground(new java.awt.Color(0, 0, 0));
         jLabel25.setText("Artículo:");
 
         txtArticuloPerCod.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
@@ -1783,7 +1779,6 @@ public class Inicio extends javax.swing.JFrame {
         });
 
         jLabel26.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jLabel26.setForeground(new java.awt.Color(0, 0, 0));
         jLabel26.setText("Marca:");
 
         btnBorrarPerCod.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
@@ -1805,7 +1800,7 @@ public class Inicio extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4", "null", "null", "null"
+                "Código", "Artículo", "Descripción", "Marca", "Presentación", "Existencia", "Almacén"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -1828,6 +1823,141 @@ public class Inicio extends javax.swing.JFrame {
             tblPerCod.getColumnModel().getColumn(6).setResizable(false);
         }
 
+        jPanel6.setBackground(new java.awt.Color(204, 204, 204));
+
+        jLabel5.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel5.setText("Código:");
+
+        jLabel27.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel27.setText("Artículo:");
+
+        jLabel28.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel28.setText("Descripción:");
+
+        jLabel29.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel29.setText("Marca:");
+
+        jLabel30.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel30.setText("Presentación:");
+
+        jLabel31.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel31.setText("Existencia:");
+
+        jLabel32.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel32.setText("Almacén:");
+
+        jLabel33.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel33.setText("Anaquel:");
+
+        jLabel34.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel34.setText("Repisa:");
+
+        jTextField1.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+
+        jTextField2.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+
+        jComboBox1.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jTextArea1.setRows(5);
+        jScrollPane7.setViewportView(jTextArea1);
+
+        jComboBox2.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jSpinner1.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+
+        jComboBox3.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jComboBox4.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jComboBox5.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel6Layout.createSequentialGroup()
+                            .addComponent(jLabel5)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(jLabel27)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(jLabel29)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                            .addComponent(jLabel28)
+                            .addGap(863, 863, 863))
+                        .addGroup(jPanel6Layout.createSequentialGroup()
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel32)
+                                .addComponent(jLabel33)
+                                .addComponent(jLabel34))
+                            .addGap(36, 36, 36)
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jLabel30)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel31)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane7))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel27)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel29)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel28)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel30)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel31)
+                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel32)
+                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel33)
+                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel34)
+                    .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(68, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout panelCodesLayout = new javax.swing.GroupLayout(panelCodes);
         panelCodes.setLayout(panelCodesLayout);
         panelCodesLayout.setHorizontalGroup(
@@ -1839,7 +1969,7 @@ public class Inicio extends javax.swing.JFrame {
                         .addGroup(panelCodesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jSeparator4)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelCodesLayout.createSequentialGroup()
-                                .addGroup(panelCodesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(panelCodesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(panelCodesLayout.createSequentialGroup()
                                         .addComponent(jLabel4)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1847,16 +1977,14 @@ public class Inicio extends javax.swing.JFrame {
                                     .addGroup(panelCodesLayout.createSequentialGroup()
                                         .addComponent(jLabel24)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(cmbAlmacenPerCod, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                        .addComponent(cmbAlmacenPerCod, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(18, 18, 18)
                                 .addGroup(panelCodesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(panelCodesLayout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnBorrarPerCod))
+                                    .addComponent(btnBorrarPerCod)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCodesLayout.createSequentialGroup()
                                         .addComponent(jLabel25)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtArticuloPerCod, javax.swing.GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)
+                                        .addComponent(txtArticuloPerCod, javax.swing.GroupLayout.DEFAULT_SIZE, 582, Short.MAX_VALUE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(cmbTipoPerCod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
@@ -1867,6 +1995,10 @@ public class Inicio extends javax.swing.JFrame {
                         .addGap(12, 12, 12)
                         .addComponent(jScrollPane6)))
                 .addContainerGap())
+            .addGroup(panelCodesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelCodesLayout.setVerticalGroup(
             panelCodesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1889,7 +2021,8 @@ public class Inicio extends javax.swing.JFrame {
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(407, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         Pestañas.addTab("Códigos almazen", panelCodes);
@@ -3727,6 +3860,11 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmbTipoPerCod;
     private com.toedter.calendar.JDateChooser dateConsultA;
     private com.toedter.calendar.JDateChooser dateConsultDe;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBox3;
+    private javax.swing.JComboBox<String> jComboBox4;
+    private javax.swing.JComboBox<String> jComboBox5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -3746,8 +3884,17 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -3757,17 +3904,23 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JSpinner jSpinner1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     public javax.swing.JLabel lblBienvenida;
     private javax.swing.JLabel logo;
     private javax.swing.JPanel panelBuscar;
