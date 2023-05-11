@@ -138,7 +138,16 @@ public class Inicio extends javax.swing.JFrame {
     }
     
     private void iniciarPerCod(){
-        
+        llenarMarca(cmbMarcaPerCod);
+        //Llena la tabla
+        try{
+            String materiales="SELECT * FROM mercancia ORDER BY articulo ASC";
+            cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
+            result=cmd.executeQuery();
+            llenarTablaPerCod(result);
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(rootPane, "Error al llenar tabla.");
+        }
     }
     
     //Funciones utiles
@@ -180,6 +189,61 @@ public class Inicio extends javax.swing.JFrame {
                 TableCellRenderer cellRenderer = tblBuscar.getCellRenderer(j, i);
                 Object valor = tblBuscar.getValueAt(j, i);
                 Component componente = cellRenderer.getTableCellRendererComponent(tblBuscar, valor, false, false, j, i);
+                ancho = Math.max(ancho, componente.getPreferredSize().width);
+            }
+            // Establecer ancho de columna
+            if (ancho > 0 && ancho > anchos[i]) {
+                columna.setPreferredWidth(ancho);
+            } else {
+                columna.setPreferredWidth(anchos[i]);
+            }
+            // Establecer editor por defecto para evitar edición de celdas
+            columna.setCellEditor(new DefaultCellEditor(new JTextField()) {
+                @Override
+                public boolean isCellEditable(EventObject e) {
+                    return false;
+                }
+            });
+        }
+        //
+    }
+    
+    public void llenarTablaPerCod(ResultSet registros){
+        String encabezado[]={"Código","Artículo","Descripción","Marca","Presentación","Existencia","Almacén"};
+        DefaultTableModel modeloPercod = new DefaultTableModel();
+        for (String columnas : encabezado) {
+            modeloPercod.addColumn(columnas);
+        }
+        try{
+            while(registros.next()){
+                Object[] row = new Object[9];
+                row[0] = registros.getString(2);
+                row[1] = registros.getString(3);
+                row[2] = registros.getString(4);
+                row[3] = registros.getString(5);
+                row[4] = registros.getString(6);
+                row[5] = registros.getString(7);
+                row[6] = registros.getString(8);
+                modeloPercod.addRow(row);
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Error 008: Error al consultar materiales registrados en la base de datos.");
+        }
+        tblPerCod.setModel(modeloPercod);
+        
+        // Establecer ancho de columnas
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+        renderer.setHorizontalAlignment(SwingConstants.LEFT);
+        tblPerCod.setDefaultRenderer(Object.class, renderer);
+        int[] anchos = {10, 10, 10, 10, 10, 10, 10};
+        for (int i = 0; i < tblPerCod.getColumnCount(); i++) {
+            TableColumn columna = tblPerCod.getColumnModel().getColumn(i);
+            int ancho = 0;
+            // Obtener ancho máximo de columna
+            for (int j = 0; j < tblPerCod.getRowCount(); j++) {
+                TableCellRenderer cellRenderer = tblPerCod.getCellRenderer(j, i);
+                Object valor = tblPerCod.getValueAt(j, i);
+                Component componente = cellRenderer.getTableCellRendererComponent(tblPerCod, valor, false, false, j, i);
                 ancho = Math.max(ancho, componente.getPreferredSize().width);
             }
             // Establecer ancho de columna
@@ -400,6 +464,19 @@ public class Inicio extends javax.swing.JFrame {
         jLabel23 = new javax.swing.JLabel();
         btnFiltrarConsult = new javax.swing.JButton();
         panelCodes = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        cmbAlmacenPerCod = new javax.swing.JComboBox<>();
+        txtCodigoPerCod = new javax.swing.JTextField();
+        jLabel25 = new javax.swing.JLabel();
+        txtArticuloPerCod = new javax.swing.JTextField();
+        cmbTipoPerCod = new javax.swing.JComboBox<>();
+        cmbMarcaPerCod = new javax.swing.JComboBox<>();
+        jLabel26 = new javax.swing.JLabel();
+        btnBorrarPerCod = new javax.swing.JButton();
+        jSeparator4 = new javax.swing.JSeparator();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        tblPerCod = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Almazen");
@@ -486,7 +563,7 @@ public class Inicio extends javax.swing.JFrame {
 
         btnDisplayCodes.setBackground(new java.awt.Color(234, 237, 237));
         btnDisplayCodes.setFont(new java.awt.Font("Microsoft YaHei", 1, 13)); // NOI18N
-        btnDisplayCodes.setText("Códigos perzonalizados");
+        btnDisplayCodes.setText("Modificar información");
         btnDisplayCodes.setBorder(null);
         btnDisplayCodes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnDisplayCodes.setRolloverEnabled(false);
@@ -967,6 +1044,7 @@ public class Inicio extends javax.swing.JFrame {
             tblMoverMaterial.getColumnModel().getColumn(6).setResizable(false);
         }
 
+        btnMover.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         btnMover.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/move_48px.png"))); // NOI18N
         btnMover.setText("Mover");
         btnMover.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -1211,12 +1289,7 @@ public class Inicio extends javax.swing.JFrame {
                                     .addComponent(jScrollPane2)
                                     .addComponent(jScrollPane3))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(btnDeleteMov, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnRestMov, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnSumMov, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(spinCantRest)
-                                    .addComponent(btnMover, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(panelMovLayout.createSequentialGroup()
                                         .addGap(5, 5, 5)
                                         .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -1224,12 +1297,18 @@ public class Inicio extends javax.swing.JFrame {
                                                 .addComponent(jLabel14)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(cmbTipoMov, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                            .addComponent(spinCantAdd)
-                                            .addComponent(btnAddMov, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(btnAddMov, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
+                                            .addComponent(spinCantAdd)))
                                     .addGroup(panelMovLayout.createSequentialGroup()
                                         .addGap(6, 6, 6)
                                         .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(btnDeleteMov, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnRestMov, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
+                                        .addComponent(btnSumMov, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(spinCantRest, javax.swing.GroupLayout.Alignment.LEADING))
+                                    .addComponent(btnMover))))))
                 .addContainerGap())
         );
         panelMovLayout.setVerticalGroup(
@@ -1442,6 +1521,7 @@ public class Inicio extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblConsulta.getTableHeader().setReorderingAllowed(false);
         jScrollPane4.setViewportView(tblConsulta);
         if (tblConsulta.getColumnModel().getColumnCount() > 0) {
             tblConsulta.getColumnModel().getColumn(0).setResizable(false);
@@ -1613,15 +1693,203 @@ public class Inicio extends javax.swing.JFrame {
 
         panelCodes.setBackground(new java.awt.Color(255, 255, 255));
 
+        jLabel4.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel4.setText("Código:");
+
+        jLabel24.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel24.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel24.setText("Almacén:");
+
+        cmbAlmacenPerCod.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        cmbAlmacenPerCod.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Zona 100 (Principal)", "Zona 100 (Bodega)", "Edificio A" }));
+        cmbAlmacenPerCod.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cmbAlmacenPerCod.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbAlmacenPerCodItemStateChanged(evt);
+            }
+        });
+        cmbAlmacenPerCod.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbAlmacenPerCodActionPerformed(evt);
+            }
+        });
+
+        txtCodigoPerCod.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        txtCodigoPerCod.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtCodigoPerCodMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                txtCodigoPerCodMousePressed(evt);
+            }
+        });
+        txtCodigoPerCod.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCodigoPerCodActionPerformed(evt);
+            }
+        });
+        txtCodigoPerCod.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCodigoPerCodKeyReleased(evt);
+            }
+        });
+
+        jLabel25.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel25.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel25.setText("Artículo:");
+
+        txtArticuloPerCod.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        txtArticuloPerCod.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtArticuloPerCodMouseClicked(evt);
+            }
+        });
+        txtArticuloPerCod.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtArticuloPerCodActionPerformed(evt);
+            }
+        });
+        txtArticuloPerCod.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtArticuloPerCodKeyReleased(evt);
+            }
+        });
+
+        cmbTipoPerCod.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        cmbTipoPerCod.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Por Descripción", "Por Nombre" }));
+        cmbTipoPerCod.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cmbTipoPerCod.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbTipoPerCodItemStateChanged(evt);
+            }
+        });
+        cmbTipoPerCod.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbTipoPerCodActionPerformed(evt);
+            }
+        });
+
+        cmbMarcaPerCod.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cmbMarcaPerCod.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cmbMarcaPerCodMouseClicked(evt);
+            }
+        });
+        cmbMarcaPerCod.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbMarcaPerCodActionPerformed(evt);
+            }
+        });
+
+        jLabel26.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel26.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel26.setText("Marca:");
+
+        btnBorrarPerCod.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        btnBorrarPerCod.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/trash2_24px.png"))); // NOI18N
+        btnBorrarPerCod.setText("Borrar selección");
+        btnBorrarPerCod.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnBorrarPerCod.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBorrarPerCodActionPerformed(evt);
+            }
+        });
+
+        tblPerCod.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        tblPerCod.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4", "null", "null", "null"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblPerCod.getTableHeader().setReorderingAllowed(false);
+        jScrollPane6.setViewportView(tblPerCod);
+        if (tblPerCod.getColumnModel().getColumnCount() > 0) {
+            tblPerCod.getColumnModel().getColumn(0).setResizable(false);
+            tblPerCod.getColumnModel().getColumn(1).setResizable(false);
+            tblPerCod.getColumnModel().getColumn(2).setResizable(false);
+            tblPerCod.getColumnModel().getColumn(3).setResizable(false);
+            tblPerCod.getColumnModel().getColumn(4).setResizable(false);
+            tblPerCod.getColumnModel().getColumn(5).setResizable(false);
+            tblPerCod.getColumnModel().getColumn(6).setResizable(false);
+        }
+
         javax.swing.GroupLayout panelCodesLayout = new javax.swing.GroupLayout(panelCodes);
         panelCodes.setLayout(panelCodesLayout);
         panelCodesLayout.setHorizontalGroup(
             panelCodesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1314, Short.MAX_VALUE)
+            .addGroup(panelCodesLayout.createSequentialGroup()
+                .addGroup(panelCodesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelCodesLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(panelCodesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jSeparator4)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelCodesLayout.createSequentialGroup()
+                                .addGroup(panelCodesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(panelCodesLayout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtCodigoPerCod, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(panelCodesLayout.createSequentialGroup()
+                                        .addComponent(jLabel24)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(cmbAlmacenPerCod, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGap(18, 18, 18)
+                                .addGroup(panelCodesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panelCodesLayout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnBorrarPerCod))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCodesLayout.createSequentialGroup()
+                                        .addComponent(jLabel25)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtArticuloPerCod, javax.swing.GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(cmbTipoPerCod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel26)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(cmbMarcaPerCod, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                    .addGroup(panelCodesLayout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(jScrollPane6)))
+                .addContainerGap())
         );
         panelCodesLayout.setVerticalGroup(
             panelCodesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 886, Short.MAX_VALUE)
+            .addGroup(panelCodesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelCodesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txtCodigoPerCod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel25)
+                    .addComponent(txtArticuloPerCod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbTipoPerCod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel26)
+                    .addComponent(cmbMarcaPerCod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelCodesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBorrarPerCod)
+                    .addComponent(jLabel24)
+                    .addComponent(cmbAlmacenPerCod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(407, Short.MAX_VALUE))
         );
 
         Pestañas.addTab("Códigos almazen", panelCodes);
@@ -1789,6 +2057,8 @@ public class Inicio extends javax.swing.JFrame {
         a.setVisible(true);
     }//GEN-LAST:event_btnAboutUsActionPerformed
 
+    //Buscar materiales
+    
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
         txtBuscarCodigo.setText(""); txtBuscarArticulo.setText(""); cmbBuscarTipo.setSelectedItem("Por Descripción"); cmbBuscarMarca.setSelectedItem(null);
         cmbAlmacen.setSelectedItem("Todos");
@@ -2087,7 +2357,7 @@ public class Inicio extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cmbAlmacenActionPerformed
 
-    //Buscar Material  SELECT (codigo, articulo, descripcion, marca, existencia, presentacion) FROM mercancia
+    //Realizar Movimiento SELECT (codigo, articulo, descripcion, marca, existencia, presentacion) FROM mercancia
     
     public void llenarTablaSeleccionar(ResultSet r){
         String encabezado[]={"Código","Artículo","Descripción","Marca","Existencia","Presentación"};
@@ -3085,12 +3355,311 @@ public class Inicio extends javax.swing.JFrame {
     private void dateConsultAKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dateConsultAKeyReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_dateConsultAKeyReleased
-    
-    //Códigos personalizados
-    
-    
 
+    //Códigos perzonalizados
+    //txtCodigoPerCod   txtArticuloPerCod   cmbTipoPerCod   cmbMarcaPerCod  cmbAlmacenPerCod
+    
+    
+    private void btnBorrarPerCodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarPerCodActionPerformed
+        txtCodigoPerCod.setText(""); txtArticuloPerCod.setText(""); cmbTipoPerCod.setSelectedItem("Por Descripción"); cmbMarcaPerCod.setSelectedItem(null);
+        cmbAlmacenPerCod.setSelectedItem("Todos");
+    }//GEN-LAST:event_btnBorrarPerCodActionPerformed
 
+    private void cmbMarcaPerCodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbMarcaPerCodActionPerformed
+        String consulta;
+        if(cmbMarcaPerCod.getSelectedItem() == null){
+            try{
+                if(cmbAlmacenPerCod.getSelectedItem().toString().equals("Todos")){
+                    consulta="SELECT * FROM mercancia ORDER BY articulo ASC";
+                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                }else{
+                    consulta="SELECT * FROM mercancia WHERE almacen LIKE ? ORDER BY articulo ASC";
+                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                    cmd.setString(1, cmbAlmacenPerCod.getSelectedItem().toString());
+                }
+                result=cmd.executeQuery();
+                llenarTablaPerCod(result);
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(rootPane,"Error al consultar.");
+            }
+        }else{
+            try{
+                if(cmbAlmacenPerCod.getSelectedItem().toString().equals("Todos")){
+                    consulta="SELECT * FROM mercancia WHERE marca LIKE ? ORDER BY articulo ASC";
+                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                    cmd.setString(1, cmbMarcaPerCod.getSelectedItem().toString());
+                }else{
+                    consulta="SELECT * FROM mercancia WHERE marca LIKE ? AND almacen LIKE ? ORDER BY articulo ASC";
+                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                    cmd.setString(1, cmbMarcaPerCod.getSelectedItem().toString());
+                    cmd.setString(2, cmbAlmacenPerCod.getSelectedItem().toString());
+                }
+                result=cmd.executeQuery();
+                llenarTablaPerCod(result);
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(rootPane,"Error al consultar.");
+            }
+        }
+    }//GEN-LAST:event_cmbMarcaPerCodActionPerformed
+
+    private void cmbMarcaPerCodMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cmbMarcaPerCodMouseClicked
+        txtCodigoPerCod.setText(""); txtArticuloPerCod.setText("");
+    }//GEN-LAST:event_cmbMarcaPerCodMouseClicked
+
+    private void cmbTipoPerCodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTipoPerCodActionPerformed
+        String consulta;
+        switch(cmbTipoPerCod.getSelectedItem().toString()){
+            case "Por Descripción":
+                try{
+                    if(cmbAlmacenPerCod.getSelectedItem().toString().equals("Todos")){
+                        consulta="SELECT * FROM mercancia WHERE descripcion LIKE ? ORDER BY articulo ASC";
+                        cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                        cmd.setString(1, txtArticuloPerCod.getText() + "%");
+                    }else{
+                        consulta="SELECT * FROM mercancia WHERE descripcion LIKE ? AND almacen LIKE ? ORDER BY articulo ASC";
+                        cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                        cmd.setString(1, txtArticuloPerCod.getText() + "%");
+                        cmd.setString(2, cmbAlmacenPerCod.getSelectedItem().toString());
+                    }
+                    result=cmd.executeQuery();
+                    llenarTablaPerCod(result);
+                }catch(SQLException e){
+                    JOptionPane.showMessageDialog(rootPane,"Error al consultar.");
+                }
+            break;
+            case "Por Nombre":
+                try{
+                    if(cmbAlmacenPerCod.getSelectedItem().toString().equals("Todos")){
+                        consulta="SELECT * FROM mercancia WHERE articulo LIKE ? ORDER BY articulo ASC";
+                        cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                        cmd.setString(1, txtArticuloPerCod.getText() + "%");
+                    }else{
+                        consulta="SELECT * FROM mercancia WHERE articulo LIKE ? AND almacen LIKE ? ORDER BY articulo ASC";
+                        cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                        cmd.setString(1, txtArticuloPerCod.getText() + "%");
+                        cmd.setString(2, cmbAlmacenPerCod.getSelectedItem().toString());
+                    }
+                    result=cmd.executeQuery();
+                    llenarTablaPerCod(result);
+                }catch(SQLException e){
+                    JOptionPane.showMessageDialog(rootPane,"Error al consultar.");
+                }
+            break;
+        }
+    }//GEN-LAST:event_cmbTipoPerCodActionPerformed
+
+    private void cmbTipoPerCodItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbTipoPerCodItemStateChanged
+        txtArticuloPerCod.grabFocus();
+    }//GEN-LAST:event_cmbTipoPerCodItemStateChanged
+
+    private void txtArticuloPerCodKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtArticuloPerCodKeyReleased
+        String consulta;
+        switch(cmbTipoPerCod.getSelectedItem().toString()){
+            case "Por Descripción":
+                try{
+                    if(cmbAlmacenPerCod.getSelectedItem().toString().equals("Todos")){
+                        consulta="SELECT * FROM mercancia WHERE descripcion LIKE ? ORDER BY articulo ASC";
+                        cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                        cmd.setString(1, txtArticuloPerCod.getText() + "%");
+                    }else{
+                        consulta="SELECT * FROM mercancia WHERE descripcion LIKE ? AND almacen LIKE ? ORDER BY articulo ASC";
+                        cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                        cmd.setString(1, txtArticuloPerCod.getText() + "%");
+                        cmd.setString(2, cmbAlmacenPerCod.getSelectedItem().toString());
+                    }
+                    result=cmd.executeQuery();
+                    llenarTablaPerCod(result);
+                }catch(SQLException e){
+                    JOptionPane.showMessageDialog(rootPane,"Error al consultar.");
+                }
+            break;
+            case "Por Nombre":
+                try{
+                    if(cmbAlmacenPerCod.getSelectedItem().toString().equals("Todos")){
+                        consulta="SELECT * FROM mercancia WHERE articulo LIKE ? ORDER BY articulo ASC";
+                        cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                        cmd.setString(1, txtArticuloPerCod.getText() + "%");
+                    }else{
+                        consulta="SELECT * FROM mercancia WHERE articulo LIKE ? AND almacen LIKE ? ORDER BY articulo ASC";
+                        cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                        cmd.setString(1, txtArticuloPerCod.getText() + "%");
+                        cmd.setString(2, cmbAlmacenPerCod.getSelectedItem().toString());
+                    }
+                    result=cmd.executeQuery();
+                    llenarTablaPerCod(result);
+                }catch(SQLException e){
+                    JOptionPane.showMessageDialog(rootPane,"Error al consultar.");
+                }
+            break;
+        }
+    }//GEN-LAST:event_txtArticuloPerCodKeyReleased
+
+    private void txtArticuloPerCodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtArticuloPerCodActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtArticuloPerCodActionPerformed
+
+    private void txtArticuloPerCodMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtArticuloPerCodMouseClicked
+        txtCodigoPerCod.setText(""); cmbMarcaPerCod.setSelectedItem(null); txtArticuloPerCod.setText("");
+    }//GEN-LAST:event_txtArticuloPerCodMouseClicked
+
+    private void txtCodigoPerCodKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoPerCodKeyReleased
+        String consulta;
+        try{
+            if(cmbAlmacenPerCod.getSelectedItem().toString().equals("Todos")){
+                consulta="SELECT * FROM mercancia WHERE codigo LIKE ? ORDER BY articulo ASC";
+                cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                cmd.setString(1, txtCodigoPerCod.getText() + "%");
+            }else{
+                consulta="SELECT * FROM mercancia WHERE codigo LIKE ? AND almacen LIKE ? ORDER BY articulo ASC";
+                cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                cmd.setString(1, txtCodigoPerCod.getText() + "%");
+                cmd.setString(2, cmbAlmacenPerCod.getSelectedItem().toString());
+            }
+            result=cmd.executeQuery();
+            llenarTablaPerCod(result);
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(rootPane,"Error al consultar.");
+        }
+    }//GEN-LAST:event_txtCodigoPerCodKeyReleased
+
+    private void txtCodigoPerCodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoPerCodActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodigoPerCodActionPerformed
+
+    private void txtCodigoPerCodMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtCodigoPerCodMousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodigoPerCodMousePressed
+
+    private void txtCodigoPerCodMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtCodigoPerCodMouseClicked
+        txtCodigoPerCod.setText(""); txtArticuloPerCod.setText(""); cmbTipoPerCod.setSelectedItem("Por Descripción"); cmbMarcaPerCod.setSelectedItem(null);
+    }//GEN-LAST:event_txtCodigoPerCodMouseClicked
+
+    private void cmbAlmacenPerCodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbAlmacenPerCodActionPerformed
+        String materiales;
+        //Si todo está vacio
+        if(txtCodigoPerCod.getText().isEmpty() && txtArticuloPerCod.getText().isEmpty() && cmbMarcaPerCod.getSelectedItem()==null){
+            try{
+                if(cmbAlmacenPerCod.getSelectedItem().toString().equals("Todos")){
+                    materiales="SELECT * FROM mercancia ORDER BY articulo ASC";
+                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
+                }else{
+                    materiales="SELECT * FROM mercancia WHERE almacen LIKE ? ORDER BY articulo ASC";
+                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
+                    cmd.setString(1, cmbAlmacenPerCod.getSelectedItem().toString());
+                }
+                result=cmd.executeQuery();
+                llenarTablaPerCod(result);
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(null, "Error al consultar.");
+            }
+        }else{
+            //Si solo el código está escrito
+            if(txtArticuloPerCod.getText().isEmpty() && cmbMarcaPerCod.getSelectedItem()==null){
+                try{
+                    if(cmbAlmacenPerCod.getSelectedItem().toString().equals("Todos")){
+                        materiales="SELECT * FROM mercancia WHERE codigo LIKE ? ORDER BY articulo ASC";
+                        cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
+                        cmd.setString(1, txtCodigoPerCod.getText() + "%");
+                    }else{
+                        materiales="SELECT * FROM mercancia WHERE codigo LIKE ? AND almacen LIKE ? ORDER BY articulo ASC";
+                        cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
+                        cmd.setString(1, txtCodigoPerCod.getText() + "%");
+                        cmd.setString(2, cmbAlmacenPerCod.getSelectedItem().toString());
+                    }
+                    result=cmd.executeQuery();
+                    llenarTablaPerCod(result);
+                }catch(SQLException e){
+                    JOptionPane.showMessageDialog(null,"Error al consultar.");
+                }
+            }else{
+                //Si solo el articulo está escrito
+                if(txtCodigoPerCod.getText().isEmpty() && cmbMarcaPerCod.getSelectedItem()==null){
+                    switch(cmbTipoPerCod.getSelectedItem().toString()){
+                        case "Por Descripción":
+                            try{
+                                if(cmbAlmacenPerCod.getSelectedItem().toString().equals("Todos")){
+                                    materiales="SELECT * FROM mercancia WHERE descripcion LIKE ? ORDER BY articulo ASC";
+                                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
+                                    cmd.setString(1, txtArticuloPerCod.getText() + "%");
+                                }else{
+                                    materiales="SELECT * FROM mercancia WHERE descripcion LIKE ? AND almacen LIKE ? ORDER BY articulo ASC";
+                                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
+                                    cmd.setString(1, txtArticuloPerCod.getText() + "%");
+                                    cmd.setString(2, cmbAlmacenPerCod.getSelectedItem().toString());
+                                }
+                                result=cmd.executeQuery();
+                                llenarTablaPerCod(result);
+                            }catch(SQLException e){
+                                JOptionPane.showMessageDialog(null,"Error al consultar.");
+                            }
+                        break;
+                        case "Por Nombre":
+                            try{
+                                if(cmbAlmacenPerCod.getSelectedItem().toString().equals("Todos")){
+                                    materiales="SELECT * FROM mercancia WHERE articulo LIKE ? ORDER BY articulo ASC";
+                                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
+                                    cmd.setString(1, txtArticuloPerCod.getText() + "%");
+                                }else{
+                                    materiales="SELECT * FROM mercancia WHERE articulo LIKE ? AND almacen LIKE ? ORDER BY articulo ASC";
+                                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
+                                    cmd.setString(1, txtArticuloPerCod.getText() + "%");
+                                    cmd.setString(2, cmbAlmacenPerCod.getSelectedItem().toString());
+                                }
+                                result=cmd.executeQuery();
+                                llenarTablaPerCod(result);
+                            }catch(SQLException e){
+                                JOptionPane.showMessageDialog(null,"Error al consultar.");
+                            }
+                        break;
+                    }
+                }else{
+                    //Si solo está seleccionada la marca
+                    if(txtCodigoPerCod.getText().isEmpty() && txtArticuloPerCod.getText().isEmpty()){
+                        if(cmbMarcaPerCod.getSelectedItem() == null){
+                            try{
+                                if(cmbAlmacenPerCod.getSelectedItem().toString().equals("Todos")){
+                                    materiales="SELECT * FROM mercancia ORDER BY articulo ASC";
+                                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
+                                }else{
+                                    materiales="SELECT * FROM mercancia WHERE almacen LIKE ? ORDER BY articulo ASC";
+                                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
+                                    cmd.setString(1, cmbAlmacenPerCod.getSelectedItem().toString());
+                                }
+                                result=cmd.executeQuery();
+                                llenarTablaPerCod(result);
+                            }catch(SQLException e){
+                                JOptionPane.showMessageDialog(null,"Error al consultar.");
+                            }
+                        }else{
+                            try{
+                                if(cmbAlmacenPerCod.getSelectedItem().toString().equals("Todos")){
+                                    materiales="SELECT * FROM mercancia WHERE marca LIKE ? ORDER BY articulo ASC";
+                                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
+                                    cmd.setString(1, cmbMarcaPerCod.getSelectedItem().toString());
+                                }else{
+                                    materiales="SELECT * FROM mercancia WHERE marca LIKE ? AND almacen LIKE ? ORDER BY articulo ASC";
+                                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
+                                    cmd.setString(1, cmbMarcaPerCod.getSelectedItem().toString());
+                                    cmd.setString(2, cmbAlmacenPerCod.getSelectedItem().toString());
+                                }
+                                result=cmd.executeQuery();
+                                llenarTablaPerCod(result);
+                            }catch(SQLException e){
+                                JOptionPane.showMessageDialog(null,"Error al consultar.");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_cmbAlmacenPerCodActionPerformed
+
+    private void cmbAlmacenPerCodItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbAlmacenPerCodItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbAlmacenPerCodItemStateChanged
+
+    
+    
     public void setImageIn(JLabel a,String route){
         ImageIcon img; Icon icono;
         img=new ImageIcon(route);
@@ -3126,6 +3695,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JButton btnBorrar;
     private javax.swing.JButton btnBorrarConsult;
     private javax.swing.JButton btnBorrarMov;
+    private javax.swing.JButton btnBorrarPerCod;
     private javax.swing.JButton btnDeleteMov;
     private javax.swing.JButton btnDisplayAdmin;
     private javax.swing.JButton btnDisplayBuscar;
@@ -3142,6 +3712,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JButton btnSumMov;
     private javax.swing.JComboBox<String> cmbAlmacen;
     private javax.swing.JComboBox<String> cmbAlmacenMov;
+    private javax.swing.JComboBox<String> cmbAlmacenPerCod;
     private javax.swing.JComboBox<String> cmbBuscarMarca;
     private javax.swing.JComboBox<String> cmbBuscarMarcaMov;
     private javax.swing.JComboBox<String> cmbBuscarTipo;
@@ -3151,7 +3722,9 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmbConsultMov;
     private javax.swing.JComboBox<String> cmbConsultNick;
     private javax.swing.JComboBox<String> cmbConsultTipo;
+    private javax.swing.JComboBox<String> cmbMarcaPerCod;
     private javax.swing.JComboBox<String> cmbTipoMov;
+    private javax.swing.JComboBox<String> cmbTipoPerCod;
     private com.toedter.calendar.JDateChooser dateConsultA;
     private com.toedter.calendar.JDateChooser dateConsultDe;
     private javax.swing.JLabel jLabel1;
@@ -3170,7 +3743,11 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -3185,9 +3762,11 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JSeparator jSeparator4;
     private javax.swing.JTabbedPane jTabbedPane1;
     public javax.swing.JLabel lblBienvenida;
     private javax.swing.JLabel logo;
@@ -3201,12 +3780,15 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JTable tblBuscar;
     private javax.swing.JTable tblConsulta;
     private javax.swing.JTable tblMoverMaterial;
+    private javax.swing.JTable tblPerCod;
     private javax.swing.JTable tblSeleccionarMaterial;
+    private javax.swing.JTextField txtArticuloPerCod;
     private javax.swing.JTextArea txtAsunto;
     private javax.swing.JTextField txtBuscarArticulo;
     private javax.swing.JTextField txtBuscarArticuloMov;
     private javax.swing.JTextField txtBuscarCodigo;
     private javax.swing.JTextField txtBuscarCodigoMov;
+    private javax.swing.JTextField txtCodigoPerCod;
     private javax.swing.JTextField txtConsultArticulo;
     private javax.swing.JTextField txtConsultCodigo;
     // End of variables declaration//GEN-END:variables
