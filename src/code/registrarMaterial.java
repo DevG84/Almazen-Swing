@@ -176,6 +176,9 @@ public class registrarMaterial extends javax.swing.JFrame {
 
         txtCodigo.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         txtCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCodigoKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtCodigoKeyReleased(evt);
             }
@@ -639,6 +642,7 @@ public class registrarMaterial extends javax.swing.JFrame {
             }
             if(perCodAutorizar==true){
                 aplicarPerCod();
+                txtArt.grabFocus();
             }else{
                 cmbTipo.setSelectedItem("Código del articulo");
                 txtCodigo.setText("");
@@ -801,14 +805,18 @@ public class registrarMaterial extends javax.swing.JFrame {
     }//GEN-LAST:event_cmbAlmacenActionPerformed
 
     private void txtCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoKeyTyped
-        
-    }//GEN-LAST:event_txtCodigoKeyTyped
-
-    private void txtCodigoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoKeyReleased
         if (txtCodigo.getText().toLowerCase().startsWith("almz-")){
             cmbTipo.setSelectedItem("Código personalizado");
         }
+    }//GEN-LAST:event_txtCodigoKeyTyped
+
+    private void txtCodigoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoKeyReleased
+        
     }//GEN-LAST:event_txtCodigoKeyReleased
+
+    private void txtCodigoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoKeyPressed
+        
+    }//GEN-LAST:event_txtCodigoKeyPressed
 
     public void setImageIn(JLabel a,String route){
         ImageIcon img; Icon icono;

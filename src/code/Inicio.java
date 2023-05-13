@@ -6,6 +6,10 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,14 +19,22 @@ import java.util.Date;
 import java.util.EventObject;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.AbstractAction;
 import javax.swing.AbstractCellEditor;
+import javax.swing.ActionMap;
 import javax.swing.DefaultCellEditor;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.InputMap;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -31,6 +43,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
+import settings.Key;
 import settings.conexionBD;
 
 public class Inicio extends javax.swing.JFrame {
@@ -38,7 +51,7 @@ public class Inicio extends javax.swing.JFrame {
     //Para acciones en la base de datos
     conexionBD conexion=null;
     PreparedStatement cmd;
-    ResultSet result, resultData, marca_res;
+    ResultSet result, resultData, marca_res, confirma;
     // Obtener la fecha actual
         LocalDate currentDate = LocalDate.now();
         java.sql.Date fecha = java.sql.Date.valueOf(currentDate);
@@ -52,7 +65,9 @@ public class Inicio extends javax.swing.JFrame {
     public String id="",nickname="",nombre="",paterno="",materno="",cargo="",boleta="";
     //Para realizar movimientos
     private Map<String, Integer> tabla2Data = new HashMap<>();
-    
+    //Para modificar información
+    String idMercEdit="";
+    boolean perCodAutorizar=false;
 
     public Inicio(String usuario){
         this.user = usuario;
@@ -138,11 +153,13 @@ public class Inicio extends javax.swing.JFrame {
     }
     
     public void iniciarPerCod(){
-        //Inhabilitar edición
-        txtEditCod.setEnabled(false); txtEditArt.setEnabled(false); spinEditCant.setEnabled(false);
-        editDesc.setEnabled(false); cmbEditMarca.setEnabled(false); cmbEditPresent.setEnabled(false);
-        cmbEditAlmacen.setEnabled(false); cmbEditAnaquel.setEnabled(false); cmbEditRepisa.setEnabled(false);
         //
+        txtEditCod.setText(""); txtEditArt.setText(""); spinEditCant.setValue(0);
+        txtEditPresent.setText(""); txtEditAnaquel.setText(""); txtEditRepisa.setText(""); txtEditMarca.setText("");
+        editDesc.setText("\n                                              SELECCIONE UN ELEMENTO DE LA TABLA PARA VER SU INFORMACIÓN");
+        desactivarEdicion();
+        //
+        tblPerCod.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); //Establece que solo se puede seleccionar una fila de la tabla
         llenarMarca(cmbMarcaPerCod);
         llenarMarca(cmbEditMarca);
         cmbEditMarca.addItem("Otra");
@@ -207,6 +224,22 @@ public class Inicio extends javax.swing.JFrame {
         }catch(SQLException e){
             JOptionPane.showMessageDialog(rootPane, "Error al llenar tabla.");
         }
+    }
+    
+    private void desactivarEdicion(){
+        txtEditCod.setEnabled(false); txtEditArt.setEnabled(false); spinEditCant.setEnabled(false);
+        editDesc.setEnabled(false); cmbEditMarca.setEnabled(false); cmbEditPresent.setEnabled(false);
+        cmbEditAlmacen.setEnabled(false); cmbEditAnaquel.setEnabled(false); cmbEditRepisa.setEnabled(false);
+        btnUpdate.setEnabled(false); btnUpdate.setVisible(false); btnEditar.setEnabled(true); 
+        btnCancelar.setVisible(false); btnCancelar.setEnabled(false);
+    }
+    
+    private void activarEdicion(){
+        txtEditCod.setEnabled(true); txtEditArt.setEnabled(true); spinEditCant.setEnabled(true);
+        editDesc.setEnabled(true); cmbEditMarca.setEnabled(true); cmbEditPresent.setEnabled(true);
+        cmbEditAlmacen.setEnabled(true); cmbEditAnaquel.setEnabled(true); cmbEditRepisa.setEnabled(true);
+        btnUpdate.setEnabled(true); btnUpdate.setVisible(true); btnEditar.setEnabled(false); 
+        btnCancelar.setVisible(true); btnCancelar.setEnabled(true);
     }
     
     //Funciones utiles
@@ -420,6 +453,76 @@ public class Inicio extends javax.swing.JFrame {
         btnDisplayAdmin.setVisible(m5);
     }
     
+    private void autorizarEdicion(){
+        JTextField usernameField = new JTextField();
+        JPasswordField passwordField = new JPasswordField();
+        // Establecer el campo de texto del nombre de usuario como el primer campo en enfocarse
+        Object[] fields = {"Nickname:", usernameField, "Password:", passwordField};
+        JOptionPane pane = new JOptionPane(fields, JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
+        JDialog dialog = pane.createDialog(null, "Autorizar");
+        dialog.setModal(true);
+
+        // Establecer el campo de texto del nombre de usuario como el primer campo en enfocarse
+        dialog.addWindowListener(new WindowAdapter() {
+            public void windowOpened(WindowEvent e) {
+                usernameField.requestFocusInWindow();
+            }
+        });
+        
+        // Agregar una acción personalizada al evento VK_ENTER del campo de texto del nombre de usuario
+        InputMap inputMap = usernameField.getInputMap(JComponent.WHEN_FOCUSED);
+        ActionMap actionMap = usernameField.getActionMap();
+
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "moveToPasswordField");
+        actionMap.put("moveToPasswordField", new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                passwordField.requestFocusInWindow();
+            }
+        });
+
+        dialog.setVisible(true);
+        int option = (Integer) pane.getValue();
+
+        if (option == JOptionPane.OK_OPTION) {
+            String user = usernameField.getText();
+            String pass = passwordField.getText();
+            // Aquí puedes hacer lo que necesites con los datos ingresados
+            if(!usernameField.getText().isEmpty() || !passwordField.getText().isEmpty()){
+                try{
+                    String consulta="SELECT cargo,password,status FROM usuarios NATURAL JOIN privilegios WHERE nickname LIKE ? ";
+                    cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                    cmd.setString(1, user);
+                    confirma=cmd.executeQuery();
+                    if(confirma.next()){
+                        if(confirma.getString(1).equals("Administrador") || confirma.getString(1).equals("Encargado de almacén")){
+                            if(confirma.getString(3).equals("S")){
+                                Key k=new Key();
+                                if(confirma.getString(2).matches(k.getPassword(pass))){
+                                    perCodAutorizar=true;
+                                }else{
+                                    JOptionPane.showMessageDialog(rootPane, "El usuario o la contraseña son incorrectos.");
+                                    perCodAutorizar=false;
+                                }
+                            }else{
+                                JOptionPane.showMessageDialog(rootPane, "El usuario no está activo en el sistema.");
+                                perCodAutorizar=false;
+                            }
+                        }else{
+                            JOptionPane.showMessageDialog(rootPane, "El usuario ingresado no está autorizado.");
+                            perCodAutorizar=false;
+                        }
+                    }else{
+                        JOptionPane.showMessageDialog(rootPane, "El usuario o la contraseña son incorrectos.");
+                        perCodAutorizar=false;
+                    }
+                }catch(SQLException e){
+                    JOptionPane.showMessageDialog(rootPane, "Error: 006.");
+                    perCodAutorizar=false;
+                }
+            }
+        }
+        
+    }
     
     //Logo del JFrame
     @Override
@@ -536,7 +639,7 @@ public class Inicio extends javax.swing.JFrame {
         jSeparator4 = new javax.swing.JSeparator();
         jScrollPane6 = new javax.swing.JScrollPane();
         tblPerCod = new javax.swing.JTable();
-        jPanel6 = new javax.swing.JPanel();
+        panelEditar = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
@@ -564,6 +667,9 @@ public class Inicio extends javax.swing.JFrame {
         txtEditAnaquel = new javax.swing.JTextField();
         txtEditRepisa = new javax.swing.JTextField();
         cual4 = new javax.swing.JLabel();
+        btnEditar = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Almazen");
@@ -1879,6 +1985,11 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
         tblPerCod.getTableHeader().setReorderingAllowed(false);
+        tblPerCod.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblPerCodMouseClicked(evt);
+            }
+        });
         jScrollPane6.setViewportView(tblPerCod);
         if (tblPerCod.getColumnModel().getColumnCount() > 0) {
             tblPerCod.getColumnModel().getColumn(0).setResizable(false);
@@ -1890,7 +2001,8 @@ public class Inicio extends javax.swing.JFrame {
             tblPerCod.getColumnModel().getColumn(6).setResizable(false);
         }
 
-        jPanel6.setBackground(new java.awt.Color(204, 204, 255));
+        panelEditar.setBackground(new java.awt.Color(255, 255, 255));
+        panelEditar.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel5.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
@@ -2004,13 +2116,13 @@ public class Inicio extends javax.swing.JFrame {
         cual4.setForeground(new java.awt.Color(0, 0, 0));
         cual4.setText("¿Cuál?");
 
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
+        javax.swing.GroupLayout panelEditarLayout = new javax.swing.GroupLayout(panelEditar);
+        panelEditar.setLayout(panelEditarLayout);
+        panelEditarLayout.setHorizontalGroup(
+            panelEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelEditarLayout.createSequentialGroup()
+                .addGroup(panelEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelEditarLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel30)
                         .addGap(12, 12, 12)
@@ -2019,45 +2131,45 @@ public class Inicio extends javax.swing.JFrame {
                         .addComponent(cual1)
                         .addGap(18, 18, 18)
                         .addComponent(txtEditPresent, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
+                    .addGroup(panelEditarLayout.createSequentialGroup()
                         .addGap(32, 32, 32)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(panelEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel33)
                             .addComponent(jLabel32)
                             .addComponent(jLabel34))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(panelEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cmbEditAlmacen, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel6Layout.createSequentialGroup()
+                            .addGroup(panelEditarLayout.createSequentialGroup()
                                 .addComponent(cmbEditAnaquel, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(cual3)
                                 .addGap(18, 18, 18)
                                 .addComponent(txtEditAnaquel, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel6Layout.createSequentialGroup()
+                            .addGroup(panelEditarLayout.createSequentialGroup()
                                 .addComponent(cmbEditRepisa, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(cual4)
                                 .addGap(18, 18, 18)
                                 .addComponent(txtEditRepisa, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addGroup(panelEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditarLayout.createSequentialGroup()
                                 .addComponent(jLabel31)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(spinEditCant, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditarLayout.createSequentialGroup()
+                                .addGroup(panelEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(cual2, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel29, javax.swing.GroupLayout.Alignment.TRAILING))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(panelEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtEditMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(cmbEditMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditarLayout.createSequentialGroup()
                         .addGap(0, 18, Short.MAX_VALUE)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addGroup(panelEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditarLayout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtEditCod, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2065,71 +2177,95 @@ public class Inicio extends javax.swing.JFrame {
                                 .addComponent(jLabel27)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtEditArt, javax.swing.GroupLayout.PREFERRED_SIZE, 546, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditarLayout.createSequentialGroup()
                                 .addComponent(jLabel28)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 851, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
+        panelEditarLayout.setVerticalGroup(
+            panelEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelEditarLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(txtEditCod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel27)
                     .addComponent(txtEditArt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel28))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelEditarLayout.createSequentialGroup()
+                        .addGroup(panelEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel30)
                                 .addComponent(cmbEditPresent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addGroup(panelEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(txtEditPresent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(cual1)))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(panelEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(panelEditarLayout.createSequentialGroup()
+                                .addGroup(panelEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(cmbEditAlmacen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel32))
                                 .addGap(18, 18, 18)
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addGroup(panelEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(panelEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(cmbEditAnaquel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jLabel33))
-                                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addGroup(panelEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(txtEditAnaquel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(cual3)))
                                 .addGap(18, 18, 18)
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addGroup(panelEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(cmbEditRepisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel34)))
-                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addGroup(panelEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(txtEditRepisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(cual4)))
                         .addContainerGap(44, Short.MAX_VALUE))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addGroup(panelEditarLayout.createSequentialGroup()
+                        .addGroup(panelEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cmbEditMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel29))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(panelEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtEditMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cual2))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(panelEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel31)
                             .addComponent(spinEditCant, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
+
+        btnEditar.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
+
+        btnUpdate.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        btnUpdate.setText("Actualizar");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+
+        btnCancelar.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelCodesLayout = new javax.swing.GroupLayout(panelCodes);
         panelCodes.setLayout(panelCodesLayout);
@@ -2166,10 +2302,18 @@ public class Inicio extends javax.swing.JFrame {
                         .addGroup(panelCodesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane6)
                             .addGroup(panelCodesLayout.createSequentialGroup()
-                                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 353, Short.MAX_VALUE)))))
+                                .addComponent(panelEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addGroup(panelCodesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnEditar)
+                                    .addComponent(btnUpdate)
+                                    .addComponent(btnCancelar))
+                                .addGap(0, 245, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
+
+        panelCodesLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnCancelar, btnEditar, btnUpdate});
+
         panelCodesLayout.setVerticalGroup(
             panelCodesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelCodesLayout.createSequentialGroup()
@@ -2192,7 +2336,14 @@ public class Inicio extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelCodesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panelEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelCodesLayout.createSequentialGroup()
+                        .addComponent(btnEditar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnUpdate)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnCancelar)))
                 .addContainerGap(78, Short.MAX_VALUE))
         );
 
@@ -3661,8 +3812,6 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_dateConsultAKeyReleased
 
     //Códigos perzonalizados
-    //txtCodigoPerCod   txtArticuloPerCod   cmbTipoPerCod   cmbMarcaPerCod  cmbAlmacenPerCod
-    
     
     private void btnBorrarPerCodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarPerCodActionPerformed
         txtCodigoPerCod.setText(""); txtArticuloPerCod.setText(""); cmbTipoPerCod.setSelectedItem("Por Descripción"); cmbMarcaPerCod.setSelectedItem(null);
@@ -4020,6 +4169,60 @@ public class Inicio extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cmbEditMarcaActionPerformed
 
+        //Realizar movimientos
+    
+    private void tblPerCodMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPerCodMouseClicked
+        int fila=tblPerCod.getSelectedRow();
+        try{
+            String idPerCodMer=tblPerCod.getValueAt(fila, 0).toString();
+            String consulta="SELECT * FROM mercancia WHERE codigo=?";
+            cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+            cmd.setString(1,idPerCodMer);
+            result=cmd.executeQuery();
+            if(result.next()){
+                idMercEdit=result.getString(1);
+                txtEditCod.setText(result.getString(2));
+                txtEditArt.setText(result.getString(3));
+                editDesc.setText(result.getString(4));
+                cmbEditMarca.setSelectedItem(result.getString(5));
+                cmbEditPresent.setSelectedItem(result.getString(6));
+                spinEditCant.setValue(Integer.valueOf(result.getString(7)));
+                cmbEditAlmacen.setSelectedItem(result.getString(8));
+                cmbEditAnaquel.setSelectedItem(result.getString(9));
+                cmbEditRepisa.setSelectedItem(result.getString(10));
+            }
+            cmd.close();
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(rootPane, "Error en consulta");
+        }
+    }//GEN-LAST:event_tblPerCodMouseClicked
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        perCodAutorizar=false;
+        autorizarEdicion();
+        if(perCodAutorizar==true){
+            activarEdicion();
+        }else{
+            desactivarEdicion();
+        }
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        txtEditCod.setText(""); txtEditArt.setText(""); spinEditCant.setValue(0);
+        txtEditPresent.setText(""); txtEditAnaquel.setText(""); txtEditRepisa.setText(""); txtEditMarca.setText("");
+        editDesc.setText("\n                                              SELECCIONE UN ELEMENTO DE LA TABLA PARA VER SU INFORMACIÓN");
+        cmbEditMarca.setSelectedItem(null);
+        cmbEditPresent.setSelectedItem(null); cmbEditAlmacen.setSelectedItem(null);
+        cmbEditAnaquel.setSelectedItem(null); cmbEditRepisa.setSelectedItem(null);
+        desactivarEdicion();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        
+        
+        
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
     
     
     public void setImageIn(JLabel a,String route){
@@ -4029,9 +4232,6 @@ public class Inicio extends javax.swing.JFrame {
         a.setIcon(icono);
         this.repaint();
     }
-    
-    //Realizar movimientos
-    
     
     public static void main(String args[]) {
         String usuario="";
@@ -4058,6 +4258,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JButton btnBorrarConsult;
     private javax.swing.JButton btnBorrarMov;
     private javax.swing.JButton btnBorrarPerCod;
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnDeleteMov;
     private javax.swing.JButton btnDisplayAdmin;
     private javax.swing.JButton btnDisplayBuscar;
@@ -4067,11 +4268,13 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JButton btnDisplayMov;
     private javax.swing.JButton btnDisplayRegNew;
     private javax.swing.JButton btnDisplaySettings;
+    private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnFiltrarConsult;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnMover;
     private javax.swing.JButton btnRestMov;
     private javax.swing.JButton btnSumMov;
+    private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> cmbAlmacen;
     private javax.swing.JComboBox<String> cmbAlmacenMov;
     private javax.swing.JComboBox<String> cmbAlmacenPerCod;
@@ -4138,7 +4341,6 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -4156,6 +4358,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JPanel panelBuscar;
     private javax.swing.JPanel panelCodes;
     private javax.swing.JPanel panelConsulta;
+    private javax.swing.JPanel panelEditar;
     private javax.swing.JPanel panelInicio;
     private javax.swing.JPanel panelMov;
     private javax.swing.JSpinner spinCantAdd;
