@@ -87,7 +87,7 @@ public class Inicio extends javax.swing.JFrame {
         
     }
     
-    private void iniciarBuscar(){
+    public void iniciarBuscar(){
         llenarMarca(cmbBuscarMarca);
         //Llena la tabla con todo el material de la base de datos
         try{
@@ -100,7 +100,7 @@ public class Inicio extends javax.swing.JFrame {
         }
     }
     
-    private void iniciarMovimientos(){
+    public void iniciarMovimientos(){
         llenarMarca(cmbBuscarMarcaMov);
         cmbTipoMov.removeAllItems();
         cmbTipoMov.addItem(null);
@@ -118,7 +118,7 @@ public class Inicio extends javax.swing.JFrame {
         
     }
     
-    private void iniciarConsulta(){
+    public void iniciarConsulta(){
         llenarMarcaConsult(cmbConsultMarca);
         llenarNick();
         cmbConsultAlmacen.setSelectedItem("Todos"); cmbConsultMov.setSelectedItem("Entrada y salida"); cmbConsultNick.setSelectedItem(null);
@@ -137,8 +137,67 @@ public class Inicio extends javax.swing.JFrame {
         }
     }
     
-    private void iniciarPerCod(){
+    public void iniciarPerCod(){
+        //Inhabilitar edición
+        txtEditCod.setEnabled(false); txtEditArt.setEnabled(false); spinEditCant.setEnabled(false);
+        editDesc.setEnabled(false); cmbEditMarca.setEnabled(false); cmbEditPresent.setEnabled(false);
+        cmbEditAlmacen.setEnabled(false); cmbEditAnaquel.setEnabled(false); cmbEditRepisa.setEnabled(false);
+        //
         llenarMarca(cmbMarcaPerCod);
+        llenarMarca(cmbEditMarca);
+        cmbEditMarca.addItem("Otra");
+        //LLena la presentación
+        cmbEditPresent.removeAllItems();
+        try{
+            String consulta="SELECT DISTINCT presentacion FROM mercancia";
+            cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+            marca_res=cmd.executeQuery();
+            //Recorrer los resultados y agregar cada valor único de "presentacion" al JComboBox
+            cmbEditPresent.addItem(null);
+            while (marca_res.next()) {
+                cmbEditPresent.addItem(marca_res.getString(1));
+            }
+            cmbEditPresent.addItem("Otra");
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Error 005: Error al obtener las presentaciones registradas en la base de datos.");
+        }
+        //Llena ubicación
+        //Anaquel
+        cmbEditAnaquel.removeAllItems();
+        try{
+            String consulta="SELECT DISTINCT anaquel FROM mercancia";
+            cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+            marca_res=cmd.executeQuery();
+            //Recorrer los resultados y agregar cada valor único de "anaquel" al JComboBox
+            cmbEditAnaquel.addItem(null);
+            while (marca_res.next()) {
+                cmbEditAnaquel.addItem(marca_res.getString(1));
+            }
+            cmbEditAnaquel.addItem("Otra");
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Error 005: Error al obtener las presentaciones registradas en la base de datos.");
+        }
+        
+        //Repisa
+        cmbEditRepisa.removeAllItems();
+        try{
+            String consulta="SELECT DISTINCT repisa FROM mercancia";
+            cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+            marca_res=cmd.executeQuery();
+            //Recorrer los resultados y agregar cada valor único de "repisa" al JComboBox
+            cmbEditRepisa.addItem(null);
+            while (marca_res.next()) {
+                cmbEditRepisa.addItem(marca_res.getString(1));
+            }
+            cmbEditRepisa.addItem("Otra");
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Error 005: Error al obtener las presentaciones registradas en la base de datos.");
+        }
+        
+        //Almacén
+        cmbEditAlmacen.removeAllItems();
+        cmbEditAlmacen.addItem(null); cmbEditAlmacen.addItem("Zona 100 (Principal)"); cmbEditAlmacen.addItem("Zona 100 (Bodega)");
+        
         //Llena la tabla
         try{
             String materiales="SELECT * FROM mercancia ORDER BY articulo ASC";
@@ -487,16 +546,24 @@ public class Inicio extends javax.swing.JFrame {
         jLabel32 = new javax.swing.JLabel();
         jLabel33 = new javax.swing.JLabel();
         jLabel34 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        txtEditCod = new javax.swing.JTextField();
+        txtEditArt = new javax.swing.JTextField();
+        cmbEditMarca = new javax.swing.JComboBox<>();
         jScrollPane7 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jSpinner1 = new javax.swing.JSpinner();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jComboBox4 = new javax.swing.JComboBox<>();
-        jComboBox5 = new javax.swing.JComboBox<>();
+        editDesc = new javax.swing.JTextArea();
+        cmbEditPresent = new javax.swing.JComboBox<>();
+        spinEditCant = new javax.swing.JSpinner();
+        cmbEditAlmacen = new javax.swing.JComboBox<>();
+        cmbEditAnaquel = new javax.swing.JComboBox<>();
+        cmbEditRepisa = new javax.swing.JComboBox<>();
+        txtEditPresent = new javax.swing.JTextField();
+        cual1 = new javax.swing.JLabel();
+        txtEditMarca = new javax.swing.JTextField();
+        cual2 = new javax.swing.JLabel();
+        cual3 = new javax.swing.JLabel();
+        txtEditAnaquel = new javax.swing.JTextField();
+        txtEditRepisa = new javax.swing.JTextField();
+        cual4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Almazen");
@@ -921,7 +988,7 @@ public class Inicio extends javax.swing.JFrame {
         jLabel8.setText("Almacén:");
 
         cmbAlmacen.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        cmbAlmacen.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Zona 100 (Principal)", "Zona 100 (Bodega)", "Edificio A" }));
+        cmbAlmacen.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Zona 100 (Principal)", "Zona 100 (Bodega)" }));
         cmbAlmacen.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cmbAlmacen.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -1095,7 +1162,7 @@ public class Inicio extends javax.swing.JFrame {
         });
 
         cmbAlmacenMov.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        cmbAlmacenMov.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Zona 100 (Principal)", "Zona 100 (Bodega)", "Edificio A" }));
+        cmbAlmacenMov.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Zona 100 (Principal)", "Zona 100 (Bodega)" }));
         cmbAlmacenMov.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cmbAlmacenMov.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -1378,7 +1445,7 @@ public class Inicio extends javax.swing.JFrame {
         panelConsulta.setBackground(new java.awt.Color(255, 255, 255));
 
         cmbConsultAlmacen.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        cmbConsultAlmacen.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Zona 100 (Principal)", "Zona 100 (Bodega)", "Edificio A" }));
+        cmbConsultAlmacen.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Zona 100 (Principal)", "Zona 100 (Bodega)" }));
         cmbConsultAlmacen.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cmbConsultAlmacen.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -1699,7 +1766,7 @@ public class Inicio extends javax.swing.JFrame {
         jLabel24.setText("Almacén:");
 
         cmbAlmacenPerCod.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        cmbAlmacenPerCod.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Zona 100 (Principal)", "Zona 100 (Bodega)", "Edificio A" }));
+        cmbAlmacenPerCod.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Zona 100 (Principal)", "Zona 100 (Bodega)" }));
         cmbAlmacenPerCod.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cmbAlmacenPerCod.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -1823,104 +1890,186 @@ public class Inicio extends javax.swing.JFrame {
             tblPerCod.getColumnModel().getColumn(6).setResizable(false);
         }
 
-        jPanel6.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel6.setBackground(new java.awt.Color(204, 204, 255));
 
         jLabel5.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Código:");
 
         jLabel27.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel27.setForeground(new java.awt.Color(0, 0, 0));
         jLabel27.setText("Artículo:");
 
         jLabel28.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel28.setForeground(new java.awt.Color(0, 0, 0));
         jLabel28.setText("Descripción:");
 
         jLabel29.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel29.setForeground(new java.awt.Color(0, 0, 0));
         jLabel29.setText("Marca:");
 
         jLabel30.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel30.setForeground(new java.awt.Color(0, 0, 0));
         jLabel30.setText("Presentación:");
 
         jLabel31.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel31.setForeground(new java.awt.Color(0, 0, 0));
         jLabel31.setText("Existencia:");
 
         jLabel32.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel32.setForeground(new java.awt.Color(0, 0, 0));
         jLabel32.setText("Almacén:");
 
         jLabel33.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel33.setForeground(new java.awt.Color(0, 0, 0));
         jLabel33.setText("Anaquel:");
 
         jLabel34.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jLabel34.setForeground(new java.awt.Color(0, 0, 0));
         jLabel34.setText("Repisa:");
 
-        jTextField1.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        txtEditCod.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
 
-        jTextField2.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        txtEditArt.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
 
-        jComboBox1.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbEditMarca.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        cmbEditMarca.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbEditMarca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbEditMarcaActionPerformed(evt);
+            }
+        });
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jTextArea1.setRows(5);
-        jScrollPane7.setViewportView(jTextArea1);
+        editDesc.setColumns(20);
+        editDesc.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        editDesc.setLineWrap(true);
+        editDesc.setRows(3);
+        editDesc.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                editDescKeyTyped(evt);
+            }
+        });
+        jScrollPane7.setViewportView(editDesc);
 
-        jComboBox2.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbEditPresent.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        cmbEditPresent.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbEditPresent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbEditPresentActionPerformed(evt);
+            }
+        });
 
-        jSpinner1.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        spinEditCant.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
 
-        jComboBox3.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbEditAlmacen.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        cmbEditAlmacen.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jComboBox4.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbEditAnaquel.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        cmbEditAnaquel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbEditAnaquel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbEditAnaquelActionPerformed(evt);
+            }
+        });
 
-        jComboBox5.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbEditRepisa.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        cmbEditRepisa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbEditRepisa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbEditRepisaActionPerformed(evt);
+            }
+        });
+
+        txtEditPresent.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+
+        cual1.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        cual1.setForeground(new java.awt.Color(0, 0, 0));
+        cual1.setText("¿Cuál?");
+
+        txtEditMarca.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+
+        cual2.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        cual2.setForeground(new java.awt.Color(0, 0, 0));
+        cual2.setText("¿Cuál?");
+
+        cual3.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        cual3.setForeground(new java.awt.Color(0, 0, 0));
+        cual3.setText("¿Cuál?");
+
+        txtEditAnaquel.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+
+        txtEditRepisa.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+
+        cual4.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        cual4.setForeground(new java.awt.Color(0, 0, 0));
+        cual4.setText("¿Cuál?");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel6Layout.createSequentialGroup()
-                            .addComponent(jLabel5)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(jLabel27)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(jLabel29)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                            .addComponent(jLabel28)
-                            .addGap(863, 863, 863))
-                        .addGroup(jPanel6Layout.createSequentialGroup()
-                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel32)
-                                .addComponent(jLabel33)
-                                .addComponent(jLabel34))
-                            .addGap(36, 36, 36)
-                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addContainerGap()
                         .addComponent(jLabel30)
+                        .addGap(12, 12, 12)
+                        .addComponent(cmbEditPresent, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(cual1)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtEditPresent, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel33)
+                            .addComponent(jLabel32)
+                            .addComponent(jLabel34))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cmbEditAlmacen, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(cmbEditAnaquel, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(cual3)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtEditAnaquel, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(cmbEditRepisa, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(cual4)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtEditRepisa, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel31)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane7))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                                .addComponent(jLabel31)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(spinEditCant, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cual2, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel29, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtEditMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cmbEditMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addGap(0, 18, Short.MAX_VALUE)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtEditCod, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel27)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtEditArt, javax.swing.GroupLayout.PREFERRED_SIZE, 546, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                                .addComponent(jLabel28)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 851, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1928,34 +2077,58 @@ public class Inicio extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtEditCod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel27)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel29)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtEditArt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel28))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel28)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel30)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel31)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel32)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel33)
-                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel34)
-                    .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel30)
+                                .addComponent(cmbEditPresent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtEditPresent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cual1)))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(cmbEditAlmacen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel32))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(cmbEditAnaquel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel33))
+                                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(txtEditAnaquel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(cual3)))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(cmbEditRepisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel34)))
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtEditRepisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cual4)))
+                        .addContainerGap(44, Short.MAX_VALUE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cmbEditMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel29))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtEditMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cual2))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel31)
+                            .addComponent(spinEditCant, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
 
         javax.swing.GroupLayout panelCodesLayout = new javax.swing.GroupLayout(panelCodes);
@@ -1969,36 +2142,33 @@ public class Inicio extends javax.swing.JFrame {
                         .addGroup(panelCodesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jSeparator4)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelCodesLayout.createSequentialGroup()
-                                .addGroup(panelCodesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(panelCodesLayout.createSequentialGroup()
-                                        .addComponent(jLabel4)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtCodigoPerCod, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(panelCodesLayout.createSequentialGroup()
-                                        .addComponent(jLabel24)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(cmbAlmacenPerCod, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtCodigoPerCod, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addGroup(panelCodesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnBorrarPerCod)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCodesLayout.createSequentialGroup()
-                                        .addComponent(jLabel25)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtArticuloPerCod, javax.swing.GroupLayout.DEFAULT_SIZE, 582, Short.MAX_VALUE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(cmbTipoPerCod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jLabel26)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(cmbMarcaPerCod, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                .addComponent(jLabel25)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtArticuloPerCod)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cmbTipoPerCod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel26)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cmbMarcaPerCod, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panelCodesLayout.createSequentialGroup()
+                                .addComponent(jLabel24)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cmbAlmacenPerCod, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnBorrarPerCod))))
                     .addGroup(panelCodesLayout.createSequentialGroup()
                         .addGap(12, 12, 12)
-                        .addComponent(jScrollPane6)))
+                        .addGroup(panelCodesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane6)
+                            .addGroup(panelCodesLayout.createSequentialGroup()
+                                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 353, Short.MAX_VALUE)))))
                 .addContainerGap())
-            .addGroup(panelCodesLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelCodesLayout.setVerticalGroup(
             panelCodesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2022,7 +2192,8 @@ public class Inicio extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(78, Short.MAX_VALUE))
         );
 
         Pestañas.addTab("Códigos almazen", panelCodes);
@@ -3791,6 +3962,64 @@ public class Inicio extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbAlmacenPerCodItemStateChanged
 
+    private void cmbEditRepisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbEditRepisaActionPerformed
+        if ("Otra".equals(cmbEditRepisa.getSelectedItem())) {
+            cual4.setVisible(true);
+            txtEditRepisa.setVisible(true);
+            txtEditRepisa.setEnabled(true);
+        }else{
+            cual4.setVisible(false);
+            txtEditRepisa.setVisible(false);
+            txtEditRepisa.setEnabled(false);
+        }
+    }//GEN-LAST:event_cmbEditRepisaActionPerformed
+
+    private void cmbEditAnaquelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbEditAnaquelActionPerformed
+        if ("Otra".equals(cmbEditAnaquel.getSelectedItem())) {
+            cual3.setVisible(true);
+            txtEditAnaquel.setVisible(true);
+            txtEditAnaquel.setEnabled(true);
+        }else{
+            cual3.setVisible(false);
+            txtEditAnaquel.setVisible(false);
+            txtEditAnaquel.setEnabled(false);
+        }
+    }//GEN-LAST:event_cmbEditAnaquelActionPerformed
+
+    private void cmbEditPresentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbEditPresentActionPerformed
+        if ("Otra".equals(cmbEditPresent.getSelectedItem())) {
+            cual1.setVisible(true);
+            txtEditPresent.setVisible(true);
+            txtEditPresent.setEnabled(true);
+        }else{
+            cual1.setVisible(false);
+            txtEditPresent.setVisible(false);
+            txtEditPresent.setEnabled(false);
+        }
+    }//GEN-LAST:event_cmbEditPresentActionPerformed
+
+    private void editDescKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_editDescKeyTyped
+        StringBuilder cadena=new StringBuilder(editDesc.getText());
+        if(editDesc.getText().length() >=300){
+            JOptionPane.showMessageDialog(null, "Limite maximo de 300 caracteres.");
+            cadena.deleteCharAt(cadena.length()-1);
+            editDesc.setText(cadena.toString());
+            cadena=null;
+        }
+    }//GEN-LAST:event_editDescKeyTyped
+
+    private void cmbEditMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbEditMarcaActionPerformed
+        if ("Otra".equals(cmbEditMarca.getSelectedItem())) {
+            cual2.setVisible(true);
+            txtEditMarca.setVisible(true);
+            txtEditMarca.setEnabled(true);
+        }else{
+            cual2.setVisible(false);
+            txtEditMarca.setVisible(false);
+            txtEditMarca.setEnabled(false);
+        }
+    }//GEN-LAST:event_cmbEditMarcaActionPerformed
+
     
     
     public void setImageIn(JLabel a,String route){
@@ -3855,16 +4084,21 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmbConsultMov;
     private javax.swing.JComboBox<String> cmbConsultNick;
     private javax.swing.JComboBox<String> cmbConsultTipo;
+    private javax.swing.JComboBox<String> cmbEditAlmacen;
+    private javax.swing.JComboBox<String> cmbEditAnaquel;
+    private javax.swing.JComboBox<String> cmbEditMarca;
+    private javax.swing.JComboBox<String> cmbEditPresent;
+    private javax.swing.JComboBox<String> cmbEditRepisa;
     private javax.swing.JComboBox<String> cmbMarcaPerCod;
     private javax.swing.JComboBox<String> cmbTipoMov;
     private javax.swing.JComboBox<String> cmbTipoPerCod;
+    private javax.swing.JLabel cual1;
+    private javax.swing.JLabel cual2;
+    private javax.swing.JLabel cual3;
+    private javax.swing.JLabel cual4;
     private com.toedter.calendar.JDateChooser dateConsultA;
     private com.toedter.calendar.JDateChooser dateConsultDe;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox4;
-    private javax.swing.JComboBox<String> jComboBox5;
+    private javax.swing.JTextArea editDesc;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -3916,11 +4150,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
-    private javax.swing.JSpinner jSpinner1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     public javax.swing.JLabel lblBienvenida;
     private javax.swing.JLabel logo;
     private javax.swing.JPanel panelBuscar;
@@ -3930,6 +4160,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JPanel panelMov;
     private javax.swing.JSpinner spinCantAdd;
     private javax.swing.JSpinner spinCantRest;
+    private javax.swing.JSpinner spinEditCant;
     private javax.swing.JTable tblBuscar;
     private javax.swing.JTable tblConsulta;
     private javax.swing.JTable tblMoverMaterial;
@@ -3944,5 +4175,11 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JTextField txtCodigoPerCod;
     private javax.swing.JTextField txtConsultArticulo;
     private javax.swing.JTextField txtConsultCodigo;
+    private javax.swing.JTextField txtEditAnaquel;
+    private javax.swing.JTextField txtEditArt;
+    private javax.swing.JTextField txtEditCod;
+    private javax.swing.JTextField txtEditMarca;
+    private javax.swing.JTextField txtEditPresent;
+    private javax.swing.JTextField txtEditRepisa;
     // End of variables declaration//GEN-END:variables
 }

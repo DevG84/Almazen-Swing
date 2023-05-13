@@ -175,6 +175,14 @@ public class registrarMaterial extends javax.swing.JFrame {
         jLabel3.setText("Nombre del artículo:");
 
         txtCodigo.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        txtCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCodigoKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCodigoKeyTyped(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
         jLabel2.setText("Código de barras:");
@@ -584,7 +592,8 @@ public class registrarMaterial extends javax.swing.JFrame {
         }
         
         //Almacén
-        cmbAlmacen.addItem(null); cmbAlmacen.addItem("Zona 100 (Principal)"); cmbAlmacen.addItem("Zona 100 (Bodega)"); cmbAlmacen.addItem("Edificio A");
+        cmbAlmacen.removeAllItems();
+        cmbAlmacen.addItem(null); cmbAlmacen.addItem("Zona 100 (Principal)"); cmbAlmacen.addItem("Zona 100 (Bodega)");
     }
     
     private void btnAboutUsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAboutUsActionPerformed
@@ -632,6 +641,7 @@ public class registrarMaterial extends javax.swing.JFrame {
                 aplicarPerCod();
             }else{
                 cmbTipo.setSelectedItem("Código del articulo");
+                txtCodigo.setText("");
             }
         }else{
             txtCodigo.setEditable(true);
@@ -720,7 +730,8 @@ public class registrarMaterial extends javax.swing.JFrame {
                                 String materiales="SELECT * FROM mercancia";
                                 cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
                                 result=cmd.executeQuery();
-                                i.llenarTablaBuscar(result);
+                                //Actualiza la información de las pantallas de inicio recargandolas
+                                i.iniciarBuscar(); i.iniciarMovimientos(); i.iniciarConsulta(); i.iniciarPerCod();
                             }catch(SQLException e){
                                 JOptionPane.showMessageDialog(rootPane, "Error al llenar tabla.");
                             }
@@ -788,6 +799,16 @@ public class registrarMaterial extends javax.swing.JFrame {
     private void cmbAlmacenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbAlmacenActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbAlmacenActionPerformed
+
+    private void txtCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoKeyTyped
+        
+    }//GEN-LAST:event_txtCodigoKeyTyped
+
+    private void txtCodigoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoKeyReleased
+        if (txtCodigo.getText().toLowerCase().startsWith("almz-")){
+            cmbTipo.setSelectedItem("Código personalizado");
+        }
+    }//GEN-LAST:event_txtCodigoKeyReleased
 
     public void setImageIn(JLabel a,String route){
         ImageIcon img; Icon icono;
