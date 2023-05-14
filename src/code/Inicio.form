@@ -1515,7 +1515,7 @@
                                   <Component id="dateConsultA" min="-2" pref="140" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="btnFiltrarConsult" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="9" max="32767" attributes="0"/>
+                                  <EmptySpace pref="37" max="32767" attributes="0"/>
                                   <Component id="btnBorrarConsult" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Component id="jSeparator3" max="32767" attributes="0"/>
@@ -1760,10 +1760,11 @@
                       <Font name="Microsoft YaHei" size="13" style="0"/>
                     </Property>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="3">
-                        <StringItem index="0" value="Entrada y salida"/>
+                      <StringArray count="4">
+                        <StringItem index="0" value="Todos"/>
                         <StringItem index="1" value="Entrada"/>
                         <StringItem index="2" value="Salida"/>
+                        <StringItem index="3" value="Actualizaci&#xf3;n"/>
                       </StringArray>
                     </Property>
                     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -2023,7 +2024,7 @@
                                               <Component id="btnUpdate" linkSize="1" min="-2" max="-2" attributes="0"/>
                                               <Component id="btnCancelar" linkSize="1" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace min="0" pref="245" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="205" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -2783,7 +2784,11 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Microsoft YaHei" size="13" style="0"/>
                     </Property>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/sources/icons/edit_32px.png"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Editar"/>
+                    <Property name="iconTextGap" type="int" value="-100"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditarActionPerformed"/>
@@ -2794,7 +2799,11 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Microsoft YaHei" size="13" style="0"/>
                     </Property>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/sources/icons/update_32px.png"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Actualizar"/>
+                    <Property name="iconTextGap" type="int" value="-100"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUpdateActionPerformed"/>
@@ -2805,7 +2814,11 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Microsoft YaHei" size="13" style="0"/>
                     </Property>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/sources/icons/cancel_32px.png"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Cancelar"/>
+                    <Property name="iconTextGap" type="int" value="-100"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelarActionPerformed"/>

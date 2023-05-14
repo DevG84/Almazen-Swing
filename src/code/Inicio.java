@@ -66,7 +66,7 @@ public class Inicio extends javax.swing.JFrame {
     //Para realizar movimientos
     private Map<String, Integer> tabla2Data = new HashMap<>();
     //Para modificar información
-    String idMercEdit="";
+    String staticIdMerc="";
     boolean perCodAutorizar=false;
 
     public Inicio(String usuario){
@@ -1653,7 +1653,7 @@ public class Inicio extends javax.swing.JFrame {
         jLabel20.setText("Tipo:");
 
         cmbConsultMov.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        cmbConsultMov.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Entrada y salida", "Entrada", "Salida" }));
+        cmbConsultMov.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Entrada", "Salida", "Actualización" }));
         cmbConsultMov.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cmbConsultMov.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1795,7 +1795,7 @@ public class Inicio extends javax.swing.JFrame {
                         .addComponent(dateConsultA, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnFiltrarConsult)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                         .addComponent(btnBorrarConsult))
                     .addComponent(jSeparator3)
                     .addComponent(jScrollPane4))
@@ -2244,7 +2244,9 @@ public class Inicio extends javax.swing.JFrame {
         );
 
         btnEditar.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/edit_32px.png"))); // NOI18N
         btnEditar.setText("Editar");
+        btnEditar.setIconTextGap(-100);
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarActionPerformed(evt);
@@ -2252,7 +2254,9 @@ public class Inicio extends javax.swing.JFrame {
         });
 
         btnUpdate.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/update_32px.png"))); // NOI18N
         btnUpdate.setText("Actualizar");
+        btnUpdate.setIconTextGap(-100);
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpdateActionPerformed(evt);
@@ -2260,7 +2264,9 @@ public class Inicio extends javax.swing.JFrame {
         });
 
         btnCancelar.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/cancel_32px.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
+        btnCancelar.setIconTextGap(-100);
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
@@ -2308,7 +2314,7 @@ public class Inicio extends javax.swing.JFrame {
                                     .addComponent(btnEditar)
                                     .addComponent(btnUpdate)
                                     .addComponent(btnCancelar))
-                                .addGap(0, 245, Short.MAX_VALUE)))))
+                                .addGap(0, 205, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
 
@@ -3489,7 +3495,13 @@ public class Inicio extends javax.swing.JFrame {
                 if(tipoMovimiento.equals("E")){
                     row[6]="Entrada";
                 }else{
-                    row[6]="Salida";
+                    if(tipoMovimiento.equals("S")){
+                        row[6]="Salida";
+                    }else{
+                        if(tipoMovimiento.equals("U")){
+                            row[6]="Actualización";
+                        }
+                    }
                 }
                 row[7] = r.getString(8);
                 row[8] = r.getString(9);
@@ -3567,9 +3579,19 @@ public class Inicio extends javax.swing.JFrame {
                 }
             }
         }
-        if("Entrada".equals(tipo)){tipo="E";}else{if("Salida".equals(tipo)){tipo="S";}}
+        if("Entrada".equals(tipo)){
+            tipo="E";
+        }else{
+            if("Salida".equals(tipo)){
+                tipo="S";
+            }else{
+                if("Actualización".equals(tipo)){
+                    tipo="U";
+                }
+            }
+        }
         //Buscar por 
-        if(tipo=="Entrada y salida") tipo=null;
+        if(tipo=="Todos") tipo=null;
         if(almacen=="Todos") almacen=null;
         if(nickname=="") nickname=null;
         if(fechaDe=="") fechaDe=null;
@@ -3615,7 +3637,7 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_cmbConsultAlmacenItemStateChanged
 
     private void cmbConsultAlmacenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbConsultAlmacenActionPerformed
-        if(cmbConsultAlmacen.getSelectedItem().toString().equals("Todos") && cmbConsultMov.getSelectedItem().equals("Entrada y salida") && cmbConsultNick.getSelectedItem()==null
+        if(cmbConsultAlmacen.getSelectedItem().toString().equals("Todos") && cmbConsultMov.getSelectedItem().equals("Todos") && cmbConsultNick.getSelectedItem()==null
          && dateConsultDe.getDate()==null && dateConsultA.getDate()==null    ){
             btnFiltrarConsult.setEnabled(false);   
         }else{
@@ -3636,7 +3658,7 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_txtConsultCodigoActionPerformed
 
     private void txtConsultCodigoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtConsultCodigoKeyReleased
-        if(cmbConsultAlmacen.getSelectedItem().toString().equals("Todos") && cmbConsultMov.getSelectedItem().equals("Entrada y salida") && cmbConsultNick.getSelectedItem()==null
+        if(cmbConsultAlmacen.getSelectedItem().toString().equals("Todos") && cmbConsultMov.getSelectedItem().equals("Todos") && cmbConsultNick.getSelectedItem()==null
          && dateConsultDe.getDate()==null && dateConsultA.getDate()==null    ){
             consultFiltrosDefault("codigo",txtConsultCodigo.getText());
         }   
@@ -3651,7 +3673,7 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_txtConsultArticuloActionPerformed
 
     private void txtConsultArticuloKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtConsultArticuloKeyReleased
-        if(cmbConsultAlmacen.getSelectedItem().toString().equals("Todos") && cmbConsultMov.getSelectedItem().equals("Entrada y salida") && cmbConsultNick.getSelectedItem()==null
+        if(cmbConsultAlmacen.getSelectedItem().toString().equals("Todos") && cmbConsultMov.getSelectedItem().equals("Todos") && cmbConsultNick.getSelectedItem()==null
          && dateConsultDe.getDate()==null && dateConsultA.getDate()==null    ){
             if (cmbConsultTipo.getSelectedItem().toString().equals("Por Descripción")){
                 consultFiltrosDefault("descripcion",txtConsultArticulo.getText());
@@ -3666,7 +3688,7 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_cmbConsultTipoItemStateChanged
 
     private void cmbConsultTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbConsultTipoActionPerformed
-        if(cmbConsultAlmacen.getSelectedItem().toString().equals("Todos") && cmbConsultMov.getSelectedItem().equals("Entrada y salida") && cmbConsultNick.getSelectedItem()==null
+        if(cmbConsultAlmacen.getSelectedItem().toString().equals("Todos") && cmbConsultMov.getSelectedItem().equals("Todos") && cmbConsultNick.getSelectedItem()==null
          && dateConsultDe.getDate()==null && dateConsultA.getDate()==null    ){
             if (cmbConsultTipo.getSelectedItem().toString().equals("Por Descripción")){
                 consultFiltrosDefault("descripcion",txtConsultArticulo.getText());
@@ -3681,7 +3703,7 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_cmbConsultMarcaMouseClicked
 
     private void cmbConsultMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbConsultMarcaActionPerformed
-        if(cmbConsultAlmacen.getSelectedItem().toString().equals("Todos") && cmbConsultMov.getSelectedItem().equals("Entrada y salida") && cmbConsultNick.getSelectedItem()==null
+        if(cmbConsultAlmacen.getSelectedItem().toString().equals("Todos") && cmbConsultMov.getSelectedItem().equals("Todos") && cmbConsultNick.getSelectedItem()==null
          && dateConsultDe.getDate()==null && dateConsultA.getDate()==null    ){
             if(cmbConsultMarca.getSelectedItem()==null){
                 try{
@@ -3703,10 +3725,10 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_cmbConsultMarcaActionPerformed
 
     private void btnBorrarConsultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarConsultActionPerformed
-        cmbConsultAlmacen.setSelectedItem("Todos"); cmbConsultMov.setSelectedItem("Entrada y salida"); cmbConsultNick.setSelectedItem(null);
+        cmbConsultAlmacen.setSelectedItem("Todos"); cmbConsultMov.setSelectedItem("Todos"); cmbConsultNick.setSelectedItem(null);
         dateConsultDe.setDate(null); dateConsultA.setDate(null);
         txtConsultCodigo.setText(""); txtConsultArticulo.setText(""); cmbConsultTipo.setSelectedItem("Por Descripción"); cmbConsultMarca.setSelectedItem(null);
-        if(cmbConsultAlmacen.getSelectedItem().toString().equals("Todos") && cmbConsultMov.getSelectedItem().equals("Entrada y salida") && cmbConsultNick.getSelectedItem()==null
+        if(cmbConsultAlmacen.getSelectedItem().toString().equals("Todos") && cmbConsultMov.getSelectedItem().equals("Todos") && cmbConsultNick.getSelectedItem()==null
          && dateConsultDe.getDate()==null && dateConsultA.getDate()==null    ){
             btnFiltrarConsult.setEnabled(false);   
         }else{
@@ -3755,7 +3777,7 @@ public class Inicio extends javax.swing.JFrame {
                 consultFiltrosActivos(cmbConsultAlmacen.getSelectedItem().toString(), cmbConsultMov.getSelectedItem().toString(),nickTo, fechaFormat1, fechaFormat2);
             }
             //
-            if(cmbConsultAlmacen.getSelectedItem().toString().equals("Todos") && cmbConsultMov.getSelectedItem().equals("Entrada y salida") && cmbConsultNick.getSelectedItem()==null
+            if(cmbConsultAlmacen.getSelectedItem().toString().equals("Todos") && cmbConsultMov.getSelectedItem().equals("Todos") && cmbConsultNick.getSelectedItem()==null
              && dateConsultDe.getDate()==null && dateConsultA.getDate()==null    ){
                 btnFiltrarConsult.setEnabled(false);
             }else{
@@ -3765,7 +3787,7 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFiltrarConsultActionPerformed
 
     private void cmbConsultMovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbConsultMovActionPerformed
-        if(cmbConsultAlmacen.getSelectedItem().toString().equals("Todos") && cmbConsultMov.getSelectedItem().equals("Entrada y salida") && cmbConsultNick.getSelectedItem()==null
+        if(cmbConsultAlmacen.getSelectedItem().toString().equals("Todos") && cmbConsultMov.getSelectedItem().equals("Todos") && cmbConsultNick.getSelectedItem()==null
          && dateConsultDe.getDate()==null && dateConsultA.getDate()==null    ){
             btnFiltrarConsult.setEnabled(false);   
         }else{
@@ -3774,7 +3796,7 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_cmbConsultMovActionPerformed
 
     private void cmbConsultNickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbConsultNickActionPerformed
-        if(cmbConsultAlmacen.getSelectedItem().toString().equals("Todos") && cmbConsultMov.getSelectedItem().equals("Entrada y salida") && cmbConsultNick.getSelectedItem()==null
+        if(cmbConsultAlmacen.getSelectedItem().toString().equals("Todos") && cmbConsultMov.getSelectedItem().equals("Todos") && cmbConsultNick.getSelectedItem()==null
          && dateConsultDe.getDate()==null && dateConsultA.getDate()==null    ){
             btnFiltrarConsult.setEnabled(false);   
         }else{
@@ -3786,7 +3808,7 @@ public class Inicio extends javax.swing.JFrame {
         if(dateConsultA.getDate()==null){
             dateConsultA.setDate(fecha);
         }
-        if(cmbConsultAlmacen.getSelectedItem().toString().equals("Todos") && cmbConsultMov.getSelectedItem().equals("Entrada y salida") && cmbConsultNick.getSelectedItem()==null
+        if(cmbConsultAlmacen.getSelectedItem().toString().equals("Todos") && cmbConsultMov.getSelectedItem().equals("Todos") && cmbConsultNick.getSelectedItem()==null
          && dateConsultDe.getDate()==null && dateConsultA.getDate()==null    ){
             btnFiltrarConsult.setEnabled(false);   
         }else{
@@ -3795,7 +3817,7 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_dateConsultDePropertyChange
 
     private void dateConsultAPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dateConsultAPropertyChange
-        if(cmbConsultAlmacen.getSelectedItem().toString().equals("Todos") && cmbConsultMov.getSelectedItem().equals("Entrada y salida") && cmbConsultNick.getSelectedItem()==null
+        if(cmbConsultAlmacen.getSelectedItem().toString().equals("Todos") && cmbConsultMov.getSelectedItem().equals("Todos") && cmbConsultNick.getSelectedItem()==null
          && dateConsultDe.getDate()==null && dateConsultA.getDate()==null    ){
             btnFiltrarConsult.setEnabled(false);   
         }else{
@@ -4180,7 +4202,7 @@ public class Inicio extends javax.swing.JFrame {
             cmd.setString(1,idPerCodMer);
             result=cmd.executeQuery();
             if(result.next()){
-                idMercEdit=result.getString(1);
+                staticIdMerc=result.getString(1);
                 txtEditCod.setText(result.getString(2));
                 txtEditArt.setText(result.getString(3));
                 editDesc.setText(result.getString(4));
@@ -4218,12 +4240,83 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        
-        
-        
+        boolean camposLlenos=true;
+        //Verifica que los campos estén llenos
+        if(txtEditCod.getText().isEmpty() || txtEditArt.getText().isEmpty() || editDesc.getText().isEmpty() || cmbEditMarca.getSelectedItem()==null || cmbEditPresent.getSelectedItem()==null || cmbEditAlmacen.getSelectedItem()==null
+        || cmbEditAnaquel.getSelectedItem()==null || cmbEditRepisa.getSelectedItem()==null    ){
+            camposLlenos=false;
+        }else{
+            //Si otro esta seleccionado y el campo está vacio
+                //Marca y presentación
+            if(cmbEditMarca.getSelectedItem().equals("Otra")){  if(txtEditMarca.getText().isEmpty()){             camposLlenos=false;}
+            }else{  if(cmbEditPresent.getSelectedItem().equals("Otra")){if(txtEditPresent.getText().isEmpty()){   camposLlenos=false;}}}
+                //Ubicación
+            if(cmbEditAnaquel.getSelectedItem().equals("Otra")){  if(txtEditAnaquel.getText().isEmpty()){             camposLlenos=false;}
+            }else{  if(cmbEditRepisa.getSelectedItem().equals("Otra")){if(txtEditRepisa.getText().isEmpty()){   camposLlenos=false;}}}
+        }
+        if(camposLlenos==false){
+            JOptionPane.showMessageDialog(null,"Llene todos los campos para continuar.");
+        }else{
+            //Actualiza información    staticIdMerc
+            //Verificar duplicidad
+            try{
+                String consulta="SELECT IDmercancia FROM mercancia WHERE codigo=?";
+                cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
+                cmd.setString(1,txtEditCod.getText());
+                result=cmd.executeQuery();
+                if(result.next()){
+                    String res_cod=result.getString(1);
+                    if(res_cod.equals(staticIdMerc)){
+                        actualizarInfo();
+                    }else{
+                        JOptionPane.showMessageDialog(null,"El código de este material ya fué registrado.");
+                    }
+                }else{
+                    actualizarInfo();
+                }
+                iniciarPerCod();
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(null,"Error al comprobar duplicidad.");
+            }
+        }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
-    
+    private void actualizarInfo(){
+        try{
+            String registrar=("UPDATE mercancia SET codigo=?,articulo=?,descripcion=?,marca=?,presentacion=?,existencia=?,almacen=?,anaquel=?,repisa=? WHERE IDmercancia = ?");
+            cmd=(PreparedStatement)conexion.conectar.prepareStatement(registrar);
+            cmd.setString(10, staticIdMerc);
+            cmd.setString(1, txtEditCod.getText());
+            cmd.setString(2, txtEditArt.getText());
+            cmd.setString(3, editDesc.getText());
+            if(cmbEditMarca.getSelectedItem().toString().equals("Otra")){    cmd.setString(4, txtEditMarca.getText());
+            }else{                          cmd.setString(4, cmbEditMarca.getSelectedItem().toString());}
+            if(cmbEditPresent.getSelectedItem().toString().equals("Otra")){  cmd.setString(5, txtEditPresent.getText());
+            }else{                          cmd.setString(5, cmbEditPresent.getSelectedItem().toString());}
+            cmd.setString(6, spinEditCant.getValue().toString());
+            cmd.setString(7, cmbEditAlmacen.getSelectedItem().toString());
+            if(cmbEditAnaquel.getSelectedItem().toString().equals("Otra")){    cmd.setString(8, txtEditAnaquel.getText());
+            }else{                          cmd.setString(8, cmbEditAnaquel.getSelectedItem().toString());}
+            if(cmbEditRepisa.getSelectedItem().toString().equals("Otra")){  cmd.setString(9, txtEditRepisa.getText());
+            }else{                          cmd.setString(9, cmbEditRepisa.getSelectedItem().toString());}
+            cmd.executeUpdate();
+            cmd.close();
+            //Registrar movimiento
+            String registrarMovimiento=("INSERT INTO movimiento(IDusuario,IDmercancia,tipo,asunto,fecha,cantidad) VALUES (?,?,?,?,?,?)");
+            cmd=(PreparedStatement)conexion.conectar.prepareStatement(registrarMovimiento);
+            cmd.setString(1, id);
+            cmd.setString(2, staticIdMerc);
+            cmd.setString(3, "U");
+            cmd.setString(4, "Actualización de datos del material.");
+            cmd.setDate(5, fecha);
+            cmd.setString(6, spinEditCant.getValue().toString());
+            cmd.executeUpdate();
+            cmd.close();
+            JOptionPane.showMessageDialog(null,"Actualización exitosa.");
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null,"Error 007: Error al registrar material.");
+        }
+    }
     
     public void setImageIn(JLabel a,String route){
         ImageIcon img; Icon icono;
@@ -4241,11 +4334,8 @@ public class Inicio extends javax.swing.JFrame {
         // create UI here...
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                
-                new Inicio(usuario).setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Inicio(usuario).setVisible(true);
         });
     }
     

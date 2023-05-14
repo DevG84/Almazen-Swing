@@ -134,6 +134,7 @@ public class registrarMaterial extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         btnAboutUs.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        btnAboutUs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/close_322px.png"))); // NOI18N
         btnAboutUs.setText("Cerrar");
         btnAboutUs.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -453,7 +454,9 @@ public class registrarMaterial extends javax.swing.JFrame {
         );
 
         btnClean.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        btnClean.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/trash2_24px.png"))); // NOI18N
         btnClean.setText("Limpiar");
+        btnClean.setIconTextGap(5);
         btnClean.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCleanActionPerformed(evt);
@@ -461,6 +464,7 @@ public class registrarMaterial extends javax.swing.JFrame {
         });
 
         btnRegistrar.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        btnRegistrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/add_32px.png"))); // NOI18N
         btnRegistrar.setText("Registrar Material");
         btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -480,14 +484,13 @@ public class registrarMaterial extends javax.swing.JFrame {
                         .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnAboutUs, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnRegistrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnClean, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnAboutUs, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(btnRegistrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnClean, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
 
@@ -507,7 +510,7 @@ public class registrarMaterial extends javax.swing.JFrame {
                         .addComponent(btnClean)
                         .addGap(18, 18, 18)
                         .addComponent(btnRegistrar)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
                 .addComponent(btnAboutUs)
                 .addContainerGap())
         );
@@ -663,7 +666,7 @@ public class registrarMaterial extends javax.swing.JFrame {
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         boolean camposLlenos=true;
         //Verifica que los campos estén llenos
-        if(txtCodigo.getText().isEmpty() || txtArt.getText().isEmpty() || txtDesc.getText().isEmpty() || cmbMarca.getSelectedItem()==null || cmbPresent.getSelectedItem()==null || cmbAlmacen.getSelectedItem()==null){
+        if(txtCodigo.getText().isEmpty() || txtArt.getText().isEmpty() || txtDesc.getText().isEmpty() || cmbMarca.getSelectedItem()==null || cmbPresent.getSelectedItem()==null || cmbAlmacen.getSelectedItem()==null || cmbAnaquel.getSelectedItem()==null || cmbRepisa.getSelectedItem()==null ){
             camposLlenos=false;
         }else{
             //Si otro esta seleccionado y el campo está vacio
@@ -685,11 +688,11 @@ public class registrarMaterial extends javax.swing.JFrame {
                 cmd.setString(1, txtCodigo.getText());
                 confirma=cmd.executeQuery();
                 if(confirma.next()){
-                    JOptionPane.showMessageDialog(rootPane, "El código de este material ya ha sido registrado.");
+                    JOptionPane.showMessageDialog(rootPane, "El código de este material ya fué registrado.");
                 }else{
                     //Inicia registro
                     try{
-                        String registrar=("INSERT INTO mercancia(codigo,articulo,descripcion,marca,presentacion,existencia,almacen,anaquel,repisa) VALUES(?,?,?,?,?,?)");
+                        String registrar=("INSERT INTO mercancia(codigo,articulo,descripcion,marca,presentacion,existencia,almacen,anaquel,repisa) VALUES(?,?,?,?,?,?,?,?,?)");
                         cmd=(PreparedStatement)conexion.conectar.prepareStatement(registrar);
                         cmd.setString(1, txtCodigo.getText());
                         cmd.setString(2, txtArt.getText());

@@ -440,9 +440,7 @@ public class registrarUsuario extends javax.swing.JFrame {
     private void lblBarraMovMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBarraMovMouseDragged
         int x=evt.getXOnScreen();
         int y=evt.getYOnScreen();
-
         this.setLocation(x - xMouse, y - yMouse);
-
     }//GEN-LAST:event_lblBarraMovMouseDragged
 
     private void lblBarraMovMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBarraMovMousePressed
