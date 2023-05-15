@@ -1363,7 +1363,7 @@ public class Inicio extends javax.swing.JFrame {
         });
 
         btnDeleteMov.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
-        btnDeleteMov.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/trash2_32px.png"))); // NOI18N
+        btnDeleteMov.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/icons/packageDelete2_32px.png"))); // NOI18N
         btnDeleteMov.setText("Eliminar");
         btnDeleteMov.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnDeleteMov.setIconTextGap(-90);
