@@ -44,7 +44,7 @@ public class registrarUsuario extends javax.swing.JFrame {
         conexion=new conexionBD();
         setIconImage(getIconImage());
         this.setLocationRelativeTo(null);
-        Login i=new Login(); i.setImageIn(lblLogo, "src/sources/logo.png");
+        Login i=new Login(); i.setImageIn(lblLogo, "/sources/logo.png");
         btnNuevo.setEnabled(false);
     }
     

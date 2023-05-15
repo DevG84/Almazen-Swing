@@ -44,8 +44,8 @@ public class Login extends javax.swing.JFrame {
         setIconImage(getIconImage());
         this.setLocationRelativeTo(null);
         conexion=new conexionBD();
-        setImageIn(lblLogo,"src/sources/logo.png");
-        setImageIn(nyan,"src/sources/inventory.gif");
+        setImageIn(lblLogo,"/sources/logo.png");
+        setImageIn(nyan,"/sources/inventory.gif");
         getRootPane().putClientProperty("defeatSystemEventQueueCheck", Boolean.TRUE);
         Font font = lblRegistro.getFont();
         Map attributes = font.getAttributes();
@@ -303,7 +303,7 @@ public class Login extends javax.swing.JFrame {
 
     public void setImageIn(JLabel a,String route){
         ImageIcon img; Icon icono;
-        img=new ImageIcon(route);
+        img = new ImageIcon(getClass().getResource(route));
         icono=new ImageIcon(img.getImage().getScaledInstance(a.getWidth(), a.getHeight(), Image.SCALE_DEFAULT));
         a.setIcon(icono);
         this.repaint();
@@ -311,7 +311,7 @@ public class Login extends javax.swing.JFrame {
     
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
        Object[] opciones={"Si","No"};
-       ImageIcon Icono=new ImageIcon("src/sources/icons/questionCube.png");
+       ImageIcon Icono=new ImageIcon(getClass().getResource("/sources/icons/questionCube.png"));
        int respuesta=JOptionPane.showOptionDialog(rootPane, "¿Quiere cerrar el programa?","Finalizar",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,Icono,opciones,opciones[0]);
        if(respuesta==0){
         System.exit(0);
@@ -434,7 +434,7 @@ public class Login extends javax.swing.JFrame {
                             char echoChar = txtPassword.getEchoChar();
                             if (echoChar != 0) {}else{
                                 txtPassword.setEchoChar('•');
-                                ImageIcon mostrar=new ImageIcon("src/sources/icons/see_24px.png");
+                                ImageIcon mostrar=new ImageIcon(getClass().getResource("/sources/icons/see_24px.png"));
                                 btnOcultar.setIcon(mostrar);
                             }
                             txtNick.grabFocus();
@@ -446,7 +446,7 @@ public class Login extends javax.swing.JFrame {
                         char echoChar = txtPassword.getEchoChar();
                         if (echoChar != 0) {}else{
                             txtPassword.setEchoChar('•');
-                            ImageIcon mostrar=new ImageIcon("src/sources/icons/see_24px.png");
+                            ImageIcon mostrar=new ImageIcon(getClass().getResource("/sources/icons/see_24px.png"));
                             btnOcultar.setIcon(mostrar);
                         }
                         txtNick.grabFocus();
@@ -458,7 +458,7 @@ public class Login extends javax.swing.JFrame {
                     char echoChar = txtPassword.getEchoChar();
                     if (echoChar != 0) {}else{
                         txtPassword.setEchoChar('•');
-                        ImageIcon mostrar=new ImageIcon("src/sources/icons/see_24px.png");
+                        ImageIcon mostrar=new ImageIcon(getClass().getResource("/sources/icons/see_24px.png"));
                         btnOcultar.setIcon(mostrar);
                     }
                     txtNick.grabFocus();
@@ -490,12 +490,12 @@ public class Login extends javax.swing.JFrame {
         char echoChar = txtPassword.getEchoChar();
         if (echoChar != 0) {
             txtPassword.setEchoChar((char) 0);
-            ImageIcon ocultar=new ImageIcon("src/sources/icons/noSee_24px.png");
+            ImageIcon ocultar=new ImageIcon(getClass().getResource("/sources/icons/noSee_24px.png"));
             btnOcultar.setIcon(ocultar);
             
         } else {
             txtPassword.setEchoChar('•');
-            ImageIcon mostrar=new ImageIcon("src/sources/icons/see_24px.png");
+            ImageIcon mostrar=new ImageIcon(getClass().getResource("/sources/icons/see_24px.png"));
             btnOcultar.setIcon(mostrar);
         }
     }//GEN-LAST:event_btnOcultarActionPerformed

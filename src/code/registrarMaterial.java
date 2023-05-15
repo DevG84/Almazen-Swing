@@ -55,7 +55,7 @@ public class registrarMaterial extends javax.swing.JFrame {
         setIconImage(getIconImage());
         this.setLocationRelativeTo(null);
         conexion=new conexionBD();
-        setImageIn(logo, "src/sources/logo.png");
+        setImageIn(logo, "/sources/logo.png");
         //
         if("Administrador".equals(i.cargo) || "Encargado de almacén".equals(i.cargo)) lblNota.setText("");
         cual1.setVisible(false);
@@ -823,7 +823,7 @@ public class registrarMaterial extends javax.swing.JFrame {
 
     public void setImageIn(JLabel a,String route){
         ImageIcon img; Icon icono;
-        img=new ImageIcon(route);
+        img=new ImageIcon(getClass().getResource(route));
         icono=new ImageIcon(img.getImage().getScaledInstance(a.getWidth(), a.getHeight(), Image.SCALE_DEFAULT));
         a.setIcon(icono);
         this.repaint();

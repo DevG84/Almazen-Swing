@@ -86,7 +86,7 @@ public class Inicio extends javax.swing.JFrame {
 
     //Interfaces
     public void iniciarInterfaz(){
-        setImageIn(logo, "src/sources/logo.png");
+        setImageIn(logo, "/sources/logo.png");
         //
         Pestañas.setEnabledAt(0, false);
         Pestañas.setEnabledAt(1, false);
@@ -2506,7 +2506,7 @@ public class Inicio extends javax.swing.JFrame {
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         Object[] opciones={"Si","No"};
-        ImageIcon Icono=new ImageIcon("src/sources/icons/questionCube.png");
+        ImageIcon Icono=new ImageIcon(getClass().getResource("/sources/icons/questionCube.png"));
         int respuesta=JOptionPane.showOptionDialog(rootPane, "¿Quiere cerrar sesión?","Cerrar sesión",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,Icono,opciones,opciones[0]);
         if(respuesta==0){
             Login l=new Login();
@@ -3307,7 +3307,7 @@ public class Inicio extends javax.swing.JFrame {
         }
         if(tblMoverMaterial.getRowCount()>0 && contenido==true){
         Object[] opciones={"Si","No"};
-        ImageIcon Icono=new ImageIcon("src/sources/icons/questionCube.png");
+        ImageIcon Icono=new ImageIcon(getClass().getResource("/sources/icons/questionCube.png"));
         int respuesta=JOptionPane.showOptionDialog(rootPane, "Está a punto de realizar un movimiento de material.\n¿Quiere continuar?","Realizar Movimiento",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,Icono,opciones,opciones[0]);
         if(respuesta==0){
             for (int i = 0; i < tblMoverMaterial.getRowCount(); i++) {
@@ -4322,7 +4322,7 @@ public class Inicio extends javax.swing.JFrame {
     
     public void setImageIn(JLabel a,String route){
         ImageIcon img; Icon icono;
-        img=new ImageIcon(route);
+        img = new ImageIcon(getClass().getResource(route));
         icono=new ImageIcon(img.getImage().getScaledInstance(a.getWidth(), a.getHeight(), Image.SCALE_DEFAULT));
         a.setIcon(icono);
         this.repaint();

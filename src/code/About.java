@@ -16,7 +16,7 @@ public class About extends javax.swing.JFrame {
     
     public About() {
         initComponents();
-        setImageIn(lblgato, "src/sources/gato.jfif");
+        setImageIn(lblgato, "/sources/gato.jfif");
         setIconImage(getIconImage());
         this.setLocationRelativeTo(null);
         setAlwaysOnTop(true);
@@ -252,7 +252,7 @@ public class About extends javax.swing.JFrame {
     }
      public void setImageIn(JLabel a,String route){
         ImageIcon img; Icon icono;
-        img=new ImageIcon(route);
+        img=new ImageIcon(getClass().getResource(route));
         icono=new ImageIcon(img.getImage().getScaledInstance(a.getWidth(), a.getHeight(), Image.SCALE_DEFAULT));
         a.setIcon(icono);
         this.repaint();
