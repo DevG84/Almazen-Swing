@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import settings.customPane;
 
 public class conexionBD {
     public Connection conectar = null;
@@ -26,7 +27,8 @@ public class conexionBD {
             }
             
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Estableciendo conexión a la base de datos.");
+            // Ejemplo de uso
+            customPane.showMessageDialogWithTimeout("Estableciendo conexión a la base de datos...", "Cargando...", JOptionPane.INFORMATION_MESSAGE, 1000);
             if (!existeBaseDeDatos()) {
                 crearBaseDeDatos();
                 cargarTablas();
@@ -48,7 +50,7 @@ public class conexionBD {
                 return true; // La base de datos existe
             }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "La base de datos no existe, creando base de datos...");
+            customPane.showMessageDialogWithTimeout("La base de datos no existe, creando base de datos...", "Cargando...", JOptionPane.INFORMATION_MESSAGE, 2000);
         }
         return false; // La base de datos no existe
     }
@@ -62,7 +64,7 @@ public class conexionBD {
             conectar = DriverManager.getConnection(url, user, password);
             Statement stmt = conectar.createStatement();
             stmt.executeUpdate(createDBQuery);
-            JOptionPane.showMessageDialog(null, "Se creó la base de datos.");
+            customPane.showMessageDialogWithTimeout("Se creó la base de datos. Por favor espere...", "Cargando...", JOptionPane.INFORMATION_MESSAGE, 2000);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "No se pudo crear la base de datos, por favor abra WampServer y reinicie Almazen.");
             System.exit(0);
@@ -128,7 +130,7 @@ public class conexionBD {
                 }
             } catch (Exception e) {
                 if (e.getMessage().equals("Query was empty")){
-                    JOptionPane.showMessageDialog(null, "Se cargaron elementos necesarios en la base de datos...");
+                    customPane.showMessageDialogWithTimeout("Se cargaron elementos necesarios en la base de datos.", "Cargando...", JOptionPane.INFORMATION_MESSAGE, 1500);
                 } else {
                     JOptionPane.showMessageDialog(null, "Error al crear las tablas en la base de datos, consulte su manual de usuario acerca de la instalación de WampServer.");
                     System.exit(0);
