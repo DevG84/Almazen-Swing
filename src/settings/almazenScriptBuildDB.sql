@@ -39,9 +39,6 @@ CREATE TABLE IF NOT EXISTS privilegios (
   KEY FK_usuarios (IDusuario)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO privilegios (IDusuario, status, modBuscar, modInOut, modConsulta, modPerCod, modAlterUsuarios) VALUES
-('1', 'S', 'S', 'S', 'S', 'S', 'S');
-
 DROP TABLE IF EXISTS usuarios;
 CREATE TABLE IF NOT EXISTS usuarios (
   IDusuario int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -55,10 +52,17 @@ CREATE TABLE IF NOT EXISTS usuarios (
   PRIMARY KEY (IDusuario)
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 
+ALTER TABLE mercancia AUTO_INCREMENT = 1;
+
+ALTER TABLE movimiento AUTO_INCREMENT = 1;
+
 ALTER TABLE usuarios AUTO_INCREMENT = 1;
 
 INSERT INTO usuarios (IDusuario, nickname, nombre, paterno, materno, cargo, boleta, password) VALUES
 ('1', 'Admin', 'Administrador', NULL, NULL, 'Administrador', NULL, '17353537');
+
+INSERT INTO privilegios (IDusuario, status, modBuscar, modInOut, modConsulta, modPerCod, modAlterUsuarios) VALUES
+('1', 'S', 'S', 'S', 'S', 'S', 'S');
 
 ALTER TABLE movimiento
   ADD CONSTRAINT FK_IDmercancia FOREIGN KEY (IDmercancia) REFERENCES mercancia (IDmercancia),
