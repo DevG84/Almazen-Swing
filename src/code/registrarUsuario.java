@@ -714,8 +714,8 @@ public class registrarUsuario extends javax.swing.JFrame {
             if( (evt.isShiftDown()==true || evt.isShiftDown()==false) && (evt.getKeyChar()<'A' || evt.getKeyChar()>'Z') && 
                 (evt.getKeyChar()<'a' || evt.getKeyChar()>'z') && (evt.getKeyChar()<'0' || evt.getKeyChar()>'9') &&
                 (evt.getKeyChar()!='$' && evt.getKeyChar()!='%' && evt.getKeyChar()!='#' && evt.getKeyChar()!='*' && evt.getKeyChar()!='+'
-                && evt.getKeyChar()!='_' && evt.getKeyChar()!='-' && evt.getKeyChar()!='.' && evt.getKeyChar()!='ñ' && evt.getKeyChar()!='Ñ')
-            ){
+                && evt.getKeyChar()!='_' && evt.getKeyChar()!='-' && evt.getKeyChar()!='.' && evt.getKeyChar()!='ñ' && evt.getKeyChar()!='Ñ'))
+            {
                 JOptionPane.showMessageDialog(rootPane, "No puedes usar ' " + evt.getKeyChar() + " '.");
                 cadena.deleteCharAt(cadena.length());
                 txtPass.setText(cadena.toString());
@@ -731,8 +731,8 @@ public class registrarUsuario extends javax.swing.JFrame {
             if( (evt.isShiftDown()==true || evt.isShiftDown()==false) && (evt.getKeyChar()<'A' || evt.getKeyChar()>'Z') && 
                 (evt.getKeyChar()<'a' || evt.getKeyChar()>'z') && (evt.getKeyChar()<'0' || evt.getKeyChar()>'9') &&
                 (evt.getKeyChar()!='$' && evt.getKeyChar()!='%' && evt.getKeyChar()!='#' && evt.getKeyChar()!='*' && evt.getKeyChar()!='+'
-                && evt.getKeyChar()!='_' && evt.getKeyChar()!='-' && evt.getKeyChar()!='.' && evt.getKeyChar()!='ñ' && evt.getKeyChar()!='Ñ')
-            ){
+                && evt.getKeyChar()!='_' && evt.getKeyChar()!='-' && evt.getKeyChar()!='.' && evt.getKeyChar()!='ñ' && evt.getKeyChar()!='Ñ'))
+            {
                 JOptionPane.showMessageDialog(rootPane, "No puedes usar ' " + evt.getKeyChar() + " '.");
                 cadena.deleteCharAt(cadena.length()-1);
                 txtPass.setText(cadena.toString());
