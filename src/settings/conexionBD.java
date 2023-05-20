@@ -8,14 +8,8 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class conexionBD {
     public Connection conectar = null;
@@ -30,6 +24,7 @@ public class conexionBD {
             if (!existenTablas()) {
                 cargarTablas();
             }
+            
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Estableciendo conexión a la base de datos.");
             if (!existeBaseDeDatos()) {
@@ -108,47 +103,40 @@ public class conexionBD {
             conectar = DriverManager.getConnection(url, user, password);
 
             String archivoSQL = "/settings/almazenScriptBuildDB.sql";
-            File file = new File(getClass().getResource(archivoSQL).toURI());
-            String rutaArchivo = file.getAbsolutePath();
+            InputStream inputStream = getClass().getResourceAsStream(archivoSQL);
+            InputStreamReader reader = new InputStreamReader(inputStream);
+            BufferedReader br = new BufferedReader(reader);
 
             try (Connection connection = DriverManager.getConnection(url, user, password);
-                Statement statement = connection.createStatement()) {
+                 Statement statement = connection.createStatement()) {
 
                 // Lectura del script SQL línea por línea
-                String[] comandos = getComandosSQL(rutaArchivo);
+                StringBuilder scriptBuilder = new StringBuilder();
+                String linea;
+                while ((linea = br.readLine()) != null) {
+                    scriptBuilder.append(linea);
+                    scriptBuilder.append("\n");
+                }
+                String scriptSQL = scriptBuilder.toString();
+
+                // Separar los comandos SQL por punto y coma
+                String[] comandos = scriptSQL.split(";");
 
                 // Ejecución de cada comando SQL
                 for (String comando : comandos) {
                     statement.execute(comando);
                 }
-
-                JOptionPane.showMessageDialog(null, "Se cargaron elementos necesarios en la base de datos.");
-
             } catch (Exception e) {
                 if (e.getMessage().equals("Query was empty")){
-                    JOptionPane.showMessageDialog(null, "Se cargaron elementos necesarios en la base de datos.");
-                }else{
+                    JOptionPane.showMessageDialog(null, "Se cargaron elementos necesarios en la base de datos...");
+                } else {
                     JOptionPane.showMessageDialog(null, "Error al crear las tablas en la base de datos, consulte su manual de usuario acerca de la instalación de WampServer.");
+                    System.exit(0);
                 }
             }
 
-
         } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
             e.printStackTrace();
         }
     }
-
-    // Método para leer el script SQL y obtener los comandos separados por punto y coma
-    private static String[] getComandosSQL(String scriptSQL) throws IOException {
-        Path path = Paths.get(scriptSQL);
-        String contenido = new String(Files.readAllBytes(path));
-
-        // Separar los comandos por punto y coma
-        return contenido.split(";");
-    }
-
-
-    
 }
