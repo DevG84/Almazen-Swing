@@ -58,10 +58,10 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Component id="jPanel2" max="32767" attributes="0"/>
-              <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
-              <Group type="102" attributes="0">
-                  <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                  <Component id="Pestañas" max="32767" attributes="0"/>
+              <Component id="Pestañas" alignment="1" max="32767" attributes="0"/>
+              <Group type="102" alignment="0" attributes="0">
+                  <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -110,7 +110,7 @@
                       <Component id="btnDisplayCodes" min="-2" pref="47" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
                       <Component id="btnDisplayRegNew" min="-2" pref="47" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace type="separate" max="32767" attributes="0"/>
                       <Component id="btnDisplayAdmin" min="-2" pref="47" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
                       <Component id="btnDisplaySettings" min="-2" pref="47" max="-2" attributes="0"/>
@@ -355,7 +355,7 @@
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="60" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="35" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
@@ -392,23 +392,36 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <EmptySpace max="-2" attributes="0"/>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Component id="jScrollPane8" min="-2" pref="985" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="1" attributes="0">
-                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <EmptySpace min="0" pref="265" max="32767" attributes="0"/>
                                           <Component id="btnAboutUs" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
-                                          <Component id="lblBienvenida" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="imglat2" max="32767" attributes="0"/>
+                                              <Component id="imglat1" max="32767" attributes="0"/>
+                                          </Group>
                                       </Group>
                                   </Group>
                               </Group>
                               <Group type="102" attributes="0">
-                                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                                  <Component id="jTabbedPane1" max="32767" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="lblBienvenida" min="-2" max="-2" attributes="0"/>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="gitLogo" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Component id="logo2" min="-2" pref="104" max="-2" attributes="0"/>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Component id="lblImg2" min="-2" pref="104" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -418,11 +431,24 @@
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="lblBienvenida" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jTabbedPane1" min="-2" pref="419" max="-2" attributes="0"/>
-                          <EmptySpace pref="375" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="jScrollPane8" min="-2" pref="537" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Component id="imglat2" max="32767" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="imglat1" min="-2" pref="218" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="logo2" alignment="0" max="32767" attributes="0"/>
+                              <Component id="lblImg2" max="32767" attributes="0"/>
+                              <Component id="gitLogo" alignment="0" max="32767" attributes="0"/>
+                          </Group>
+                          <EmptySpace pref="93" max="32767" attributes="0"/>
                           <Component id="btnAboutUs" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -446,75 +472,84 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Microsoft YaHei" size="14" style="0"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Acerca de Almazen"/>
+                    <Property name="text" type="java.lang.String" value="Acerca de"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAboutUsActionPerformed"/>
                   </Events>
                 </Component>
-                <Container class="javax.swing.JTabbedPane" name="jTabbedPane1">
+                <Component class="javax.swing.JLabel" name="logo2">
                   <Properties>
-                    <Property name="tabPlacement" type="int" value="2"/>
+                    <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                      <Color id="Hand Cursor"/>
+                    </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="logo2MouseClicked"/>
+                  </Events>
+                </Component>
+                <Container class="javax.swing.JScrollPane" name="jScrollPane8">
+                  <AuxValues>
+                    <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+                  </AuxValues>
 
-                  <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Container class="javax.swing.JPanel" name="jPanel4">
+                    <Component class="javax.swing.JTextArea" name="jTextArea1">
                       <Properties>
-                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                        <Property name="editable" type="boolean" value="false"/>
+                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="ff" green="ff" red="ff" type="rgb"/>
                         </Property>
-                      </Properties>
-                      <Constraints>
-                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                          <JTabbedPaneConstraints tabName="Introducci&#xf3;n">
-                            <Property name="tabTitle" type="java.lang.String" value="Introducci&#xf3;n"/>
-                          </JTabbedPaneConstraints>
-                        </Constraint>
-                      </Constraints>
-
-                      <Layout>
-                        <DimensionLayout dim="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <EmptySpace min="0" pref="1203" max="32767" attributes="0"/>
-                          </Group>
-                        </DimensionLayout>
-                        <DimensionLayout dim="1">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <EmptySpace min="0" pref="419" max="32767" attributes="0"/>
-                          </Group>
-                        </DimensionLayout>
-                      </Layout>
-                    </Container>
-                    <Container class="javax.swing.JPanel" name="jPanel5">
-                      <Properties>
-                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                        <Property name="columns" type="int" value="20"/>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Microsoft YaHei" size="13" style="0"/>
                         </Property>
+                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="0" green="0" red="0" type="rgb"/>
+                        </Property>
+                        <Property name="rows" type="int" value="5"/>
+                        <Property name="text" type="java.lang.String" value="Almazen fue creado y configurado para uso exclusivo del CECyT 14 &quot;Luis Enrique Erro&quot;.&#xa;&#xa;Las funciones con las que cuenta Almazen son:&#xa;&#xa;    Buscar material: Es un apartado de consulta de material, te permite saber que materiales hay actualmente en el almac&#xe9;n.  &#xa;         Cuenta con un filtro de b&#xfa;squeda que te permite encontrar los materiales escribiendo su nombre, su c&#xf3;digo de barras o eligiendo su marca.&#xa;&#xa;    Registrar nuevo material: Registra un material del almac&#xe9;n, en caso de la llegada de un material que no hab&#xed;as registrado esta funci&#xf3;n te ayudar&#xe1;.&#xa;        Puedes registrar un material de dos maneras, con un c&#xf3;digo de barras propio del articulo o con un c&#xf3;digo personalizado de nuestro sistema.&#xa;         &#x2022; El c&#xf3;digo del art&#xed;culo se encuentra en el empaque donde viene, es ideal para no generar nuevos c&#xf3;digos.&#xa;         &#x2022; Un c&#xf3;digo personalizado se compone por el prefijo &quot;ALMZ-&quot; y un n&#xfa;mero generado autom&#xe1;ticamente.&#xa;            Debido a que es una opci&#xf3;n delicada necesita ser autorizada por un Administrador o un Encargado de Almac&#xe9;n. &#xa;&#xa;    Realizar movimientos: Registra una salida o entrada de material de los productos que elijas.&#xa;        Elije un material de la tabla &quot;Materiales disponibles&quot;, selecciona el tipo de movimiento (&quot;Entrada&quot; o &quot;Salida&quot;), selecciona la cantidad y a&#xf1;&#xe1;delos a&#xa;        la tabla &quot;Material seleccionado&quot;, escribe un asunto, por ejemplo &quot;Vale de salida 17&quot;, y da clic en &quot;Mover&quot; para actualizar las existencias de los &#xa;        materiales.&#xa;        Cuenta con un filtro de b&#xfa;squeda para encontrar los materiales y botones en la tabla &quot;Material seleccionado&quot; que permiten a&#xf1;adir, disminuir las &#xa;        cantidades de los materiales o eliminar de la tabla un material no contemplado en el movimiento.&#xa;&#xa;    Consultar movimientos: Revisa los movimientos realizados en ciertas situaciones.&#xa;        Tienes disponible una tabla con toda la informaci&#xf3;n sobre el movimiento realizado por alguien.&#xa;        Cuenta con filtros que te permiten conocer informaci&#xf3;n espec&#xed;fica como el responsable de que el movimiento se hiciera efectivo o la fecha en&#xa;        que se realiz&#xf3;.&#xa;&#xa;    Modificar informaci&#xf3;n: Corrige errores ocurridos al registrar un material.&#xa;        Puedes editar la informaci&#xf3;n de un material que selecciones, ten cuidado no modifiques la informaci&#xf3;n sin tener en cuenta a los dem&#xe1;s materiales,&#xa;        debido a que esta funci&#xf3;n es delicada solo podr&#xe1; ser autorizada por un Administrador o Encargado de Almac&#xe9;n.&#xa;"/>
+                        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                          <Color id="Default Cursor"/>
+                        </Property>
+                        <Property name="disabledTextColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="0" green="0" red="0" type="rgb"/>
+                        </Property>
+                        <Property name="enabled" type="boolean" value="false"/>
+                        <Property name="focusable" type="boolean" value="false"/>
+                        <Property name="requestFocusEnabled" type="boolean" value="false"/>
                       </Properties>
-                      <Constraints>
-                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                          <JTabbedPaneConstraints tabName="Tutorial">
-                            <Property name="tabTitle" type="java.lang.String" value="Tutorial"/>
-                          </JTabbedPaneConstraints>
-                        </Constraint>
-                      </Constraints>
-
-                      <Layout>
-                        <DimensionLayout dim="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          </Group>
-                        </DimensionLayout>
-                        <DimensionLayout dim="1">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          </Group>
-                        </DimensionLayout>
-                      </Layout>
-                    </Container>
+                    </Component>
                   </SubComponents>
                 </Container>
+                <Component class="javax.swing.JLabel" name="lblImg2">
+                  <Properties>
+                    <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                      <Color id="Hand Cursor"/>
+                    </Property>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblImg2MouseClicked"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="gitLogo">
+                  <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/sources/github.png"/>
+                    </Property>
+                    <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                      <Color id="Hand Cursor"/>
+                    </Property>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="gitLogoMouseClicked"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="imglat1">
+                </Component>
+                <Component class="javax.swing.JLabel" name="imglat2">
+                </Component>
               </SubComponents>
             </Container>
             <Container class="javax.swing.JPanel" name="panelBuscar">
@@ -605,7 +640,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPane1" pref="791" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" pref="722" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -965,11 +1000,11 @@
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Component id="jScrollPane2" pref="369" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane2" pref="335" max="32767" attributes="0"/>
                                   <EmptySpace min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                                  <Component id="jScrollPane3" pref="369" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane3" pref="334" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="3" attributes="0">
@@ -983,7 +1018,7 @@
                                   <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                                  <Component id="jScrollPane5" pref="228" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane5" pref="192" max="32767" attributes="0"/>
                                   <EmptySpace min="36" pref="36" max="-2" attributes="0"/>
                                   <Component id="spinCantRest" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
@@ -992,7 +1027,7 @@
                                   <Component id="btnRestMov" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="btnDeleteMov" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="143" max="32767" attributes="0"/>
+                                  <EmptySpace pref="110" max="32767" attributes="0"/>
                                   <Component id="btnMover" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -1517,7 +1552,7 @@
                                   <Component id="dateConsultA" min="-2" pref="140" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="btnFiltrarConsult" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="37" max="32767" attributes="0"/>
+                                  <EmptySpace pref="68" max="32767" attributes="0"/>
                                   <Component id="btnBorrarConsult" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Component id="jSeparator3" max="32767" attributes="0"/>
@@ -1601,7 +1636,7 @@
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Component id="jSeparator3" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-                          <Component id="jScrollPane4" pref="798" max="32767" attributes="0"/>
+                          <Component id="jScrollPane4" pref="729" max="32767" attributes="0"/>
                           <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -2026,7 +2061,7 @@
                                               <Component id="btnUpdate" linkSize="1" min="-2" max="-2" attributes="0"/>
                                               <Component id="btnCancelar" linkSize="1" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace min="0" pref="205" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="236" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -2069,7 +2104,7 @@
                                   <Component id="btnCancelar" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace pref="78" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>

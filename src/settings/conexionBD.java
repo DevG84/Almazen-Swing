@@ -132,8 +132,10 @@ public class conexionBD {
                 if (e.getMessage().equals("Query was empty")){
                     customPane.showMessageDialogWithTimeout("Se cargaron elementos necesarios en la base de datos.", "Cargando...", JOptionPane.INFORMATION_MESSAGE, 1500);
                 } else {
-                    JOptionPane.showMessageDialog(null, "Error al crear las tablas en la base de datos, consulte su manual de usuario acerca de la instalación de WampServer.");
-                    System.exit(0);
+                    if (archivoSQL=="/settings/almazenScriptBuildDB.sql") {
+                        JOptionPane.showMessageDialog(null, "Error al crear las tablas en la base de datos, consulte su manual de usuario acerca de la instalación de WampServer.");
+                        System.exit(0);
+                    }
                 }
             }
 

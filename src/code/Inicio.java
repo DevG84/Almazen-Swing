@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -97,7 +99,10 @@ public class Inicio extends javax.swing.JFrame {
         changeButtonColor();
         //Inicio
         lblBienvenida.setText("!Saludos " + nombre + "¡ Almazen está listo para acompañarte en tu día.");
-        
+        setImageIn(logo2, "/package_512px.png");
+        setImageIn(lblImg2, "/sources/hugMenu.png");
+        setImageIn(imglat1, "/sources/imglat1.jpeg");
+        setImageIn(imglat2, "/sources/imglat2.jpeg");
         //Buscar
         
     }
@@ -554,9 +559,13 @@ public class Inicio extends javax.swing.JFrame {
         panelInicio = new javax.swing.JPanel();
         lblBienvenida = new javax.swing.JLabel();
         btnAboutUs = new javax.swing.JButton();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel4 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
+        logo2 = new javax.swing.JLabel();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        lblImg2 = new javax.swing.JLabel();
+        gitLogo = new javax.swing.JLabel();
+        imglat1 = new javax.swing.JLabel();
+        imglat2 = new javax.swing.JLabel();
         panelBuscar = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtBuscarCodigo = new javax.swing.JTextField();
@@ -881,7 +890,7 @@ public class Inicio extends javax.swing.JFrame {
                 .addComponent(btnDisplayCodes, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(3, 3, 3)
                 .addComponent(btnDisplayRegNew, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(btnDisplayAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(3, 3, 3)
                 .addComponent(btnDisplaySettings, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -900,7 +909,7 @@ public class Inicio extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 60, Short.MAX_VALUE)
+            .addGap(0, 35, Short.MAX_VALUE)
         );
 
         Pestañas.setBackground(new java.awt.Color(51, 51, 51));
@@ -911,73 +920,97 @@ public class Inicio extends javax.swing.JFrame {
         lblBienvenida.setText("Bienvenido a Almazen");
 
         btnAboutUs.setFont(new java.awt.Font("Microsoft YaHei", 0, 14)); // NOI18N
-        btnAboutUs.setText("Acerca de Almazen");
+        btnAboutUs.setText("Acerca de");
         btnAboutUs.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAboutUsActionPerformed(evt);
             }
         });
 
-        jTabbedPane1.setTabPlacement(javax.swing.JTabbedPane.LEFT);
+        logo2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        logo2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                logo2MouseClicked(evt);
+            }
+        });
 
-        jPanel4.setForeground(new java.awt.Color(255, 255, 255));
+        jTextArea1.setEditable(false);
+        jTextArea1.setBackground(new java.awt.Color(255, 255, 255));
+        jTextArea1.setColumns(20);
+        jTextArea1.setFont(new java.awt.Font("Microsoft YaHei", 0, 13)); // NOI18N
+        jTextArea1.setForeground(new java.awt.Color(0, 0, 0));
+        jTextArea1.setRows(5);
+        jTextArea1.setText("Almazen fue creado y configurado para uso exclusivo del CECyT 14 \"Luis Enrique Erro\".\n\nLas funciones con las que cuenta Almazen son:\n\n    Buscar material: Es un apartado de consulta de material, te permite saber que materiales hay actualmente en el almacén.  \n         Cuenta con un filtro de búsqueda que te permite encontrar los materiales escribiendo su nombre, su código de barras o eligiendo su marca.\n\n    Registrar nuevo material: Registra un material del almacén, en caso de la llegada de un material que no habías registrado esta función te ayudará.\n        Puedes registrar un material de dos maneras, con un código de barras propio del articulo o con un código personalizado de nuestro sistema.\n         • El código del artículo se encuentra en el empaque donde viene, es ideal para no generar nuevos códigos.\n         • Un código personalizado se compone por el prefijo \"ALMZ-\" y un número generado automáticamente.\n            Debido a que es una opción delicada necesita ser autorizada por un Administrador o un Encargado de Almacén. \n\n    Realizar movimientos: Registra una salida o entrada de material de los productos que elijas.\n        Elije un material de la tabla \"Materiales disponibles\", selecciona el tipo de movimiento (\"Entrada\" o \"Salida\"), selecciona la cantidad y añádelos a\n        la tabla \"Material seleccionado\", escribe un asunto, por ejemplo \"Vale de salida 17\", y da clic en \"Mover\" para actualizar las existencias de los \n        materiales.\n        Cuenta con un filtro de búsqueda para encontrar los materiales y botones en la tabla \"Material seleccionado\" que permiten añadir, disminuir las \n        cantidades de los materiales o eliminar de la tabla un material no contemplado en el movimiento.\n\n    Consultar movimientos: Revisa los movimientos realizados en ciertas situaciones.\n        Tienes disponible una tabla con toda la información sobre el movimiento realizado por alguien.\n        Cuenta con filtros que te permiten conocer información específica como el responsable de que el movimiento se hiciera efectivo o la fecha en\n        que se realizó.\n\n    Modificar información: Corrige errores ocurridos al registrar un material.\n        Puedes editar la información de un material que selecciones, ten cuidado no modifiques la información sin tener en cuenta a los demás materiales,\n        debido a que esta función es delicada solo podrá ser autorizada por un Administrador o Encargado de Almacén.\n");
+        jTextArea1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jTextArea1.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        jTextArea1.setEnabled(false);
+        jTextArea1.setFocusable(false);
+        jTextArea1.setRequestFocusEnabled(false);
+        jScrollPane8.setViewportView(jTextArea1);
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1203, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 419, Short.MAX_VALUE)
-        );
+        lblImg2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblImg2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblImg2MouseClicked(evt);
+            }
+        });
 
-        jTabbedPane1.addTab("Introducción", jPanel4);
-
-        jPanel5.setForeground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Tutorial", jPanel5);
+        gitLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sources/github.png"))); // NOI18N
+        gitLogo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        gitLogo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                gitLogoMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelInicioLayout = new javax.swing.GroupLayout(panelInicio);
         panelInicio.setLayout(panelInicioLayout);
         panelInicioLayout.setHorizontalGroup(
             panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelInicioLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelInicioLayout.createSequentialGroup()
-                        .addContainerGap()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelInicioLayout.createSequentialGroup()
+                        .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 985, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelInicioLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
+                            .addGroup(panelInicioLayout.createSequentialGroup()
+                                .addGap(0, 265, Short.MAX_VALUE)
                                 .addComponent(btnAboutUs))
                             .addGroup(panelInicioLayout.createSequentialGroup()
-                                .addComponent(lblBienvenida)
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                                .addGap(18, 18, 18)
+                                .addGroup(panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(imglat2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(imglat1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                     .addGroup(panelInicioLayout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(jTabbedPane1)))
+                        .addGroup(panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblBienvenida)
+                            .addGroup(panelInicioLayout.createSequentialGroup()
+                                .addComponent(gitLogo)
+                                .addGap(18, 18, 18)
+                                .addComponent(logo2, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblImg2, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panelInicioLayout.setVerticalGroup(
             panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelInicioLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(18, 18, 18)
                 .addComponent(lblBienvenida)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 375, Short.MAX_VALUE)
+                .addGroup(panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelInicioLayout.createSequentialGroup()
+                        .addComponent(imglat2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(imglat1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(logo2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblImg2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(gitLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
                 .addComponent(btnAboutUs)
                 .addContainerGap())
         );
@@ -1169,7 +1202,7 @@ public class Inicio extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 791, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 722, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1518,11 +1551,11 @@ public class Inicio extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelMovLayout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 369, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel12)
                         .addGap(12, 12, 12)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 369, Short.MAX_VALUE))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE))
                     .addGroup(panelMovLayout.createSequentialGroup()
                         .addGroup(panelMovLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cmbTipoMov, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1534,7 +1567,7 @@ public class Inicio extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
                         .addGap(36, 36, 36)
                         .addComponent(spinCantRest, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1543,7 +1576,7 @@ public class Inicio extends javax.swing.JFrame {
                         .addComponent(btnRestMov)
                         .addGap(18, 18, 18)
                         .addComponent(btnDeleteMov)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 143, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
                         .addComponent(btnMover)))
                 .addContainerGap())
         );
@@ -1797,7 +1830,7 @@ public class Inicio extends javax.swing.JFrame {
                         .addComponent(dateConsultA, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnFiltrarConsult)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
                         .addComponent(btnBorrarConsult))
                     .addComponent(jSeparator3)
                     .addComponent(jScrollPane4))
@@ -1859,7 +1892,7 @@ public class Inicio extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(6, 6, 6)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 798, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 729, Short.MAX_VALUE)
                 .addGap(6, 6, 6))
         );
 
@@ -2316,7 +2349,7 @@ public class Inicio extends javax.swing.JFrame {
                                     .addComponent(btnEditar)
                                     .addComponent(btnUpdate)
                                     .addComponent(btnCancelar))
-                                .addGap(0, 205, Short.MAX_VALUE)))))
+                                .addGap(0, 236, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
 
@@ -2352,7 +2385,7 @@ public class Inicio extends javax.swing.JFrame {
                         .addComponent(btnUpdate)
                         .addGap(18, 18, 18)
                         .addComponent(btnCancelar)))
-                .addContainerGap(78, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         Pestañas.addTab("Códigos almazen", panelCodes);
@@ -2372,10 +2405,10 @@ public class Inicio extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(Pestañas, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(Pestañas))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         /*
@@ -4283,6 +4316,45 @@ public class Inicio extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
+    private void gitLogoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gitLogoMouseClicked
+        // Redirecciona a una pagina de GitHub
+        if(java.awt.Desktop.isDesktopSupported()){
+            java.awt.Desktop desktop= java.awt.Desktop.getDesktop();
+            if(desktop.isSupported(java.awt.Desktop.Action.BROWSE)){
+                try{
+                    java.net.URI url= new java.net.URI("https://github.com/Giomine325/Almazen");
+                    desktop.browse(url);
+                }catch(URISyntaxException | IOException ex){}
+            }
+        }
+    }//GEN-LAST:event_gitLogoMouseClicked
+
+    private void logo2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logo2MouseClicked
+        // Redirecciona a una pagina de GitHub
+        if(java.awt.Desktop.isDesktopSupported()){
+            java.awt.Desktop desktop= java.awt.Desktop.getDesktop();
+            if(desktop.isSupported(java.awt.Desktop.Action.BROWSE)){
+                try{
+                    java.net.URI url= new java.net.URI("https://github.com/Giomine325/Almazen/releases");
+                    desktop.browse(url);
+                }catch(URISyntaxException | IOException ex){}
+            }
+        }
+    }//GEN-LAST:event_logo2MouseClicked
+
+    private void lblImg2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblImg2MouseClicked
+        // Redirecciona a una pagina de GitHub
+        if(java.awt.Desktop.isDesktopSupported()){
+            java.awt.Desktop desktop= java.awt.Desktop.getDesktop();
+            if(desktop.isSupported(java.awt.Desktop.Action.BROWSE)){
+                try{
+                    java.net.URI url= new java.net.URI("https://giomine325.github.io/Almazen/");
+                    desktop.browse(url);
+                }catch(URISyntaxException | IOException ex){}
+            }
+        }
+    }//GEN-LAST:event_lblImg2MouseClicked
+
     private void actualizarInfo(){
         try{
             String registrar=("UPDATE mercancia SET codigo=?,articulo=?,descripcion=?,marca=?,presentacion=?,existencia=?,almacen=?,anaquel=?,repisa=? WHERE IDmercancia = ?");
@@ -4394,6 +4466,9 @@ public class Inicio extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser dateConsultA;
     private com.toedter.calendar.JDateChooser dateConsultDe;
     private javax.swing.JTextArea editDesc;
+    private javax.swing.JLabel gitLogo;
+    private javax.swing.JLabel imglat1;
+    private javax.swing.JLabel imglat2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -4431,8 +4506,6 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -4440,13 +4513,16 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
-    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTextArea jTextArea1;
     public javax.swing.JLabel lblBienvenida;
+    private javax.swing.JLabel lblImg2;
     private javax.swing.JLabel logo;
+    private javax.swing.JLabel logo2;
     private javax.swing.JPanel panelBuscar;
     private javax.swing.JPanel panelCodes;
     private javax.swing.JPanel panelConsulta;

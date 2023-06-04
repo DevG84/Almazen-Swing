@@ -119,11 +119,11 @@ public class About extends javax.swing.JFrame {
 
         jLabel10.setFont(new java.awt.Font("Microsoft YaHei", 1, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel10.setText("Versión 0.1.0");
+        jLabel10.setText("Versión 1.0.0");
 
         jLabel11.setFont(new java.awt.Font("Microsoft YaHei", 1, 14)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(153, 102, 0));
-        jLabel11.setText("(BETA)");
+        jLabel11.setForeground(new java.awt.Color(0, 102, 102));
+        jLabel11.setText("(Release)");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
