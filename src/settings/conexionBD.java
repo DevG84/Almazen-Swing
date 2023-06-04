@@ -104,7 +104,7 @@ public class conexionBD {
             String url = "jdbc:mysql://localhost:3306/almazen";
             conectar = DriverManager.getConnection(url, user, password);
 
-            String archivoSQL = "/settings/almazenScriptBuildDB.sql";
+            String archivoSQL = "/settings/almazenScriptDBDemo.sql";
             InputStream inputStream = getClass().getResourceAsStream(archivoSQL);
             InputStreamReader reader = new InputStreamReader(inputStream);
             BufferedReader br = new BufferedReader(reader);
