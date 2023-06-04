@@ -533,7 +533,7 @@ public class registrarMaterial extends javax.swing.JFrame {
     private void llenarMarca(){
         cmbMarca.removeAllItems();
         try{
-            String consulta="SELECT DISTINCT marca FROM mercancia";
+            String consulta="SELECT DISTINCT marca FROM mercancia ORDER BY marca ASC";
             cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
             marca_res=cmd.executeQuery();
             //Recorrer los resultados y agregar cada valor único de "marca" al JComboBox
@@ -543,14 +543,14 @@ public class registrarMaterial extends javax.swing.JFrame {
             }
             cmbMarca.addItem("Otra");
         }catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Error 004: Error al obtener las marcas registradas en la base de datos.");
+            JOptionPane.showMessageDialog(null, "Error al obtener las marcas registradas en la base de datos.");
         }
     }
     
     private void llenarPresentación(){
         cmbPresent.removeAllItems();
         try{
-            String consulta="SELECT DISTINCT presentacion FROM mercancia";
+            String consulta="SELECT DISTINCT presentacion FROM mercancia ORDER BY presentacion ASC";
             cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
             present_res=cmd.executeQuery();
             //Recorrer los resultados y agregar cada valor único de "presentacion" al JComboBox
@@ -560,7 +560,7 @@ public class registrarMaterial extends javax.swing.JFrame {
             }
             cmbPresent.addItem("Otra");
         }catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Error 005: Error al obtener las presentaciones registradas en la base de datos.");
+            JOptionPane.showMessageDialog(null, "Error al obtener las presentaciones registradas en la base de datos.");
         }
     }
     
@@ -568,7 +568,7 @@ public class registrarMaterial extends javax.swing.JFrame {
         //Anaquel
         cmbAnaquel.removeAllItems();
         try{
-            String consulta="SELECT DISTINCT anaquel FROM mercancia";
+            String consulta="SELECT DISTINCT anaquel FROM mercancia ORDER BY anaquel ASC";
             cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
             ubi_res=cmd.executeQuery();
             //Recorrer los resultados y agregar cada valor único de "anaquel" al JComboBox
@@ -578,13 +578,13 @@ public class registrarMaterial extends javax.swing.JFrame {
             }
             cmbAnaquel.addItem("Otra");
         }catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Error 005: Error al obtener las presentaciones registradas en la base de datos.");
+            JOptionPane.showMessageDialog(null, "Error al obtener las ubicaciones registradas en la base de datos.");
         }
         
         //Repisa
         cmbRepisa.removeAllItems();
         try{
-            String consulta="SELECT DISTINCT repisa FROM mercancia";
+            String consulta="SELECT DISTINCT repisa FROM mercancia ORDER BY repisa ASC";
             cmd=(PreparedStatement)conexion.conectar.prepareStatement(consulta);
             ubi_res=cmd.executeQuery();
             //Recorrer los resultados y agregar cada valor único de "repisa" al JComboBox
@@ -594,7 +594,7 @@ public class registrarMaterial extends javax.swing.JFrame {
             }
             cmbRepisa.addItem("Otra");
         }catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Error 005: Error al obtener las presentaciones registradas en la base de datos.");
+            JOptionPane.showMessageDialog(null, "Error al obtener las ubicaciones registradas en la base de datos.");
         }
         
         //Almacén
@@ -733,6 +733,7 @@ public class registrarMaterial extends javax.swing.JFrame {
                             vaciarCampos();
                             llenarMarca();
                             llenarPresentación();
+                            llenarUbicación();
                             try{
                                 String materiales="SELECT * FROM mercancia";
                                 cmd=(PreparedStatement)conexion.conectar.prepareStatement(materiales);
