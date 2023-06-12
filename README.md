@@ -10,7 +10,7 @@ Proyecto en equipo desarrollado por:
 • GARCIA HERNANDEZ CYNTHIA  https://www.instagram.com/1_color_negro/
 • HERNANDEZ CRUZ GIOVANNI   https://www.instagram.com/gio_hc16/
 
-La propiedad intelectual del proyecto está reservada la para los integrantes del equipo durante su desarrollo, reprobamos el uso de Almazen para fines lucrativos y sin autorización previa a su uso.
+La propiedad intelectual del proyecto está reservada la para los integrantes del equipo involucrados durante su desarrollo, reprobamos el uso de Almazen para fines lucrativos y sin autorización previa a su uso.
 
 Almazen es un proyecto escolar que desarrolla un sistema de almacenamiento básico para su uso en el almacén del CECyT 14.
 Fue creado con el fin de facilitar el control del inventario en el almacén del CECyT 14, es una herramienta útil para realizar operaciones de ENTRADA y SALIDA de material manteniendo un control sobre el material que entra y sale del almacén y guardando con ello la información acerca de quien realizo cierta transacción, a que material o materiales se realizó, así como la fecha y cantidad de material ingresada o retirada. A pesar de estar diseñado para su uso en el CECyT 14 “Luis Enrique Erro” puede ser implementado en cualquier otro establecimiento que necesite de un sistema de inventarios básico para tener un control sobre su inventario.
