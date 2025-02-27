@@ -1,64 +1,58 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-	<title>Almazen</title>
-	<link rel="stylesheet" type="text/css" href="./style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Almazen</title>
+    <link rel="stylesheet" type="text/css" href="./style.css">
 </head>
 <body>
-	<header>
-		<nav class="navegador">
-			<ul>
-				<li><a href=""></a></li>
-				<li><a href=""></a></li>
-				<li><a href=""></a></li>
-				<li><a href=""></a></li>
-			</ul>
-		</nav>
-	</header>
-	<main class="container">
-		<article class="logo">
-			<img src="./imagenes/logo 1.png" alt="">
-		</article>
-		<article class="texto">
-			<h1>
-				Almazen:
-            </h1>
-			<h1>
-				Sistema de Inventarios
-			</h1>
-            <br/>
-            <p>
-                Almazen es un proyecto escolar 
-                que desarrolla un sistema de almacenamiento 
-                básico para su uso en el almacén del CECyT 14.
-            </p>
-		</article>
-		
-		<article class="ilustracion">
-			<img class="ilustracion_img" src="./imagenes/inventory.gif" alt="">
-		</article>
+    <main class="container">
+        <section class="hero-section">
+            <figure class="logo">
+                <img src="./imagenes/logo 1.png" alt="Logo Almazen">
+            </figure>
+            <article class="texto">
+                <h1>Almazen: Sistema de Inventarios para el CECyT 14 LEE</h1>
+                <p>Almazen es un proyecto escolar que desarrolla un sistema de almacenamiento básico para su uso en el almacén del CECyT 14.</p>
+            </article>
+        </section>
 
-		<article class="info">
-			<h1>ACERCA DE ALMAZEN</h1>
-			<p>
-				Almazen fue creado con el fin de facilitar el control 
-				del inventario en en el almacén del CECyT 14, es una 
-				herramienta útil para realizar operaciones de ENTRADA y 
-				SALIDA de material manteniendo un control sobre el material 
-				que entra y sale del almacén y guardando con ello la información
-				acerca de quien realizo cierta transacción, a que material o 
-				materiales se realizó, así como la fecha y cantidad de material 
-				ingresada o retirada.<br/><br/>
+        <article class="info">
+            <div class="info-content">
+                <h3>Acerca de Almazen</h3>
+                <p>Este sistema fue desarrollado para optimizar la gestión de inventarios en el almacén del <strong>CECyT 14</strong>. Permite registrar operaciones de <strong>entrada</strong> y <strong>salida</strong> de materiales, manteniendo un registro detallado de cada transacción mediante:</p>
+                <ul class="features-list">  
+                    <li>Registro del responsable de cada transacción</li>  
+                    <li>Identificación de materiales afectados</li>  
+                    <li>Fecha exacta de cada movimiento</li>  
+                    <li>Cantidades ingresadas/retiradas</li>  
+                </ul>
+                
+                <h3>Escalabilidad</h3>
+                <p>Aunque diseñado para el <em>CECyT 14 “Luis Enrique Erro”</em>, puede ser implementado en cualquier cualquier negocio que requiera:</p>
+                <ul class="scalability-list">  
+                    <li>Control básico de inventarios</li>  
+                    <li>Auditoría de movimientos</li>  
+                    <li>Reportes de stock histórico</li>  
+                </ul>
+            </div>
+        </article>
 
-				A pesar de estar diseñado para su uso en el CECyT 14 “Luis Enrique Erro”
-				puede ser implementado en cualquier otro establecimiento que necesite 
-				de un sistema de inventarios básico para tener un control sobre su inventario.
-			</p>
-		</article>
-		<article class="botton">
-			<h1>Descarga la última versión de Almazen desde aquí</h1>
-			<a href="./AlmazenBetaSetup (1).exe" download="AlmazenBetaSetup">descargar</a>
-		</article>
-	</main>
+        <section class="button-container">
+			<div class="button-card">
+				<div class="button">
+					<h2>Descarga la última versión de Almazen</h2>
+					<a href="https://github.com/DevG84/Almazen-Swing/releases/download/1.0.0/AlmazenSetup.exe" download="AlmazenSetup">Descargar</a>
+				</div>
+			</div>
+			<div class="button-card">
+				<div class="button">
+					<h2>Visita nuestro repositorio de GitHub</h2>
+					<a href="https://github.com/DevG84/Almazen-Swing/" download="AlmazenSetup">Almazen-Swing</a>
+				</div>
+			</div>
+        </section>
+    </main>
 </body>
 </html>
