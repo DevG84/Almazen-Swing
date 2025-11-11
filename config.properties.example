@@ -1,0 +1,48 @@
+# Ejemplo de Configuración de Almazen
+# ===========================================
+# INSTRUCCIONES:
+# 1. Copiar este archivo como 'config.properties'
+# 2. Ajustar los valores según tu entorno
+# 3. NUNCA compartir config.properties (está en .gitignore)
+
+# Configuración de Base de Datos
+# --------------------------------
+# Host donde está ejecutándose MySQL (usualmente localhost)
+db.host=localhost
+
+# Puerto de MySQL (por defecto 3306)
+db.port=3306
+
+# Nombre de la base de datos
+db.name=almazen
+
+# Usuario de MySQL
+# IMPORTANTE: En producción, NO usar root
+db.user=root
+
+# Contraseña de MySQL
+# IMPORTANTE: En producción, usar una contraseña segura
+db.password=
+
+# Configuración de Aplicación
+# ----------------------------
+app.name=Almazen
+app.version=1.0
+
+# Configuración de Seguridad
+# ---------------------------
+# Número de intentos de login permitidos antes de bloqueo temporal
+security.max_login_attempts=3
+
+# NOTAS DE SEGURIDAD:
+# -------------------
+# 1. Para producción, crear un usuario MySQL específico:
+#    CREATE USER 'almazen_user'@'localhost' IDENTIFIED BY 'tu_contraseña_segura';
+#    GRANT ALL PRIVILEGES ON almazen.* TO 'almazen_user'@'localhost';
+#    FLUSH PRIVILEGES;
+#
+# 2. Usar contraseñas fuertes (mínimo 12 caracteres, letras, números y símbolos)
+#
+# 3. Este archivo NO debe estar en el control de versiones
+#
+# 4. Hacer backup de este archivo en un lugar seguro
