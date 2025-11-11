@@ -49,3 +49,12 @@ La última versión de **Almazen** está disponible para dispositivos **Windows*
 - **JDK:** **17**  
 
 ---
+
+## 📖 Documentación
+
+- **[REVIEW.md](REVIEW.md)** - Revisión completa del código y hallazgos de seguridad
+- **[SECURITY_RECOMMENDATIONS.md](SECURITY_RECOMMENDATIONS.md)** - Guía de mejoras de seguridad
+- **[BEST_PRACTICES.md](BEST_PRACTICES.md)** - Mejores prácticas de desarrollo
+- **[CONTRIBUTING.md](CONTRIBUTING.md)** - Guía para contribuir al proyecto
+
+---
